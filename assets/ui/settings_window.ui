@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>699</width>
-    <height>782</height>
+    <width>734</width>
+    <height>852</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -125,7 +125,7 @@
        <item row="1" column="1" colspan="2">
         <widget class="QComboBox" name="modeSelectCombo">
          <property name="toolTip">
-          <string>Select the model architecture</string>
+          <string>Select the model type</string>
          </property>
          <item>
           <property name="text">
@@ -404,7 +404,7 @@
        <item row="3" column="0">
         <widget class="QCheckBox" name="useExternalVaeCheck">
          <property name="toolTip">
-          <string>Use an external VAE, or use model built-in VAE</string>
+          <string>Use an external VAE instead of model's built-in VAE</string>
          </property>
          <property name="text">
           <string>Use external VAE</string>
@@ -488,10 +488,40 @@
        <string>Models</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_15">
+       <item row="1" column="3">
+        <widget class="QToolButton" name="comfyuiVaeFolderSelect">
+         <property name="toolTip">
+          <string>Select a ComfyUI VAE folder</string>
+         </property>
          <property name="text">
-          <string>ComfyUI models folder: </string>
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+       <item row="14" column="0">
+        <widget class="QLabel" name="label_18">
+         <property name="text">
+          <string>SDXL VAE:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0" colspan="2">
+        <widget class="Line" name="line_6">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="comfyuiVaeFolderValue">
+         <property name="toolTip">
+          <string>Select a ComfyUI VAE folder</string>
+         </property>
+         <property name="text">
+          <string>ComfyUI\models\vae</string>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -503,12 +533,15 @@
          <property name="text">
           <string>ComfyUI\models\checkpoints</string>
          </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
-       <item row="0" column="2">
-        <widget class="QToolButton" name="comfyuiModelFolderSelect">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_15">
          <property name="text">
-          <string>...</string>
+          <string>ComfyUI models folder: </string>
          </property>
         </widget>
        </item>
@@ -519,59 +552,28 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
-        <widget class="QLineEdit" name="comfyuiVaeFolderValue">
-         <property name="toolTip">
-          <string>Path to a ComfyUI VAE folder</string>
-         </property>
-         <property name="text">
-          <string>ComfyUI\models\vae</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="2">
-        <widget class="QToolButton" name="comfyuiVaeFolderSelect">
-         <property name="text">
-          <string>...</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0" colspan="2">
-        <widget class="Line" name="line_5">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_8">
-         <property name="text">
-          <string>Stable Diffusion 1/2 model:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label_17">
-         <property name="text">
-          <string>Stable Diffusion 1/2 VAE:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0" colspan="2">
-        <widget class="Line" name="line_6">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0">
+       <item row="10" column="0">
         <widget class="QLabel" name="label_11">
          <property name="text">
           <string>SDXL Base model:</string>
          </property>
         </widget>
        </item>
-       <item row="7" column="0">
+       <item row="10" column="1" colspan="3">
+        <widget class="QComboBox" name="sdxlBaseCheckpointCombo">
+         <property name="toolTip">
+          <string>Select SDXL base model</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="1" colspan="3">
+        <widget class="QComboBox" name="sd12CheckpointCombo">
+         <property name="toolTip">
+          <string>Select SD1/2 checkpoint</string>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="0">
         <widget class="QLabel" name="label_12">
          <property name="text">
           <string>SDXL Refiner model:</string>
@@ -579,41 +581,51 @@
         </widget>
        </item>
        <item row="8" column="0">
-        <widget class="QLabel" name="label_18">
+        <widget class="QLabel" name="label_8">
          <property name="text">
-          <string>SDXL VAE:</string>
+          <string>Stable Diffusion 1/2 model:</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="1" colspan="2">
-        <widget class="QComboBox" name="sd12CheckpointCombo">
+       <item row="0" column="3">
+        <widget class="QToolButton" name="comfyuiModelFolderSelect">
          <property name="toolTip">
-          <string>Select SD1/2 checkpoint</string>
+          <string>Select a ComfyUI models folder</string>
+         </property>
+         <property name="text">
+          <string>...</string>
          </property>
         </widget>
        </item>
-       <item row="4" column="1" colspan="2">
-        <widget class="QComboBox" name="sd12VaeCombo">
-         <property name="toolTip">
-          <string>Select SD1/2 external VAE</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="1" colspan="2">
-        <widget class="QComboBox" name="sdxlBaseCheckpointCombo">
-         <property name="toolTip">
-          <string>Select SDXL base model</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="1" colspan="2">
+       <item row="11" column="1" colspan="3">
         <widget class="QComboBox" name="sdxlRefinerCheckpointCombo">
          <property name="toolTip">
           <string>Select the SDXL refiner model</string>
          </property>
         </widget>
        </item>
-       <item row="8" column="1" colspan="2">
+       <item row="12" column="1">
+        <widget class="Line" name="line_5">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="0">
+        <widget class="QLabel" name="label_17">
+         <property name="text">
+          <string>Stable Diffusion 1/2 VAE:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="1" colspan="3">
+        <widget class="QComboBox" name="sd12VaeCombo">
+         <property name="toolTip">
+          <string>Select SD1/2 external VAE</string>
+         </property>
+        </widget>
+       </item>
+       <item row="14" column="1" colspan="3">
         <widget class="QComboBox" name="sdxlVaeCombo">
          <property name="toolTip">
           <string>Select the SDXL external VAE</string>

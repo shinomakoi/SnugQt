@@ -5,8 +5,10 @@ import json
 import urllib.parse
 import urllib.request
 import uuid
-from api_args import ApiArgs
+
 import websocket  # NOTE: websocket-client (https://github.com/websocket-client/websocket-client)
+
+from api_args import ApiArgs
 
 
 class ws_generate:

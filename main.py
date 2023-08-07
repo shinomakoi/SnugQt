@@ -1,5 +1,4 @@
 import glob
-import io
 import platform
 import random
 import sys
@@ -295,9 +294,9 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
     
     # Start a thread to load the model asynchronously
     def launch_thread(self):
+        img_gen_args = self.process_prompt()
         self.statusbar.showMessage("Status: Generating...")
         self.generateButton.setEnabled(False)
-        img_gen_args = self.process_prompt()
         self.RunAPI_Thread = RunAPI(img_gen_args)
         self.RunAPI_Thread.final_resultReady.connect(self.RunAPI_handleResult)
         self.RunAPI_Thread.finished.connect(self.RunAPI_Thread.deleteLater)
