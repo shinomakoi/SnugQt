@@ -28,3 +28,5 @@ To launch SnugQt, run:
 python main.py
 ```
 You can set the settings in File > Settings
+
+![image](https://github.com/shinomakoi/SnugQt/assets/112139428/ca46f47e-f544-4fc1-bc82-d8a1e53a294a)
