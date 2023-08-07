@@ -1,8 +1,7 @@
 # SnugQt
 A Qt frontend for image generation that uses ComfyUI
 
-Uses ComfyUI as a backend. Supports Windows, Linux and Mac(?)
-
+Supports Windows, Linux and Mac(?)
 
 **Installation:**
 
@@ -26,6 +25,6 @@ pip install -r requirements.txt
 
 To launch SnugQt, run: 
 ```
-python magi_llm_app.py
+python main.py
 ```
 You can set the settings in File > Settings
