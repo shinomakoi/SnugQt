@@ -6,7 +6,7 @@ checkpoints:
   sdxl_base: 
   sdxl_refiner: 
   sdxl_vae: 
-  use_ex_vae: true
+  use_ex_vae: false
 parameters:
   batch_size: 1
   cfg: 8
