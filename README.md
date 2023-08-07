@@ -29,4 +29,4 @@ python main.py
 ```
 You can set the settings in File > Settings. Make sure to set the paths to the checkpoint/VAE folders (click the .. button to select them) - these must be recognised by ComfyUI.
 
-![image](https://github.com/shinomakoi/SnugQt/assets/112139428/ca46f47e-f544-4fc1-bc82-d8a1e53a294a)
+![image](https://github.com/shinomakoi/SnugQt/assets/112139428/23238904-323c-4f95-bbf8-32469d65f052)
