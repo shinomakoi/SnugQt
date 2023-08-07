@@ -1,0 +1,24 @@
+checkpoints:
+  comfy_model_folder: 
+  comfy_vae_folder: 
+  sd12: 
+  sd12_vae: 
+  sdxl_base: 
+  sdxl_refiner: 
+  sdxl_vae: 
+  use_ex_vae: true
+parameters:
+  batch_size: 1
+  cfg: 8
+  height: 1024
+  hrf_check: false
+  hrf_scaleby: 1.4
+  hrf_steps: 12
+  iterations: 1
+  mode: SDXL
+  sampler: dpmpp_2m
+  scheduler: karras
+  sdxl_refiner_steps: 5
+  seed: -1
+  steps: 20
+  width: 1024

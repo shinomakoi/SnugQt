@@ -1,0 +1,4 @@
+pyside6
+pyyaml
+qt-material
+websocket-client
