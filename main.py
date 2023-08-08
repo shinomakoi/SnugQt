@@ -154,6 +154,9 @@ class SettingsWindow(QtWidgets.QWidget, Ui_SettingsDialog):
             data["checkpoints"][
                 "comfy_model_folder"
             ] = self.comfyuiModelFolderValue.text()
+            data["checkpoints"][
+                "comfy_vae_folder"
+            ] = self.comfyuiVaeFolderValue.text()
             data["checkpoints"]["sd12"] = self.sd12CheckpointCombo.currentText()
             data["checkpoints"][
                 "sdxl_base"
