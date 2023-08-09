@@ -489,7 +489,11 @@
       </attribute>
       <layout class="QGridLayout" name="gridLayout_3">
        <item row="2" column="3">
-        <widget class="QComboBox" name="sdxlLoraCombo"/>
+        <widget class="QComboBox" name="sdxlLoraCombo">
+         <property name="toolTip">
+          <string>Select SDXL LoRA</string>
+         </property>
+        </widget>
        </item>
        <item row="6" column="0">
         <widget class="QLabel" name="label_21">
@@ -506,7 +510,11 @@
         </widget>
        </item>
        <item row="1" column="3">
-        <widget class="QComboBox" name="sd12LoraCombo"/>
+        <widget class="QComboBox" name="sd12LoraCombo">
+         <property name="toolTip">
+          <string>Select SD1/2 LoRA</string>
+         </property>
+        </widget>
        </item>
        <item row="3" column="3">
         <widget class="Line" name="line_7">
@@ -517,8 +525,11 @@
        </item>
        <item row="0" column="0">
         <widget class="QCheckBox" name="loraCheck">
+         <property name="toolTip">
+          <string>Enable a LoRA when generating images</string>
+         </property>
          <property name="text">
-          <string>Use LoRA</string>
+          <string>Enable LoRA</string>
          </property>
         </widget>
        </item>
@@ -531,6 +542,9 @@
        </item>
        <item row="6" column="3">
         <widget class="QDoubleSpinBox" name="loraClipStrengthSpin">
+         <property name="toolTip">
+          <string>Select the clip strength of the LoRA</string>
+         </property>
          <property name="maximum">
           <double>2.000000000000000</double>
          </property>
@@ -544,6 +558,9 @@
        </item>
        <item row="5" column="3">
         <widget class="QDoubleSpinBox" name="loraStrengthSpin">
+         <property name="toolTip">
+          <string>Select the model strength of the LoRA</string>
+         </property>
          <property name="maximum">
           <double>2.000000000000000</double>
          </property>
@@ -575,7 +592,7 @@
        <item row="0" column="1">
         <widget class="QLineEdit" name="comfyuiModelFolderValue">
          <property name="toolTip">
-          <string>Path to a ComfyUI model folder</string>
+          <string>Path to the 'ComfyUI/models' folder</string>
          </property>
          <property name="text">
           <string>ComfyUI/models</string>
@@ -588,7 +605,7 @@
        <item row="0" column="3">
         <widget class="QToolButton" name="comfyuiModelFolderSelect">
          <property name="toolTip">
-          <string>Select a ComfyUI models folder</string>
+          <string>Select the 'ComfyUI/models' folder</string>
          </property>
          <property name="text">
           <string>...</string>
@@ -605,7 +622,7 @@
        <item row="1" column="3">
         <widget class="QToolButton" name="comfyuiExtraFolderSelect">
          <property name="toolTip">
-          <string>Select a ComfyUI VAE folder</string>
+          <string>Select a ComfyUI extra models folder</string>
          </property>
          <property name="text">
           <string>...</string>
@@ -643,7 +660,7 @@
        <item row="1" column="1">
         <widget class="QLineEdit" name="comfyuiExtraFolderValue">
          <property name="toolTip">
-          <string>Select a ComfyUI VAE folder</string>
+          <string>Path to extra checkpoints folder, must be recognised by ComfyUI</string>
          </property>
          <property name="text">
           <string/>
@@ -718,6 +735,9 @@
        </item>
        <item row="2" column="0">
         <widget class="QPushButton" name="reloadModelsButton">
+         <property name="toolTip">
+          <string>Reload models</string>
+         </property>
          <property name="text">
           <string>Reload</string>
          </property>
