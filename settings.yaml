@@ -7,6 +7,12 @@ checkpoints:
   sdxl_refiner: 
   sdxl_vae: 
   use_ex_vae: false
+lora:
+  clip_strength: 1.0
+  model_strength: 1.0
+  sd12: 
+  sdxl: 
+  use: false
 parameters:
   batch_size: 1
   cfg: 8

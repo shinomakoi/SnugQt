@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1278</width>
-    <height>1198</height>
+    <width>1227</width>
+    <height>1152</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>SnugQT</string>
+   <string>SnugQt</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -25,8 +25,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1258</width>
-         <height>1003</height>
+         <width>1207</width>
+         <height>937</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout_3">
@@ -154,8 +154,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1278</width>
-     <height>23</height>
+     <width>1227</width>
+     <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -191,6 +191,16 @@
    </property>
   </action>
  </widget>
+ <tabstops>
+  <tabstop>promptHistoryCombo</tabstop>
+  <tabstop>negPromptHistoryCombo</tabstop>
+  <tabstop>promptLine</tabstop>
+  <tabstop>negPromptLine</tabstop>
+  <tabstop>previousImgButton</tabstop>
+  <tabstop>nextImgButton</tabstop>
+  <tabstop>generateButton</tabstop>
+  <tabstop>scrollArea</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

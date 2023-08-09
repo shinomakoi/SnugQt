@@ -25,7 +25,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1278, 1198)
+        MainWindow.resize(1227, 1152)
         self.actionSettings = QAction(MainWindow)
         self.actionSettings.setObjectName(u"actionSettings")
         self.actionExit = QAction(MainWindow)
@@ -41,7 +41,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 1258, 1003))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 1207, 937))
         self.gridLayout_3 = QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout_3.setObjectName(u"gridLayout_3")
         self.imgLabel = QLabel(self.scrollAreaWidgetContents)
@@ -102,7 +102,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1278, 23))
+        self.menubar.setGeometry(QRect(0, 0, 1227, 27))
         self.menuFile = QMenu(self.menubar)
         self.menuFile.setObjectName(u"menuFile")
         self.menuHelp = QMenu(self.menubar)
@@ -111,6 +111,13 @@ class Ui_MainWindow(object):
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
         MainWindow.setStatusBar(self.statusbar)
+        QWidget.setTabOrder(self.promptHistoryCombo, self.negPromptHistoryCombo)
+        QWidget.setTabOrder(self.negPromptHistoryCombo, self.promptLine)
+        QWidget.setTabOrder(self.promptLine, self.negPromptLine)
+        QWidget.setTabOrder(self.negPromptLine, self.previousImgButton)
+        QWidget.setTabOrder(self.previousImgButton, self.nextImgButton)
+        QWidget.setTabOrder(self.nextImgButton, self.generateButton)
+        QWidget.setTabOrder(self.generateButton, self.scrollArea)
 
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())
@@ -124,7 +131,7 @@ class Ui_MainWindow(object):
     # setupUi
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"SnugQT", None))
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"SnugQt", None))
         self.actionSettings.setText(QCoreApplication.translate("MainWindow", u"Settings", None))
         self.actionExit.setText(QCoreApplication.translate("MainWindow", u"Exit", None))
         self.actionAbout.setText(QCoreApplication.translate("MainWindow", u"About", None))

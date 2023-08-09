@@ -1,6 +1,26 @@
 import random
 
 
+def lora_param_gen(lora_name, lora_strength, lora_clip_strength, model_arch):
+    lora_node = {
+                    "inputs": {
+                    "lora_name": lora_name,
+                    "strength_model": lora_strength,
+                    "strength_clip": lora_clip_strength,
+                    "model": [
+                        model_arch,
+                        0
+                    ],
+                    "clip": [
+                        model_arch,
+                        1
+                    ]
+                    },
+                    "class_type": "LoraLoader"
+                }
+    return lora_node
+
+
 class ApiArgs:
     def __init__(self):
         pass
@@ -8,9 +28,12 @@ class ApiArgs:
     def sd12(self, img_gen_args):
         ex_vae0 = "16"
         ex_vae1 = 2
+
         if img_gen_args["sd12_vae"]:
             ex_vae0 = "18"
             ex_vae1 = 0
+            
+        lora_toggle ="19" if img_gen_args["sd12_lora"] else "16"
 
         api_prompt = {
             "3": {
@@ -21,7 +44,7 @@ class ApiArgs:
                     "sampler_name": img_gen_args["sampler_name"],
                     "scheduler": img_gen_args["scheduler"],
                     "denoise": 1,
-                    "model": ["16", 0],
+                    "model": [lora_toggle, 0],
                     "positive": ["6", 0],
                     "negative": ["7", 0],
                     "latent_image": ["5", 0],
@@ -37,11 +60,11 @@ class ApiArgs:
                 "class_type": "EmptyLatentImage",
             },
             "6": {
-                "inputs": {"text": img_gen_args["pos_prompt"], "clip": ["16", 1]},
+                "inputs": {"text": img_gen_args["pos_prompt"], "clip": [lora_toggle, 1]},
                 "class_type": "CLIPTextEncode",
             },
             "7": {
-                "inputs": {"text": img_gen_args["neg_prompt"], "clip": ["16", 1]},
+                "inputs": {"text": img_gen_args["neg_prompt"], "clip": [lora_toggle, 1]},
                 "class_type": "CLIPTextEncode",
             },
             "12": {
@@ -64,6 +87,8 @@ class ApiArgs:
                 "class_type": "VAELoader",
             },
         }
+        if img_gen_args["sd12_lora"]:
+            api_prompt["19"]=lora_param_gen(img_gen_args["sd12_lora"], img_gen_args["lora_strength"], img_gen_args["lora_clip_strength"],  "16")
         return api_prompt
 
     def sd12_hires(self, img_gen_args):
@@ -72,6 +97,8 @@ class ApiArgs:
         if img_gen_args["sd12_vae"]:
             ex_vae0 = "18"
             ex_vae1 = 0
+
+        lora_toggle ="19" if img_gen_args["sd12_lora"] else "16"
 
         api_prompt = {
             "3": {
@@ -82,7 +109,7 @@ class ApiArgs:
                     "sampler_name": img_gen_args["sampler_name"],
                     "scheduler": img_gen_args["scheduler"],
                     "denoise": 1,
-                    "model": ["16", 0],
+                    "model": [lora_toggle, 0],
                     "positive": ["6", 0],
                     "negative": ["7", 0],
                     "latent_image": ["5", 0],
@@ -98,11 +125,11 @@ class ApiArgs:
                 "class_type": "EmptyLatentImage",
             },
             "6": {
-                "inputs": {"text": img_gen_args["pos_prompt"], "clip": ["16", 1]},
+                "inputs": {"text": img_gen_args["pos_prompt"], "clip": [lora_toggle, 1]},
                 "class_type": "CLIPTextEncode",
             },
             "7": {
-                "inputs": {"text": img_gen_args["neg_prompt"], "clip": ["16", 1]},
+                "inputs": {"text": img_gen_args["neg_prompt"], "clip": [lora_toggle, 1]},
                 "class_type": "CLIPTextEncode",
             },
             "11": {
@@ -113,7 +140,7 @@ class ApiArgs:
                     "sampler_name": img_gen_args["sampler_name"],
                     "scheduler": img_gen_args["scheduler"],
                     "denoise": 0.55,
-                    "model": ["16", 0],
+                    "model": [lora_toggle, 0],
                     "positive": ["6", 0],
                     "negative": ["7", 0],
                     "latent_image": ["17", 0],
@@ -148,6 +175,9 @@ class ApiArgs:
                 "class_type": "VAELoader",
             },
         }
+
+        if img_gen_args["sd12_lora"]:
+            api_prompt["19"]=lora_param_gen(img_gen_args["sd12_lora"], img_gen_args["lora_strength"], img_gen_args["lora_clip_strength"], "16")
         return api_prompt
 
     def sdxl_base(self, img_gen_args):
@@ -156,6 +186,8 @@ class ApiArgs:
         if img_gen_args["sdxl_vae"]:
             ex_vae0 = "51"
             ex_vae1 = 0
+
+        lora_toggle ="52" if img_gen_args["sdxl_lora"] else "4"
 
         api_prompt = {
             "4": {
@@ -171,11 +203,11 @@ class ApiArgs:
                 "class_type": "EmptyLatentImage",
             },
             "6": {
-                "inputs": {"text": img_gen_args["pos_prompt"], "clip": ["4", 1]},
+                "inputs": {"text": img_gen_args["pos_prompt"], "clip": [lora_toggle, 1]},
                 "class_type": "CLIPTextEncode",
             },
             "7": {
-                "inputs": {"text": img_gen_args["neg_prompt"], "clip": ["4", 1]},
+                "inputs": {"text": img_gen_args["neg_prompt"], "clip": [lora_toggle, 1]},
                 "class_type": "CLIPTextEncode",
             },
             "17": {
@@ -197,7 +229,7 @@ class ApiArgs:
                     "sampler_name": img_gen_args["sampler_name"],
                     "scheduler": img_gen_args["scheduler"],
                     "denoise": 1,
-                    "model": ["4", 0],
+                    "model": [lora_toggle, 0],
                     "positive": ["6", 0],
                     "negative": ["7", 0],
                     "latent_image": ["5", 0],
@@ -209,6 +241,10 @@ class ApiArgs:
                 "class_type": "VAELoader",
             },
         }
+        
+        if img_gen_args["sdxl_lora"]:
+            api_prompt["52"]=lora_param_gen(img_gen_args["sdxl_lora"], img_gen_args["lora_strength"], img_gen_args["lora_clip_strength"], "4")
+
         return api_prompt
 
     def sdxl_base_refiner(self, img_gen_args):
@@ -217,6 +253,8 @@ class ApiArgs:
         if img_gen_args["sdxl_vae"]:
             ex_vae0 = "50"
             ex_vae1 = 0
+
+        lora_toggle ="51" if img_gen_args["sdxl_lora"] else "4"
 
         total_steps = int(img_gen_args["steps"]) + int(
             img_gen_args["sdxl_refiner_steps"]
@@ -236,11 +274,11 @@ class ApiArgs:
                 "class_type": "EmptyLatentImage",
             },
             "6": {
-                "inputs": {"text": img_gen_args["pos_prompt"], "clip": ["4", 1]},
+                "inputs": {"text": img_gen_args["pos_prompt"], "clip": [lora_toggle, 1]},
                 "class_type": "CLIPTextEncode",
             },
             "7": {
-                "inputs": {"text": img_gen_args["neg_prompt"], "clip": ["4", 1]},
+                "inputs": {"text": img_gen_args["neg_prompt"], "clip": [lora_toggle, 1]},
                 "class_type": "CLIPTextEncode",
             },
             "10": {
@@ -254,7 +292,7 @@ class ApiArgs:
                     "start_at_step": 0,
                     "end_at_step": img_gen_args["steps"],
                     "return_with_leftover_noise": "enable",
-                    "model": ["4", 0],
+                    "model": [lora_toggle, 0],
                     "positive": ["6", 0],
                     "negative": ["7", 0],
                     "latent_image": ["5", 0],
@@ -307,4 +345,8 @@ class ApiArgs:
                 "class_type": "VAELoader",
             },
         }
+
+        if img_gen_args["sdxl_lora"]:
+            api_prompt["51"]=lora_param_gen(img_gen_args["sdxl_lora"], img_gen_args["lora_strength"], img_gen_args["lora_clip_strength"], "4")
+
         return api_prompt

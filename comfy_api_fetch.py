@@ -104,6 +104,6 @@ class ws_generate:
 
         ws = websocket.WebSocket()
         ws.connect(f"ws://{self.server_address}/ws?clientId={self.client_id}")
-        # print('Comfy JSON Prompt:\n', prompt)
+        print('Comfy JSON Prompt:\n', prompt)
         images = self.get_images(ws, prompt)
         return images

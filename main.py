@@ -18,8 +18,6 @@ from settings_window import Ui_SettingsDialog
 SETTINGS_FILE = Path("settings.yaml")
 APP_ICON = Path("assets/appicon.png")
 
-# pyside6-uic .\assets\ui\main_window.ui -o .\main_window.py; pyside6-uic .\assets\ui\settings_window.ui -o .\settings_window.py
-
 class RunAPI(QThread):
     final_resultReady = Signal(list, bool)
 
@@ -79,8 +77,10 @@ class SettingsWindow(QtWidgets.QWidget, Ui_SettingsDialog):
         self.setWindowIcon(icon)
 
         self.comfyuiModelFolderSelect.clicked.connect(self.comfyui_model_folder_select)
-        self.comfyuiVaeFolderSelect.clicked.connect(self.comfyui_vae_folder_select)
+        self.comfyuiExtraFolderSelect.clicked.connect(self.comfyui_extra_folder_select)
+
         self.saveSettingsButton.clicked.connect(self.save_settings)
+        self.reloadModelsButton.clicked.connect(self.add_models)
         self.load_settings()
 
     def get_directory_path(self, title):
@@ -93,9 +93,8 @@ class SettingsWindow(QtWidgets.QWidget, Ui_SettingsDialog):
             self.comfyuiModelFolderValue.setText(
                 data["checkpoints"]["comfy_model_folder"]
             )
-            self.comfyuiVaeFolderValue.setText(data["checkpoints"]["comfy_vae_folder"])
+            self.comfyuiExtraFolderValue.setText(data["checkpoints"]["comfy_vae_folder"])
             self.add_models()
-            self.add_vaes()
 
             self.sd12CheckpointCombo.setCurrentText(data["checkpoints"]["sd12"])
             self.sdxlBaseCheckpointCombo.setCurrentText(
@@ -107,7 +106,7 @@ class SettingsWindow(QtWidgets.QWidget, Ui_SettingsDialog):
             self.sd12VaeCombo.setCurrentText(data["checkpoints"]["sd12_vae"])
             self.sdxlVaeCombo.setCurrentText(data["checkpoints"]["sdxl_vae"])
             self.useExternalVaeCheck.setChecked(data["checkpoints"]["use_ex_vae"])
-
+            # Parameters
             self.modeSelectCombo.setCurrentText(data["parameters"]["mode"])
             self.imgWidthValue.setValue(data["parameters"]["width"])
             self.imgHeightValue.setValue(data["parameters"]["height"])
@@ -119,33 +118,18 @@ class SettingsWindow(QtWidgets.QWidget, Ui_SettingsDialog):
             self.sdxlRefinerStepsValue.setValue(
                 data["parameters"]["sdxl_refiner_steps"]
             )
-            self.hiresFixCheck.setChecked(data["parameters"]["hrf_check"])
-
-            self.hiresfixScaleByValue.setValue(data["parameters"]["hrf_scaleby"])
-            self.hiresfixStepsValue.setValue(data["parameters"]["hrf_steps"])
             self.samplerValue.setCurrentText(data["parameters"]["sampler"])
             self.schedulerValue.setCurrentText(data["parameters"]["scheduler"])
-
-    # Add the model names to the combo boxes
-    def add_models(self):
-        # Use a list comprehension to get all the models in one line
-        models = sorted([Path(model).name for extension in ("*.safetensors", "*.ckpt") for model in glob.glob(f"{self.comfyuiModelFolderValue.text()}/{extension}")])
-        
-        # Use a loop to add the models to all the combo boxes at once
-        for combo in (self.sd12CheckpointCombo, self.sdxlBaseCheckpointCombo, self.sdxlRefinerCheckpointCombo):
-            combo.clear()
-            combo.addItems(models)
-
-    # Add the VAE names to the combo boxes
-    def add_vaes(self):
-        # Use a list comprehension to get all the vaes in one line
-        vaes = sorted([Path(vae).name for extension in ("*.safetensors", "*.ckpt") for vae in glob.glob(f"{self.comfyuiVaeFolderValue.text()}/{extension}")])
-        
-        # Use a loop to add the vaes to both the combo boxes at once
-        for combo in (self.sd12VaeCombo, self.sdxlVaeCombo):
-            combo.clear()
-            combo.addItems(vaes)
-
+            # Hi-res fix
+            self.hiresFixCheck.setChecked(data["parameters"]["hrf_check"])
+            self.hiresfixScaleByValue.setValue(data["parameters"]["hrf_scaleby"])
+            self.hiresfixStepsValue.setValue(data["parameters"]["hrf_steps"])
+            # Lora
+            self.loraCheck.setChecked(data["lora"]["use"])
+            self.sd12LoraCombo.setCurrentText(data["lora"]["sd12"])
+            self.sdxlLoraCombo.setCurrentText(data["lora"]["sdxl"])
+            self.loraStrengthSpin.setValue(data["lora"]["model_strength"])
+            self.loraClipStrengthSpin.setValue(data["lora"]["clip_strength"])
 
     # Save settings to settings.yaml
     def save_settings(self):
@@ -156,7 +140,7 @@ class SettingsWindow(QtWidgets.QWidget, Ui_SettingsDialog):
             ] = self.comfyuiModelFolderValue.text()
             data["checkpoints"][
                 "comfy_vae_folder"
-            ] = self.comfyuiVaeFolderValue.text()
+            ] = self.comfyuiExtraFolderValue.text()
             data["checkpoints"]["sd12"] = self.sd12CheckpointCombo.currentText()
             data["checkpoints"][
                 "sdxl_base"
@@ -179,15 +163,47 @@ class SettingsWindow(QtWidgets.QWidget, Ui_SettingsDialog):
             data["parameters"][
                 "sdxl_refiner_steps"
             ] = self.sdxlRefinerStepsValue.value()
+            data["parameters"]["sampler"] = self.samplerValue.currentText()
+            data["parameters"]["scheduler"] = self.schedulerValue.currentText()
+            # Hi-res fix
             data["parameters"]["hrf_check"] = self.hiresFixCheck.isChecked()
             data["parameters"]["hrf_scaleby"] = self.hiresfixScaleByValue.value()
             data["parameters"]["hrf_steps"] = self.hiresfixStepsValue.value()
-            data["parameters"]["sampler"] = self.samplerValue.currentText()
-            data["parameters"]["scheduler"] = self.schedulerValue.currentText()
+            # Lora
+            data["lora"]["use"] = self.loraCheck.isChecked()
+            data["lora"]["sd12"] = self.sd12LoraCombo.currentText()
+            data["lora"]["sdxl"] = self.sdxlLoraCombo.currentText()
+            data["lora"]["model_strength"] = self.loraStrengthSpin.value()
+            data["lora"]["clip_strength"] = self.loraClipStrengthSpin.value()
 
         with open(SETTINGS_FILE, "w") as stream:
             yaml.dump(data, stream, default_flow_style=False)
         print("Settings saved")
+
+    # Add the model names to the combo boxes
+    def add_models(self):
+        # Add ckpts
+        ckpts = sorted([Path(ckpt).name for extension in ("*.safetensors", "*.ckpt") for ckpt in glob.glob(f"{self.comfyuiModelFolderValue.text()}/checkpoints/{extension}")])
+        extra_ckpts = sorted([Path(extra_ckpt).name for extension in ("*.safetensors", "*.ckpt") for extra_ckpt in glob.glob(f"{self.comfyuiExtraFolderValue.text()}/{extension}")])
+        for combo in (self.sd12CheckpointCombo, self.sdxlBaseCheckpointCombo, self.sdxlRefinerCheckpointCombo):
+            combo.clear()
+            combo.addItems(ckpts)
+            combo.addItems(extra_ckpts)
+        print('--- Added checkpoints:', ckpts, extra_ckpts)
+
+        # Add VAEs
+        vaes = sorted([Path(vae).name for extension in ("*.safetensors", "*.ckpt") for vae in glob.glob(f"{self.comfyuiModelFolderValue.text()}/vae/{extension}")])
+        for combo in (self.sd12VaeCombo, self.sdxlVaeCombo):
+            combo.clear()
+            combo.addItems(vaes)
+        print('--- Added VAEs:', vaes)
+
+        # Add LoRAs
+        loras = sorted([Path(lora).name for extension in ("*.safetensors", "*.ckpt") for lora in glob.glob(f"{self.comfyuiModelFolderValue.text()}/loras/{extension}")])
+        for combo in (self.sd12LoraCombo, self.sdxlLoraCombo):
+            combo.clear()
+            combo.addItems(loras)
+        print('--- Added LoRAs:', loras)
 
     # Browse for ComfyUI model folder
     def comfyui_model_folder_select(self):
@@ -195,14 +211,12 @@ class SettingsWindow(QtWidgets.QWidget, Ui_SettingsDialog):
         if model_folder:
             self.comfyuiModelFolderValue.setText(model_folder)
             self.add_models()
-
-    # Browse for ComfyUI VAE folder
-    def comfyui_vae_folder_select(self):
-        vae_folder = self.get_directory_path("Select ComfyUI VAE directory")
-        if vae_folder:
-            self.comfyuiVaeFolderValue.setText(vae_folder)
-            self.add_vaes()
-
+    # Browse for ComfyUI extra models folder
+    def comfyui_extra_folder_select(self):
+        extra_model_folder = self.get_directory_path("Select ComfyUI extra checkpoint directory")
+        if extra_model_folder:
+            self.comfyuiExtraFolderValue.setText(extra_model_folder)
+            self.add_models()
 
 class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -227,6 +241,7 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.promptHistoryCombo.textActivated.connect(self.prompt_history_set)
         self.negPromptHistoryCombo.textActivated.connect(self.neg_prompt_history_set)
+        print('--- App started')
         # self.settings_win.show()
 
     # Cycle through the images in the image list
@@ -262,8 +277,6 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
             "cfg": self.settings_win.cfgValue.value(),
             "iterations": self.settings_win.iterationsValue.value(),
         }
-        img_gen_args["sd12_vae"] = None
-        img_gen_args["sdxl_vae"] = None
 
         # Get the preset text from the settings window
         preset_text = self.settings_win.modeSelectCombo.currentText()
@@ -272,25 +285,31 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
             "Stable Diffusion 1/2": {
                 "img_gen_preset": "sd12" if not self.settings_win.hiresFixCheck.isChecked() else "sd12_hires",
                 "sd12_ckpt": self.settings_win.sd12CheckpointCombo.currentText(),
-                "hiresfix_scale_by": str(self.settings_win.hiresfixScaleByValue.text()) if self.settings_win.hiresFixCheck.isChecked() else None,
-                "hiresfix_steps": str(self.settings_win.hiresfixStepsValue.text()) if self.settings_win.hiresFixCheck.isChecked() else None,
+                "hiresfix_scale_by": self.settings_win.hiresfixScaleByValue.text() if self.settings_win.hiresFixCheck.isChecked() else None,
+                "hiresfix_steps": self.settings_win.hiresfixStepsValue.text() if self.settings_win.hiresFixCheck.isChecked() else None,
                 "sd12_vae": self.settings_win.sd12VaeCombo.currentText() if self.settings_win.useExternalVaeCheck.isChecked() else None,
+                "sd12_lora": self.settings_win.sd12LoraCombo.currentText() if self.settings_win.loraCheck.isChecked() else None,
             },
             "SDXL": {
                 "img_gen_preset": "sdxl_base",
                 "sdxl_base_ckpt": self.settings_win.sdxlBaseCheckpointCombo.currentText(),
                 "sdxl_vae": self.settings_win.sdxlVaeCombo.currentText() if self.settings_win.useExternalVaeCheck.isChecked() else None,
+                "sdxl_lora": self.settings_win.sdxlLoraCombo.currentText() if self.settings_win.loraCheck.isChecked() else None,
             },
             "SDXL + Refiner": {
                 "img_gen_preset": "sdxl_base_refiner",
                 "sdxl_base_ckpt": self.settings_win.sdxlBaseCheckpointCombo.currentText(),
                 "sdxl_refiner_ckpt": self.settings_win.sdxlRefinerCheckpointCombo.currentText(),
-                "sdxl_refiner_steps": str(self.settings_win.sdxlRefinerStepsValue.text()),
+                "sdxl_refiner_steps": self.settings_win.sdxlRefinerStepsValue.text(),
                 "sdxl_vae": self.settings_win.sdxlVaeCombo.currentText() if self.settings_win.useExternalVaeCheck.isChecked() else None,
+                "sdxl_lora": self.settings_win.sdxlLoraCombo.currentText() if self.settings_win.loraCheck.isChecked() else None,
             }
         }
         for key, value in presets[preset_text].items():
             img_gen_args[key] = value
+
+        img_gen_args["lora_strength"] = self.settings_win.loraStrengthSpin.value() if self.settings_win.loraCheck.isChecked() else None
+        img_gen_args["lora_clip_strength"] = self.settings_win.loraClipStrengthSpin.value() if self.settings_win.loraCheck.isChecked() else None
 
         return img_gen_args
 
@@ -381,3 +400,5 @@ if __name__ == "__main__":
 
     # Start the Qt event loop
     app.exec()
+
+# pyside6-uic .\assets\ui\main_window.ui -o .\main_window.py; pyside6-uic .\assets\ui\settings_window.ui -o .\settings_window.py
