@@ -266,14 +266,14 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
         img_gen_args = {
             "pos_prompt": self.promptLine.toPlainText(),
             "neg_prompt": self.negPromptLine.toPlainText(),
-            "batch_size": str(self.settings_win.batchValue.value()),
+            "batch_size": self.settings_win.batchValue.value(),
             "filename_prefix": "SnugQt/SnugQt",
-            "seed": str(seed),
+            "seed": seed,
             "sampler_name": self.settings_win.samplerValue.currentText(),
             "scheduler": self.settings_win.schedulerValue.currentText(),
-            "steps": str(self.settings_win.stepsValue.value()),
-            "width": str(self.settings_win.imgWidthValue.value()),
-            "height": str(self.settings_win.imgHeightValue.value()),
+            "steps": self.settings_win.stepsValue.value(),
+            "width": self.settings_win.imgWidthValue.value(),
+            "height": self.settings_win.imgHeightValue.value(),
             "cfg": self.settings_win.cfgValue.value(),
             "iterations": self.settings_win.iterationsValue.value(),
         }
@@ -283,7 +283,7 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
         # Set the img_gen_preset and the checkpoint arguments based on the preset text using a dictionary of presets and a loop
         presets = {
             "Stable Diffusion 1/2": {
-                "img_gen_preset": "sd12" if not self.settings_win.hiresFixCheck.isChecked() else "sd12_hires",
+                "img_gen_preset": "sd12",
                 "sd12_ckpt": self.settings_win.sd12CheckpointCombo.currentText(),
                 "hiresfix_scale_by": self.settings_win.hiresfixScaleByValue.text() if self.settings_win.hiresFixCheck.isChecked() else None,
                 "hiresfix_steps": self.settings_win.hiresfixStepsValue.text() if self.settings_win.hiresFixCheck.isChecked() else None,

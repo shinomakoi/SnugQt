@@ -28,77 +28,12 @@ class ApiArgs:
     def sd12(self, img_gen_args):
         ex_vae0 = "16"
         ex_vae1 = 2
-
-        if img_gen_args["sd12_vae"]:
-            ex_vae0 = "18"
-            ex_vae1 = 0
-            
-        lora_toggle ="19" if img_gen_args["sd12_lora"] else "16"
-
-        api_prompt = {
-            "3": {
-                "inputs": {
-                    "seed": img_gen_args["seed"],
-                    "steps": img_gen_args["steps"],
-                    "cfg": img_gen_args["cfg"],
-                    "sampler_name": img_gen_args["sampler_name"],
-                    "scheduler": img_gen_args["scheduler"],
-                    "denoise": 1,
-                    "model": [lora_toggle, 0],
-                    "positive": ["6", 0],
-                    "negative": ["7", 0],
-                    "latent_image": ["5", 0],
-                },
-                "class_type": "KSampler",
-            },
-            "5": {
-                "inputs": {
-                    "width": img_gen_args["width"],
-                    "height": img_gen_args["height"],
-                    "batch_size": img_gen_args["batch_size"],
-                },
-                "class_type": "EmptyLatentImage",
-            },
-            "6": {
-                "inputs": {"text": img_gen_args["pos_prompt"], "clip": [lora_toggle, 1]},
-                "class_type": "CLIPTextEncode",
-            },
-            "7": {
-                "inputs": {"text": img_gen_args["neg_prompt"], "clip": [lora_toggle, 1]},
-                "class_type": "CLIPTextEncode",
-            },
-            "12": {
-                "inputs": {
-                    "filename_prefix": img_gen_args["filename_prefix"],
-                    "images": ["13", 0],
-                },
-                "class_type": "SaveImage",
-            },
-            "13": {
-                "inputs": {"samples": ["3", 0], "vae": [ex_vae0, ex_vae1]},
-                "class_type": "VAEDecode",
-            },
-            "16": {
-                "inputs": {"ckpt_name": img_gen_args["sd12_ckpt"]},
-                "class_type": "CheckpointLoaderSimple",
-            },
-            "18": {
-                "inputs": {"vae_name": img_gen_args["sd12_vae"]},
-                "class_type": "VAELoader",
-            },
-        }
-        if img_gen_args["sd12_lora"]:
-            api_prompt["19"]=lora_param_gen(img_gen_args["sd12_lora"], img_gen_args["lora_strength"], img_gen_args["lora_clip_strength"],  "16")
-        return api_prompt
-
-    def sd12_hires(self, img_gen_args):
-        ex_vae0 = "16"
-        ex_vae1 = 2
         if img_gen_args["sd12_vae"]:
             ex_vae0 = "18"
             ex_vae1 = 0
 
         lora_toggle ="19" if img_gen_args["sd12_lora"] else "16"
+        hires_toggle ="11" if img_gen_args["hiresfix_steps"] else "3"
 
         api_prompt = {
             "3": {
@@ -155,7 +90,7 @@ class ApiArgs:
                 "class_type": "SaveImage",
             },
             "13": {
-                "inputs": {"samples": ["11", 0], "vae": [ex_vae0, ex_vae1]},
+                "inputs": {"samples": [hires_toggle, 0], "vae": [ex_vae0, ex_vae1]},
                 "class_type": "VAEDecode",
             },
             "16": {

@@ -76,11 +76,6 @@ class ws_generate:
         prompt = api_args.sd12(img_gen_args)
         return prompt
 
-    def sd12_hires_preset(self, img_gen_args):
-        api_args = ApiArgs()
-        prompt = api_args.sd12_hires(img_gen_args)
-        return prompt
-
     def sdxl_base_preset(self, img_gen_args):
         api_args = ApiArgs()
         prompt = api_args.sdxl_base(img_gen_args)
@@ -95,8 +90,6 @@ class ws_generate:
         """Generate the final image based on the image generation arguments."""
         if img_gen_args["img_gen_preset"] == "sd12":
             prompt = self.sd12_preset(img_gen_args)
-        elif img_gen_args["img_gen_preset"] == "sd12_hires":
-            prompt = self.sd12_hires_preset(img_gen_args)
         elif img_gen_args["img_gen_preset"] == "sdxl_base":
             prompt = self.sdxl_base_preset(img_gen_args)
         elif img_gen_args["img_gen_preset"] == "sdxl_base_refiner":
@@ -104,6 +97,6 @@ class ws_generate:
 
         ws = websocket.WebSocket()
         ws.connect(f"ws://{self.server_address}/ws?clientId={self.client_id}")
-        print('Comfy JSON Prompt:\n', prompt)
+        # print('Comfy JSON Prompt:\n', prompt)
         images = self.get_images(ws, prompt)
         return images
