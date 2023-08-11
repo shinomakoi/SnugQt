@@ -14,7 +14,7 @@
    <string>SnugQt - Settings</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="1" column="0">
+   <item row="2" column="0">
     <widget class="QPushButton" name="saveSettingsButton">
      <property name="toolTip">
       <string>Save the current settings</string>
@@ -24,12 +24,12 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="0">
-    <widget class="QTabWidget" name="tabWidget">
+   <item row="1" column="0">
+    <widget class="QTabWidget" name="settingsTab">
      <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QWidget" name="settingsTab">
+     <widget class="QWidget" name="parametersTab">
       <property name="autoFillBackground">
        <bool>true</bool>
       </property>
@@ -515,6 +515,72 @@
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="img2imgTab">
+      <property name="autoFillBackground">
+       <bool>true</bool>
+      </property>
+      <attribute name="title">
+       <string>Image to Image</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_5">
+       <item row="2" column="1">
+        <widget class="QLabel" name="label_26">
+         <property name="text">
+          <string>Denoise strength:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QCheckBox" name="img2imgCheck">
+         <property name="toolTip">
+          <string>Start with an image instead of empty latent noise</string>
+         </property>
+         <property name="text">
+          <string>Enable Image to Image</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="4">
+        <widget class="QToolButton" name="img2imgLoadButton">
+         <property name="toolTip">
+          <string>Load images from ComfyUI/input folder</string>
+         </property>
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="arrowType">
+          <enum>Qt::RightArrow</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QComboBox" name="img2imgLoadCombo"/>
+       </item>
+       <item row="2" column="2">
+        <widget class="QDoubleSpinBox" name="img2imgDenoiseSpin">
+         <property name="toolTip">
+          <string>Denoising strength. Higher value = less like starting image</string>
+         </property>
+         <property name="maximum">
+          <double>1.000000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.050000000000000</double>
+         </property>
+         <property name="value">
+          <double>0.700000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLabel" name="label_27">
+         <property name="text">
+          <string>Load image:</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
      <widget class="QWidget" name="loraTab">
       <property name="autoFillBackground">
        <bool>true</bool>
@@ -616,7 +682,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="modelsSettingsTab">
+     <widget class="QWidget" name="modelsTab">
       <property name="autoFillBackground">
        <bool>true</bool>
       </property>
@@ -793,7 +859,6 @@
   <tabstop>batchValue</tabstop>
   <tabstop>cfgValue</tabstop>
   <tabstop>stepsValue</tabstop>
-  <tabstop>tabWidget</tabstop>
   <tabstop>loraCheck</tabstop>
   <tabstop>sd12LoraCombo</tabstop>
   <tabstop>sdxlLoraCombo</tabstop>

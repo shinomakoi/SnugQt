@@ -30,53 +30,53 @@ class Ui_SettingsDialog(object):
         self.saveSettingsButton = QPushButton(SettingsDialog)
         self.saveSettingsButton.setObjectName(u"saveSettingsButton")
 
-        self.gridLayout.addWidget(self.saveSettingsButton, 1, 0, 1, 1)
+        self.gridLayout.addWidget(self.saveSettingsButton, 2, 0, 1, 1)
 
-        self.tabWidget = QTabWidget(SettingsDialog)
-        self.tabWidget.setObjectName(u"tabWidget")
-        self.settingsTab = QWidget()
+        self.settingsTab = QTabWidget(SettingsDialog)
         self.settingsTab.setObjectName(u"settingsTab")
-        self.settingsTab.setAutoFillBackground(True)
-        self.gridLayout_4 = QGridLayout(self.settingsTab)
+        self.parametersTab = QWidget()
+        self.parametersTab.setObjectName(u"parametersTab")
+        self.parametersTab.setAutoFillBackground(True)
+        self.gridLayout_4 = QGridLayout(self.parametersTab)
         self.gridLayout_4.setObjectName(u"gridLayout_4")
-        self.label_20 = QLabel(self.settingsTab)
+        self.label_20 = QLabel(self.parametersTab)
         self.label_20.setObjectName(u"label_20")
 
         self.gridLayout_4.addWidget(self.label_20, 17, 0, 1, 1)
 
-        self.label_16 = QLabel(self.settingsTab)
+        self.label_16 = QLabel(self.parametersTab)
         self.label_16.setObjectName(u"label_16")
 
         self.gridLayout_4.addWidget(self.label_16, 31, 0, 1, 1)
 
-        self.label_5 = QLabel(self.settingsTab)
+        self.label_5 = QLabel(self.parametersTab)
         self.label_5.setObjectName(u"label_5")
 
         self.gridLayout_4.addWidget(self.label_5, 23, 0, 1, 1)
 
-        self.label_14 = QLabel(self.settingsTab)
+        self.label_14 = QLabel(self.parametersTab)
         self.label_14.setObjectName(u"label_14")
 
         self.gridLayout_4.addWidget(self.label_14, 1, 0, 1, 1)
 
-        self.sdxlRefinerCheck = QCheckBox(self.settingsTab)
+        self.sdxlRefinerCheck = QCheckBox(self.parametersTab)
         self.sdxlRefinerCheck.setObjectName(u"sdxlRefinerCheck")
 
         self.gridLayout_4.addWidget(self.sdxlRefinerCheck, 30, 0, 1, 1)
 
-        self.modelUpscaleCheck = QCheckBox(self.settingsTab)
+        self.modelUpscaleCheck = QCheckBox(self.parametersTab)
         self.modelUpscaleCheck.setObjectName(u"modelUpscaleCheck")
 
         self.gridLayout_4.addWidget(self.modelUpscaleCheck, 40, 0, 1, 1)
 
-        self.iterationsValue = QSpinBox(self.settingsTab)
+        self.iterationsValue = QSpinBox(self.parametersTab)
         self.iterationsValue.setObjectName(u"iterationsValue")
         self.iterationsValue.setMinimum(1)
         self.iterationsValue.setMaximum(128)
 
         self.gridLayout_4.addWidget(self.iterationsValue, 17, 1, 1, 1)
 
-        self.imgWidthValue = QSpinBox(self.settingsTab)
+        self.imgWidthValue = QSpinBox(self.parametersTab)
         self.imgWidthValue.setObjectName(u"imgWidthValue")
         self.imgWidthValue.setMinimum(256)
         self.imgWidthValue.setMaximum(4096)
@@ -85,7 +85,7 @@ class Ui_SettingsDialog(object):
 
         self.gridLayout_4.addWidget(self.imgWidthValue, 5, 1, 1, 1)
 
-        self.cfgValue = QSpinBox(self.settingsTab)
+        self.cfgValue = QSpinBox(self.parametersTab)
         self.cfgValue.setObjectName(u"cfgValue")
         self.cfgValue.setMinimum(1)
         self.cfgValue.setMaximum(40)
@@ -93,12 +93,12 @@ class Ui_SettingsDialog(object):
 
         self.gridLayout_4.addWidget(self.cfgValue, 19, 1, 1, 1)
 
-        self.label = QLabel(self.settingsTab)
+        self.label = QLabel(self.parametersTab)
         self.label.setObjectName(u"label")
 
         self.gridLayout_4.addWidget(self.label, 16, 0, 1, 1)
 
-        self.seedValue = QSpinBox(self.settingsTab)
+        self.seedValue = QSpinBox(self.parametersTab)
         self.seedValue.setObjectName(u"seedValue")
         self.seedValue.setMinimum(-1)
         self.seedValue.setMaximum(999999999)
@@ -106,7 +106,7 @@ class Ui_SettingsDialog(object):
 
         self.gridLayout_4.addWidget(self.seedValue, 16, 1, 1, 1)
 
-        self.schedulerValue = QComboBox(self.settingsTab)
+        self.schedulerValue = QComboBox(self.parametersTab)
         self.schedulerValue.addItem("")
         self.schedulerValue.addItem("")
         self.schedulerValue.addItem("")
@@ -116,7 +116,7 @@ class Ui_SettingsDialog(object):
 
         self.gridLayout_4.addWidget(self.schedulerValue, 24, 1, 1, 2)
 
-        self.batchValue = QSpinBox(self.settingsTab)
+        self.batchValue = QSpinBox(self.parametersTab)
         self.batchValue.setObjectName(u"batchValue")
         self.batchValue.setMinimum(1)
         self.batchValue.setMaximum(64)
@@ -124,12 +124,12 @@ class Ui_SettingsDialog(object):
 
         self.gridLayout_4.addWidget(self.batchValue, 18, 1, 1, 1)
 
-        self.label_3 = QLabel(self.settingsTab)
+        self.label_3 = QLabel(self.parametersTab)
         self.label_3.setObjectName(u"label_3")
 
         self.gridLayout_4.addWidget(self.label_3, 18, 0, 1, 1)
 
-        self.samplerValue = QComboBox(self.settingsTab)
+        self.samplerValue = QComboBox(self.parametersTab)
         self.samplerValue.addItem("")
         self.samplerValue.addItem("")
         self.samplerValue.addItem("")
@@ -149,7 +149,7 @@ class Ui_SettingsDialog(object):
 
         self.gridLayout_4.addWidget(self.samplerValue, 23, 1, 1, 2)
 
-        self.hiresfixScaleByValue = QDoubleSpinBox(self.settingsTab)
+        self.hiresfixScaleByValue = QDoubleSpinBox(self.parametersTab)
         self.hiresfixScaleByValue.setObjectName(u"hiresfixScaleByValue")
         self.hiresfixScaleByValue.setDecimals(2)
         self.hiresfixScaleByValue.setMinimum(1.000000000000000)
@@ -159,17 +159,17 @@ class Ui_SettingsDialog(object):
 
         self.gridLayout_4.addWidget(self.hiresfixScaleByValue, 42, 1, 1, 1)
 
-        self.label_10 = QLabel(self.settingsTab)
+        self.label_10 = QLabel(self.parametersTab)
         self.label_10.setObjectName(u"label_10")
 
         self.gridLayout_4.addWidget(self.label_10, 6, 0, 1, 1)
 
-        self.hiresFixCheck = QCheckBox(self.settingsTab)
+        self.hiresFixCheck = QCheckBox(self.parametersTab)
         self.hiresFixCheck.setObjectName(u"hiresFixCheck")
 
         self.gridLayout_4.addWidget(self.hiresFixCheck, 41, 0, 1, 1)
 
-        self.hiresfixStepsValue = QSpinBox(self.settingsTab)
+        self.hiresfixStepsValue = QSpinBox(self.parametersTab)
         self.hiresfixStepsValue.setObjectName(u"hiresfixStepsValue")
         self.hiresfixStepsValue.setMinimum(1)
         self.hiresfixStepsValue.setMaximum(256)
@@ -177,46 +177,46 @@ class Ui_SettingsDialog(object):
 
         self.gridLayout_4.addWidget(self.hiresfixStepsValue, 43, 1, 1, 1)
 
-        self.label_9 = QLabel(self.settingsTab)
+        self.label_9 = QLabel(self.parametersTab)
         self.label_9.setObjectName(u"label_9")
 
         self.gridLayout_4.addWidget(self.label_9, 5, 0, 1, 1)
 
-        self.modelUpscaleCombo = QComboBox(self.settingsTab)
+        self.modelUpscaleCombo = QComboBox(self.parametersTab)
         self.modelUpscaleCombo.setObjectName(u"modelUpscaleCombo")
 
         self.gridLayout_4.addWidget(self.modelUpscaleCombo, 40, 1, 1, 2)
 
-        self.label_2 = QLabel(self.settingsTab)
+        self.label_2 = QLabel(self.parametersTab)
         self.label_2.setObjectName(u"label_2")
 
         self.gridLayout_4.addWidget(self.label_2, 42, 0, 1, 1)
 
-        self.label_6 = QLabel(self.settingsTab)
+        self.label_6 = QLabel(self.parametersTab)
         self.label_6.setObjectName(u"label_6")
 
         self.gridLayout_4.addWidget(self.label_6, 24, 0, 1, 1)
 
-        self.line_2 = QFrame(self.settingsTab)
+        self.line_2 = QFrame(self.parametersTab)
         self.line_2.setObjectName(u"line_2")
         self.line_2.setFrameShape(QFrame.HLine)
         self.line_2.setFrameShadow(QFrame.Sunken)
 
         self.gridLayout_4.addWidget(self.line_2, 39, 0, 1, 3)
 
-        self.useExternalVaeCheck = QCheckBox(self.settingsTab)
+        self.useExternalVaeCheck = QCheckBox(self.parametersTab)
         self.useExternalVaeCheck.setObjectName(u"useExternalVaeCheck")
 
         self.gridLayout_4.addWidget(self.useExternalVaeCheck, 3, 0, 1, 1)
 
-        self.line_4 = QFrame(self.settingsTab)
+        self.line_4 = QFrame(self.parametersTab)
         self.line_4.setObjectName(u"line_4")
         self.line_4.setFrameShape(QFrame.HLine)
         self.line_4.setFrameShadow(QFrame.Sunken)
 
         self.gridLayout_4.addWidget(self.line_4, 4, 0, 1, 3)
 
-        self.imgHeightValue = QSpinBox(self.settingsTab)
+        self.imgHeightValue = QSpinBox(self.parametersTab)
         self.imgHeightValue.setObjectName(u"imgHeightValue")
         self.imgHeightValue.setMinimum(256)
         self.imgHeightValue.setMaximum(4096)
@@ -225,29 +225,29 @@ class Ui_SettingsDialog(object):
 
         self.gridLayout_4.addWidget(self.imgHeightValue, 6, 1, 1, 1)
 
-        self.label_13 = QLabel(self.settingsTab)
+        self.label_13 = QLabel(self.parametersTab)
         self.label_13.setObjectName(u"label_13")
 
         self.gridLayout_4.addWidget(self.label_13, 43, 0, 1, 1)
 
-        self.label_7 = QLabel(self.settingsTab)
+        self.label_7 = QLabel(self.parametersTab)
         self.label_7.setObjectName(u"label_7")
 
         self.gridLayout_4.addWidget(self.label_7, 20, 0, 1, 1)
 
-        self.label_4 = QLabel(self.settingsTab)
+        self.label_4 = QLabel(self.parametersTab)
         self.label_4.setObjectName(u"label_4")
 
         self.gridLayout_4.addWidget(self.label_4, 19, 0, 1, 1)
 
-        self.line_3 = QFrame(self.settingsTab)
+        self.line_3 = QFrame(self.parametersTab)
         self.line_3.setObjectName(u"line_3")
         self.line_3.setFrameShape(QFrame.HLine)
         self.line_3.setFrameShadow(QFrame.Sunken)
 
         self.gridLayout_4.addWidget(self.line_3, 29, 0, 1, 3)
 
-        self.stepsValue = QSpinBox(self.settingsTab)
+        self.stepsValue = QSpinBox(self.parametersTab)
         self.stepsValue.setObjectName(u"stepsValue")
         self.stepsValue.setMinimum(1)
         self.stepsValue.setMaximum(400)
@@ -255,7 +255,7 @@ class Ui_SettingsDialog(object):
 
         self.gridLayout_4.addWidget(self.stepsValue, 20, 1, 1, 1)
 
-        self.sdxlRefinerStepsValue = QSpinBox(self.settingsTab)
+        self.sdxlRefinerStepsValue = QSpinBox(self.parametersTab)
         self.sdxlRefinerStepsValue.setObjectName(u"sdxlRefinerStepsValue")
         self.sdxlRefinerStepsValue.setMinimum(1)
         self.sdxlRefinerStepsValue.setMaximum(200)
@@ -263,26 +263,66 @@ class Ui_SettingsDialog(object):
 
         self.gridLayout_4.addWidget(self.sdxlRefinerStepsValue, 31, 1, 1, 1)
 
-        self.modeSelectCombo = QComboBox(self.settingsTab)
+        self.modeSelectCombo = QComboBox(self.parametersTab)
         self.modeSelectCombo.addItem("")
         self.modeSelectCombo.addItem("")
         self.modeSelectCombo.setObjectName(u"modeSelectCombo")
 
         self.gridLayout_4.addWidget(self.modeSelectCombo, 1, 1, 1, 2)
 
-        self.label_25 = QLabel(self.settingsTab)
+        self.label_25 = QLabel(self.parametersTab)
         self.label_25.setObjectName(u"label_25")
 
         self.gridLayout_4.addWidget(self.label_25, 25, 0, 1, 1)
 
-        self.clipSkipValue = QSpinBox(self.settingsTab)
+        self.clipSkipValue = QSpinBox(self.parametersTab)
         self.clipSkipValue.setObjectName(u"clipSkipValue")
         self.clipSkipValue.setMinimum(-8)
         self.clipSkipValue.setMaximum(-1)
 
         self.gridLayout_4.addWidget(self.clipSkipValue, 25, 1, 1, 1)
 
-        self.tabWidget.addTab(self.settingsTab, "")
+        self.settingsTab.addTab(self.parametersTab, "")
+        self.img2imgTab = QWidget()
+        self.img2imgTab.setObjectName(u"img2imgTab")
+        self.img2imgTab.setAutoFillBackground(True)
+        self.gridLayout_5 = QGridLayout(self.img2imgTab)
+        self.gridLayout_5.setObjectName(u"gridLayout_5")
+        self.label_26 = QLabel(self.img2imgTab)
+        self.label_26.setObjectName(u"label_26")
+
+        self.gridLayout_5.addWidget(self.label_26, 2, 1, 1, 1)
+
+        self.img2imgCheck = QCheckBox(self.img2imgTab)
+        self.img2imgCheck.setObjectName(u"img2imgCheck")
+
+        self.gridLayout_5.addWidget(self.img2imgCheck, 0, 1, 1, 1)
+
+        self.img2imgLoadButton = QToolButton(self.img2imgTab)
+        self.img2imgLoadButton.setObjectName(u"img2imgLoadButton")
+        self.img2imgLoadButton.setArrowType(Qt.RightArrow)
+
+        self.gridLayout_5.addWidget(self.img2imgLoadButton, 1, 4, 1, 1)
+
+        self.img2imgLoadCombo = QComboBox(self.img2imgTab)
+        self.img2imgLoadCombo.setObjectName(u"img2imgLoadCombo")
+
+        self.gridLayout_5.addWidget(self.img2imgLoadCombo, 1, 2, 1, 1)
+
+        self.img2imgDenoiseSpin = QDoubleSpinBox(self.img2imgTab)
+        self.img2imgDenoiseSpin.setObjectName(u"img2imgDenoiseSpin")
+        self.img2imgDenoiseSpin.setMaximum(1.000000000000000)
+        self.img2imgDenoiseSpin.setSingleStep(0.050000000000000)
+        self.img2imgDenoiseSpin.setValue(0.700000000000000)
+
+        self.gridLayout_5.addWidget(self.img2imgDenoiseSpin, 2, 2, 1, 1)
+
+        self.label_27 = QLabel(self.img2imgTab)
+        self.label_27.setObjectName(u"label_27")
+
+        self.gridLayout_5.addWidget(self.label_27, 1, 1, 1, 1)
+
+        self.settingsTab.addTab(self.img2imgTab, "")
         self.loraTab = QWidget()
         self.loraTab.setObjectName(u"loraTab")
         self.loraTab.setAutoFillBackground(True)
@@ -346,116 +386,116 @@ class Ui_SettingsDialog(object):
 
         self.gridLayout_3.addWidget(self.line_7, 3, 3, 1, 1)
 
-        self.tabWidget.addTab(self.loraTab, "")
-        self.modelsSettingsTab = QWidget()
-        self.modelsSettingsTab.setObjectName(u"modelsSettingsTab")
-        self.modelsSettingsTab.setAutoFillBackground(True)
-        self.gridLayout_2 = QGridLayout(self.modelsSettingsTab)
+        self.settingsTab.addTab(self.loraTab, "")
+        self.modelsTab = QWidget()
+        self.modelsTab.setObjectName(u"modelsTab")
+        self.modelsTab.setAutoFillBackground(True)
+        self.gridLayout_2 = QGridLayout(self.modelsTab)
         self.gridLayout_2.setObjectName(u"gridLayout_2")
-        self.comfyuiModelFolderValue = QLineEdit(self.modelsSettingsTab)
+        self.comfyuiModelFolderValue = QLineEdit(self.modelsTab)
         self.comfyuiModelFolderValue.setObjectName(u"comfyuiModelFolderValue")
         self.comfyuiModelFolderValue.setReadOnly(True)
 
         self.gridLayout_2.addWidget(self.comfyuiModelFolderValue, 0, 1, 1, 1)
 
-        self.comfyuiModelFolderSelect = QToolButton(self.modelsSettingsTab)
+        self.comfyuiModelFolderSelect = QToolButton(self.modelsTab)
         self.comfyuiModelFolderSelect.setObjectName(u"comfyuiModelFolderSelect")
 
         self.gridLayout_2.addWidget(self.comfyuiModelFolderSelect, 0, 3, 1, 1)
 
-        self.line_5 = QFrame(self.modelsSettingsTab)
+        self.line_5 = QFrame(self.modelsTab)
         self.line_5.setObjectName(u"line_5")
         self.line_5.setFrameShape(QFrame.HLine)
         self.line_5.setFrameShadow(QFrame.Sunken)
 
         self.gridLayout_2.addWidget(self.line_5, 13, 1, 1, 1)
 
-        self.comfyuiExtraFolderSelect = QToolButton(self.modelsSettingsTab)
+        self.comfyuiExtraFolderSelect = QToolButton(self.modelsTab)
         self.comfyuiExtraFolderSelect.setObjectName(u"comfyuiExtraFolderSelect")
 
         self.gridLayout_2.addWidget(self.comfyuiExtraFolderSelect, 1, 3, 1, 1)
 
-        self.sdxlBaseCheckpointCombo = QComboBox(self.modelsSettingsTab)
+        self.sdxlBaseCheckpointCombo = QComboBox(self.modelsTab)
         self.sdxlBaseCheckpointCombo.setObjectName(u"sdxlBaseCheckpointCombo")
 
         self.gridLayout_2.addWidget(self.sdxlBaseCheckpointCombo, 11, 1, 1, 3)
 
-        self.sd12CheckpointCombo = QComboBox(self.modelsSettingsTab)
+        self.sd12CheckpointCombo = QComboBox(self.modelsTab)
         self.sd12CheckpointCombo.setObjectName(u"sd12CheckpointCombo")
 
         self.gridLayout_2.addWidget(self.sd12CheckpointCombo, 9, 1, 1, 3)
 
-        self.line_6 = QFrame(self.modelsSettingsTab)
+        self.line_6 = QFrame(self.modelsTab)
         self.line_6.setObjectName(u"line_6")
         self.line_6.setFrameShape(QFrame.HLine)
         self.line_6.setFrameShadow(QFrame.Sunken)
 
         self.gridLayout_2.addWidget(self.line_6, 8, 1, 1, 1)
 
-        self.label_19 = QLabel(self.modelsSettingsTab)
+        self.label_19 = QLabel(self.modelsTab)
         self.label_19.setObjectName(u"label_19")
 
         self.gridLayout_2.addWidget(self.label_19, 1, 0, 1, 1)
 
-        self.comfyuiExtraFolderValue = QLineEdit(self.modelsSettingsTab)
+        self.comfyuiExtraFolderValue = QLineEdit(self.modelsTab)
         self.comfyuiExtraFolderValue.setObjectName(u"comfyuiExtraFolderValue")
         self.comfyuiExtraFolderValue.setReadOnly(True)
 
         self.gridLayout_2.addWidget(self.comfyuiExtraFolderValue, 1, 1, 1, 1)
 
-        self.label_15 = QLabel(self.modelsSettingsTab)
+        self.label_15 = QLabel(self.modelsTab)
         self.label_15.setObjectName(u"label_15")
 
         self.gridLayout_2.addWidget(self.label_15, 0, 0, 1, 1)
 
-        self.label_12 = QLabel(self.modelsSettingsTab)
+        self.label_12 = QLabel(self.modelsTab)
         self.label_12.setObjectName(u"label_12")
 
         self.gridLayout_2.addWidget(self.label_12, 12, 0, 1, 1)
 
-        self.sdxlRefinerCheckpointCombo = QComboBox(self.modelsSettingsTab)
+        self.sdxlRefinerCheckpointCombo = QComboBox(self.modelsTab)
         self.sdxlRefinerCheckpointCombo.setObjectName(u"sdxlRefinerCheckpointCombo")
 
         self.gridLayout_2.addWidget(self.sdxlRefinerCheckpointCombo, 12, 1, 1, 3)
 
-        self.label_17 = QLabel(self.modelsSettingsTab)
+        self.label_17 = QLabel(self.modelsTab)
         self.label_17.setObjectName(u"label_17")
 
         self.gridLayout_2.addWidget(self.label_17, 14, 0, 1, 1)
 
-        self.label_8 = QLabel(self.modelsSettingsTab)
+        self.label_8 = QLabel(self.modelsTab)
         self.label_8.setObjectName(u"label_8")
 
         self.gridLayout_2.addWidget(self.label_8, 9, 0, 1, 1)
 
-        self.sd12VaeCombo = QComboBox(self.modelsSettingsTab)
+        self.sd12VaeCombo = QComboBox(self.modelsTab)
         self.sd12VaeCombo.setObjectName(u"sd12VaeCombo")
 
         self.gridLayout_2.addWidget(self.sd12VaeCombo, 14, 1, 1, 3)
 
-        self.sdxlVaeCombo = QComboBox(self.modelsSettingsTab)
+        self.sdxlVaeCombo = QComboBox(self.modelsTab)
         self.sdxlVaeCombo.setObjectName(u"sdxlVaeCombo")
 
         self.gridLayout_2.addWidget(self.sdxlVaeCombo, 15, 1, 1, 3)
 
-        self.label_18 = QLabel(self.modelsSettingsTab)
+        self.label_18 = QLabel(self.modelsTab)
         self.label_18.setObjectName(u"label_18")
 
         self.gridLayout_2.addWidget(self.label_18, 15, 0, 1, 1)
 
-        self.label_11 = QLabel(self.modelsSettingsTab)
+        self.label_11 = QLabel(self.modelsTab)
         self.label_11.setObjectName(u"label_11")
 
         self.gridLayout_2.addWidget(self.label_11, 11, 0, 1, 1)
 
-        self.reloadModelsButton = QPushButton(self.modelsSettingsTab)
+        self.reloadModelsButton = QPushButton(self.modelsTab)
         self.reloadModelsButton.setObjectName(u"reloadModelsButton")
 
         self.gridLayout_2.addWidget(self.reloadModelsButton, 2, 0, 1, 1)
 
-        self.tabWidget.addTab(self.modelsSettingsTab, "")
+        self.settingsTab.addTab(self.modelsTab, "")
 
-        self.gridLayout.addWidget(self.tabWidget, 0, 0, 1, 1)
+        self.gridLayout.addWidget(self.settingsTab, 1, 0, 1, 1)
 
         QWidget.setTabOrder(self.useExternalVaeCheck, self.imgWidthValue)
         QWidget.setTabOrder(self.imgWidthValue, self.imgHeightValue)
@@ -464,8 +504,7 @@ class Ui_SettingsDialog(object):
         QWidget.setTabOrder(self.iterationsValue, self.batchValue)
         QWidget.setTabOrder(self.batchValue, self.cfgValue)
         QWidget.setTabOrder(self.cfgValue, self.stepsValue)
-        QWidget.setTabOrder(self.stepsValue, self.tabWidget)
-        QWidget.setTabOrder(self.tabWidget, self.loraCheck)
+        QWidget.setTabOrder(self.stepsValue, self.loraCheck)
         QWidget.setTabOrder(self.loraCheck, self.sd12LoraCombo)
         QWidget.setTabOrder(self.sd12LoraCombo, self.sdxlLoraCombo)
         QWidget.setTabOrder(self.sdxlLoraCombo, self.loraStrengthSpin)
@@ -484,7 +523,7 @@ class Ui_SettingsDialog(object):
 
         self.retranslateUi(SettingsDialog)
 
-        self.tabWidget.setCurrentIndex(0)
+        self.settingsTab.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(SettingsDialog)
@@ -558,7 +597,7 @@ class Ui_SettingsDialog(object):
 #endif // QT_CONFIG(tooltip)
         self.label_10.setText(QCoreApplication.translate("SettingsDialog", u"Height:", None))
 #if QT_CONFIG(tooltip)
-        self.hiresFixCheck.setToolTip(QCoreApplication.translate("SettingsDialog", u"Enable hi-res fix (only for SD1/2 models)", None))
+        self.hiresFixCheck.setToolTip(QCoreApplication.translate("SettingsDialog", u"Enable hi-res fix", None))
 #endif // QT_CONFIG(tooltip)
         self.hiresFixCheck.setText(QCoreApplication.translate("SettingsDialog", u"Hi-res fix", None))
         self.label_9.setText(QCoreApplication.translate("SettingsDialog", u"Width:", None))
@@ -593,7 +632,21 @@ class Ui_SettingsDialog(object):
 #if QT_CONFIG(tooltip)
         self.clipSkipValue.setToolTip(QCoreApplication.translate("SettingsDialog", u"Set last layer of CLIP. -1 for normal", None))
 #endif // QT_CONFIG(tooltip)
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.settingsTab), QCoreApplication.translate("SettingsDialog", u"Parameters", None))
+        self.settingsTab.setTabText(self.settingsTab.indexOf(self.parametersTab), QCoreApplication.translate("SettingsDialog", u"Parameters", None))
+        self.label_26.setText(QCoreApplication.translate("SettingsDialog", u"Denoise strength:", None))
+#if QT_CONFIG(tooltip)
+        self.img2imgCheck.setToolTip(QCoreApplication.translate("SettingsDialog", u"Start with an image instead of empty latent noise", None))
+#endif // QT_CONFIG(tooltip)
+        self.img2imgCheck.setText(QCoreApplication.translate("SettingsDialog", u"Enable Image to Image", None))
+#if QT_CONFIG(tooltip)
+        self.img2imgLoadButton.setToolTip(QCoreApplication.translate("SettingsDialog", u"Load images from ComfyUI/input folder", None))
+#endif // QT_CONFIG(tooltip)
+        self.img2imgLoadButton.setText(QCoreApplication.translate("SettingsDialog", u"...", None))
+#if QT_CONFIG(tooltip)
+        self.img2imgDenoiseSpin.setToolTip(QCoreApplication.translate("SettingsDialog", u"Denoising strength. Higher value = less like starting image", None))
+#endif // QT_CONFIG(tooltip)
+        self.label_27.setText(QCoreApplication.translate("SettingsDialog", u"Load image:", None))
+        self.settingsTab.setTabText(self.settingsTab.indexOf(self.img2imgTab), QCoreApplication.translate("SettingsDialog", u"Image to Image", None))
 #if QT_CONFIG(tooltip)
         self.sdxlLoraCombo.setToolTip(QCoreApplication.translate("SettingsDialog", u"Select SDXL LoRA", None))
 #endif // QT_CONFIG(tooltip)
@@ -614,7 +667,7 @@ class Ui_SettingsDialog(object):
         self.loraStrengthSpin.setToolTip(QCoreApplication.translate("SettingsDialog", u"Select the model strength of the LoRA", None))
 #endif // QT_CONFIG(tooltip)
         self.label_22.setText(QCoreApplication.translate("SettingsDialog", u"SDXL LoRA:", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.loraTab), QCoreApplication.translate("SettingsDialog", u"LoRA", None))
+        self.settingsTab.setTabText(self.settingsTab.indexOf(self.loraTab), QCoreApplication.translate("SettingsDialog", u"LoRA", None))
 #if QT_CONFIG(tooltip)
         self.comfyuiModelFolderValue.setToolTip(QCoreApplication.translate("SettingsDialog", u"Path to the 'ComfyUI/models' folder", None))
 #endif // QT_CONFIG(tooltip)
@@ -657,6 +710,6 @@ class Ui_SettingsDialog(object):
         self.reloadModelsButton.setToolTip(QCoreApplication.translate("SettingsDialog", u"Reload models", None))
 #endif // QT_CONFIG(tooltip)
         self.reloadModelsButton.setText(QCoreApplication.translate("SettingsDialog", u"Reload", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.modelsSettingsTab), QCoreApplication.translate("SettingsDialog", u"Models", None))
+        self.settingsTab.setTabText(self.settingsTab.indexOf(self.modelsTab), QCoreApplication.translate("SettingsDialog", u"Models", None))
     # retranslateUi
 

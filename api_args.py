@@ -29,21 +29,18 @@ class ApiArgs:
             },
             "7": {
                 "inputs": {
-                    "add_noise": "enable",
-                    "noise_seed": img_gen_args["seed"],
+                    "seed": img_gen_args["seed"],
                     "steps": img_gen_args["steps"],
                     "cfg": img_gen_args["cfg"],
                     "sampler_name": img_gen_args["sampler_name"],
                     "scheduler": img_gen_args["scheduler"],
-                    "start_at_step": 0,
-                    "end_at_step": 10000,
-                    "return_with_leftover_noise": "disable",
+                    "denoise": 1.0,
                     "model": ["1", 0],
                     "positive": ["4", 0],
                     "negative": ["5", 0],
                     "latent_image": ["6", 0],
                 },
-                "class_type": "KSamplerAdvanced",
+                "class_type": "KSampler",
             },
             "10": {
                 "inputs": {"samples": ["7", 0], "vae": ["1", 2]},
@@ -166,6 +163,20 @@ class ApiArgs:
         }
         return node1, node2
 
+    def gen_img2img(self, img_gen_args):
+        LoadImage = {
+            "inputs": {
+                "image": img_gen_args["img2img_load"],
+                "choose file to upload": "image",
+            },
+            "class_type": "LoadImage",
+        }
+        VAEEncode = {
+            "inputs": {"pixels": ["80", 0], "vae": ["1", 0]},
+            "class_type": "VAEEncode",
+        }
+        return LoadImage, VAEEncode
+
     def generate_api_prompt(self, img_gen_args):
         api_prompt = self.gen_base(img_gen_args)
 
@@ -205,5 +216,15 @@ class ApiArgs:
             api_prompt["96"] = pos_clip
             api_prompt["97"] = neg_clip
             api_prompt["10"]["inputs"]["samples"][0] = "99"
+
+        if img_gen_args["img2img_load"]:
+            LoadImage, VAEEncode = self.gen_img2img(img_gen_args)
+            api_prompt["80"] = LoadImage
+            api_prompt["81"] = VAEEncode
+            api_prompt["7"]["inputs"]["latent_image"][0] = "81"
+            api_prompt["7"]["inputs"]["denoise"] = img_gen_args["img2img_denoise"]
+            if img_gen_args["external_vae"]:
+                api_prompt["81"]["inputs"]["vae"][0] = "2"
+                api_prompt["81"]["inputs"]["vae"][1] = 0
 
         return api_prompt

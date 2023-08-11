@@ -78,6 +78,7 @@ class SettingsWindow(QtWidgets.QWidget, Ui_SettingsDialog):
 
         self.comfyuiModelFolderSelect.clicked.connect(self.comfyui_model_folder_select)
         self.comfyuiExtraFolderSelect.clicked.connect(self.comfyui_extra_folder_select)
+        self.img2imgLoadButton.clicked.connect(self.img2img_load_images)
 
         self.saveSettingsButton.clicked.connect(self.save_settings)
         self.reloadModelsButton.clicked.connect(self.add_models)
@@ -221,12 +222,20 @@ class SettingsWindow(QtWidgets.QWidget, Ui_SettingsDialog):
         if model_folder:
             self.comfyuiModelFolderValue.setText(model_folder)
             self.add_models()
+
     # Browse for ComfyUI extra models folder
     def comfyui_extra_folder_select(self):
         extra_model_folder = self.get_directory_path("Select ComfyUI extra checkpoint directory")
         if extra_model_folder:
             self.comfyuiExtraFolderValue.setText(extra_model_folder)
             self.add_models()
+    
+    def img2img_load_images(self):
+        img_input_path=Path(self.comfyuiModelFolderValue.text())
+        img_input_path=img_input_path.parent
+        img2img_images = sorted([Path(img2img_image).name for extension in ("*.png", "*.jpg")for img2img_image in glob.glob(f"{img_input_path}/input/{extension}")])
+        self.img2imgLoadCombo.clear()
+        self.img2imgLoadCombo.addItems(img2img_images)
 
 class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -311,8 +320,10 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
         }
 
         img_gen_args["lora_strength"] = self.settings_win.loraStrengthSpin.value() if self.settings_win.loraCheck.isChecked() else None
-        img_gen_args["lora_clip_strength"] = self.settings_win.loraClipStrengthSpin.value() if self.settings_win.loraCheck.isChecked() else None
+        img_gen_args["lora_clip_strength"] = self.settings_win.loraClipStrengthSpin.value() if img_gen_args["lora_strength"] else None
         img_gen_args["upscale_model"] = self.settings_win.modelUpscaleCombo.currentText() if self.settings_win.modelUpscaleCheck.isChecked() else None
+        img_gen_args["img2img_load"] = self.settings_win.img2imgLoad.text() if self.settings_win.img2imgCheck.isChecked() else None
+        img_gen_args["img2img_denoise"] = self.settings_win.img2imgDenoiseSpin.value() if img_gen_args["img2img_load"] else None
 
         if self.settings_win.modeSelectCombo.currentText() == "SDXL":
             img_gen_args["sdxl_refiner_ckpt"] = self.settings_win.sdxlRefinerCheckpointCombo.currentText() if self.settings_win.sdxlRefinerCheck.isChecked() else None
