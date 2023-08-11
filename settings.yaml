@@ -1,33 +1,33 @@
 checkpoints:
-  comfy_model_folder: D:/LLaMA/ComfyUI_windows_portable/ComfyUI/models
-  comfy_vae_folder: C:/Users/davey/Software/stable-stuff/stable-diffusion-webui/models/Stable-diffusion
-  sd12: photon_v1.safetensors
-  sd12_vae: vae-ft-mse-840000-ema-pruned.ckpt
-  sdxl_base: realart.safetensors
-  sdxl_refiner: sd_xl_refiner_1.0_0.9vae.safetensors
-  sdxl_vae: sdxl_vae.safetensors
-  upscale_model: 2xLexicaSwinIR.pth
-  use_ex_vae: true
+  comfy_model_folder: 
+  comfy_vae_folder: 
+  sd12: 
+  sd12_vae: 
+  sdxl_base: 
+  sdxl_refiner: 
+  sdxl_vae: 
+  upscale_model: 
+  use_ex_vae: false
 lora:
   clip_strength: 1.0
   model_strength: 1.0
-  sd12: dark_style.safetensors
-  sdxl: DetailedEyes_xl_V2.safetensors
+  sd12: 
+  sdxl: 
   use: false
 parameters:
-  batch_size: 2
+  batch_size: 1
   cfg: 8
-  height: 704
+  height: 1024
   hrf_check: false
   hrf_scaleby: 1.4
   hrf_steps: 12
   iterations: 1
-  mode: Stable Diffusion 1/2
+  mode: SDXL
   model_upscale: false
   sampler: dpmpp_2m
   scheduler: karras
   sdxl_refiner: false
   sdxl_refiner_steps: 5
-  seed: 626
+  seed: -1
   steps: 20
-  width: 704
+  width: 1024
