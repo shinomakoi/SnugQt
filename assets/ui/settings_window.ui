@@ -325,7 +325,7 @@
        <item row="41" column="0">
         <widget class="QCheckBox" name="hiresFixCheck">
          <property name="toolTip">
-          <string>Enable hi-res fix (only for SD1/2 models)</string>
+          <string>Enable hi-res fix</string>
          </property>
          <property name="text">
           <string>Hi-res fix</string>

@@ -115,6 +115,7 @@ class SettingsWindow(QtWidgets.QWidget, Ui_SettingsDialog):
             self.iterationsValue.setValue(data["parameters"]["iterations"])
             self.cfgValue.setValue(data["parameters"]["cfg"])
             self.stepsValue.setValue(data["parameters"]["steps"])
+            self.sdxlRefinerCheck.setChecked(data["parameters"]["sdxl_refiner"])
             self.sdxlRefinerStepsValue.setValue(
                 data["parameters"]["sdxl_refiner_steps"]
             )
@@ -160,9 +161,8 @@ class SettingsWindow(QtWidgets.QWidget, Ui_SettingsDialog):
             data["parameters"]["iterations"] = self.iterationsValue.value()
             data["parameters"]["cfg"] = self.cfgValue.value()
             data["parameters"]["steps"] = self.stepsValue.value()
-            data["parameters"][
-                "sdxl_refiner_steps"
-            ] = self.sdxlRefinerStepsValue.value()
+            data["parameters"]["sdxl_refiner"] = self.sdxlRefinerCheck.isChecked()
+            data["parameters"]["sdxl_refiner_steps"] = self.sdxlRefinerStepsValue.value()
             data["parameters"]["sampler"] = self.samplerValue.currentText()
             data["parameters"]["scheduler"] = self.schedulerValue.currentText()
             # Hi-res fix
@@ -206,10 +206,10 @@ class SettingsWindow(QtWidgets.QWidget, Ui_SettingsDialog):
         print('--- Added LoRAs:', loras)
 
         # Add upscale models
-        upscale_models = sorted([Path(upscale_model).name for extension in ("*.pth", "*.safetensors")for upscale_model in glob.glob(f"{self.comfyuiModelFolderValue.text()}/upscale_models/{extension}")])
+        upscale_models = sorted([Path(upscale_model).name for extension in ("*.pth", "*.onxx")for upscale_model in glob.glob(f"{self.comfyuiModelFolderValue.text()}/upscale_models/{extension}")])
         self.modelUpscaleCombo.clear()
         self.modelUpscaleCombo.addItems(upscale_models)
-        print('--- Added LoRAs:', loras)
+        print('--- Added upscale models:', upscale_models)
 
     # Browse for ComfyUI model folder
     def comfyui_model_folder_select(self):
