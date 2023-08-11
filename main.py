@@ -94,7 +94,7 @@ class SettingsWindow(QtWidgets.QWidget, Ui_SettingsDialog):
             self.comfyuiModelFolderValue.setText(
                 data["checkpoints"]["comfy_model_folder"]
             )
-            self.comfyuiExtraFolderValue.setText(data["checkpoints"]["comfy_vae_folder"])
+            self.comfyuiExtraFolderValue.setText(data["checkpoints"]["comfy_extra_model_folder"])
             self.add_models()
 
             self.sd12CheckpointCombo.setCurrentText(data["checkpoints"]["sd12"])
@@ -143,7 +143,7 @@ class SettingsWindow(QtWidgets.QWidget, Ui_SettingsDialog):
                 "comfy_model_folder"
             ] = self.comfyuiModelFolderValue.text()
             data["checkpoints"][
-                "comfy_vae_folder"
+                "comfy_extra_model_folder"
             ] = self.comfyuiExtraFolderValue.text()
             data["checkpoints"]["sd12"] = self.sd12CheckpointCombo.currentText()
             data["checkpoints"][

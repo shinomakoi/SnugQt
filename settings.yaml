@@ -1,6 +1,6 @@
 checkpoints:
   comfy_model_folder: 
-  comfy_vae_folder: 
+  comfy_extra_model_folder: 
   sd12: 
   sd12_vae: 
   sdxl_base: 
