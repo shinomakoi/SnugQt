@@ -205,6 +205,12 @@ class SettingsWindow(QtWidgets.QWidget, Ui_SettingsDialog):
             combo.addItems(loras)
         print('--- Added LoRAs:', loras)
 
+        # Add upscale models
+        upscale_models = sorted([Path(upscale_model).name for extension in ("*.pth", "*.safetensors")for upscale_model in glob.glob(f"{self.comfyuiModelFolderValue.text()}/upscale_models/{extension}")])
+        self.modelUpscaleCombo.clear()
+        self.modelUpscaleCombo.addItems(upscale_models)
+        print('--- Added LoRAs:', loras)
+
     # Browse for ComfyUI model folder
     def comfyui_model_folder_select(self):
         model_folder = self.get_directory_path("Select ComfyUI model directory")
@@ -242,7 +248,12 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.promptHistoryCombo.textActivated.connect(self.prompt_history_set)
         self.negPromptHistoryCombo.textActivated.connect(self.neg_prompt_history_set)
         print('--- App started')
-        # self.settings_win.show()
+        self.settings_win.show()
+
+    def closeEvent(self, event):
+        # close the child window when the parent window is closed
+        self.settings_win.close()
+        event.accept()
 
     # Cycle through the images in the image list
     def cycle_images(self, mode):
@@ -258,12 +269,28 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
             image_display_index = self.image_index + 1
             self.imgDisplayIndex.setText(f"Image {image_display_index}/{image_count}")
 
-    #Process the prompt and generate the image generation arguments
+    #P rocess the prompt and generate the image generation arguments
     def process_prompt(self):
+        
+        # Use a dictionary to map the mode to the corresponding checkpoint and vae combo boxes
+        mode_combo = {
+            "Stable Diffusion 1/2": (self.settings_win.sd12CheckpointCombo, self.settings_win.sd12VaeCombo, self.settings_win.sd12LoraCombo),
+            "SDXL": (self.settings_win.sdxlBaseCheckpointCombo, self.settings_win.sdxlVaeCombo, self.settings_win.sdxlLoraCombo)
+        }
+        ckpt_name = mode_combo[self.settings_win.modeSelectCombo.currentText()][0].currentText()
+        external_vae = mode_combo[self.settings_win.modeSelectCombo.currentText()][1].currentText() if self.settings_win.useExternalVaeCheck.isChecked() else None
+        lora = mode_combo[self.settings_win.modeSelectCombo.currentText()][2].currentText() if self.settings_win.loraCheck.isChecked() else None
+
         # Get the seed value from the settings window or generate a random one using a conditional expression
         seed = self.settings_win.seedValue.value() if self.settings_win.seedValue.value() != -1 else "random"
+
         # Create a dictionary of image generation arguments with the values from the prompt and settings window using f-strings and str() where needed
         img_gen_args = {
+            "ckpt_name": ckpt_name,
+            "hiresfix_scale_by": self.settings_win.hiresfixScaleByValue.value() if self.settings_win.hiresFixCheck.isChecked() else None,
+            "hiresfix_steps": self.settings_win.hiresfixStepsValue.value() if self.settings_win.hiresFixCheck.isChecked() else None,
+            "external_vae": external_vae,
+            "lora": lora,
             "pos_prompt": self.promptLine.toPlainText(),
             "neg_prompt": self.negPromptLine.toPlainText(),
             "batch_size": self.settings_win.batchValue.value(),
@@ -276,43 +303,20 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
             "height": self.settings_win.imgHeightValue.value(),
             "cfg": self.settings_win.cfgValue.value(),
             "iterations": self.settings_win.iterationsValue.value(),
+            "clip_skip": self.settings_win.clipSkipValue.value(),
         }
-
-        # Get the preset text from the settings window
-        preset_text = self.settings_win.modeSelectCombo.currentText()
-        # Set the img_gen_preset and the checkpoint arguments based on the preset text using a dictionary of presets and a loop
-        presets = {
-            "Stable Diffusion 1/2": {
-                "img_gen_preset": "sd12",
-                "sd12_ckpt": self.settings_win.sd12CheckpointCombo.currentText(),
-                "hiresfix_scale_by": self.settings_win.hiresfixScaleByValue.text() if self.settings_win.hiresFixCheck.isChecked() else None,
-                "hiresfix_steps": self.settings_win.hiresfixStepsValue.text() if self.settings_win.hiresFixCheck.isChecked() else None,
-                "sd12_vae": self.settings_win.sd12VaeCombo.currentText() if self.settings_win.useExternalVaeCheck.isChecked() else None,
-                "sd12_lora": self.settings_win.sd12LoraCombo.currentText() if self.settings_win.loraCheck.isChecked() else None,
-            },
-            "SDXL": {
-                "img_gen_preset": "sdxl_base",
-                "sdxl_base_ckpt": self.settings_win.sdxlBaseCheckpointCombo.currentText(),
-                "sdxl_vae": self.settings_win.sdxlVaeCombo.currentText() if self.settings_win.useExternalVaeCheck.isChecked() else None,
-                "sdxl_lora": self.settings_win.sdxlLoraCombo.currentText() if self.settings_win.loraCheck.isChecked() else None,
-            },
-            "SDXL + Refiner": {
-                "img_gen_preset": "sdxl_base_refiner",
-                "sdxl_base_ckpt": self.settings_win.sdxlBaseCheckpointCombo.currentText(),
-                "sdxl_refiner_ckpt": self.settings_win.sdxlRefinerCheckpointCombo.currentText(),
-                "sdxl_refiner_steps": self.settings_win.sdxlRefinerStepsValue.text(),
-                "sdxl_vae": self.settings_win.sdxlVaeCombo.currentText() if self.settings_win.useExternalVaeCheck.isChecked() else None,
-                "sdxl_lora": self.settings_win.sdxlLoraCombo.currentText() if self.settings_win.loraCheck.isChecked() else None,
-            }
-        }
-        for key, value in presets[preset_text].items():
-            img_gen_args[key] = value
 
         img_gen_args["lora_strength"] = self.settings_win.loraStrengthSpin.value() if self.settings_win.loraCheck.isChecked() else None
         img_gen_args["lora_clip_strength"] = self.settings_win.loraClipStrengthSpin.value() if self.settings_win.loraCheck.isChecked() else None
+        img_gen_args["upscale_model"] = self.settings_win.modelUpscaleCombo.currentText() if self.settings_win.modelUpscaleCheck.isChecked() else None
+
+        if self.settings_win.modeSelectCombo.currentText() == "SDXL":
+            img_gen_args["sdxl_refiner_ckpt"] = self.settings_win.sdxlRefinerCheckpointCombo.currentText() if self.settings_win.sdxlRefinerCheck.isChecked() else None
+            img_gen_args["sdxl_refiner_steps"] = self.settings_win.sdxlRefinerStepsValue.text()
+        else:
+            img_gen_args["sdxl_refiner_ckpt"] = None
 
         return img_gen_args
-
     
     # Start a thread to load the model asynchronously
     def launch_thread(self):

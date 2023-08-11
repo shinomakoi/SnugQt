@@ -70,30 +70,15 @@ class ws_generate:
 
         return output_images
 
-    ### Get args from api_args.py
-    def sd12_preset(self, img_gen_args):
+    # Get args from api_args.py
+    def sd_preset(self, img_gen_args):
         api_args = ApiArgs()
-        prompt = api_args.sd12(img_gen_args)
+        prompt = api_args.generate_api_prompt(img_gen_args)
         return prompt
-
-    def sdxl_base_preset(self, img_gen_args):
-        api_args = ApiArgs()
-        prompt = api_args.sdxl_base(img_gen_args)
-        return prompt
-
-    def sdxl_base_refiner_preset(self, img_gen_args):
-        api_args = ApiArgs()
-        prompt = api_args.sdxl_base_refiner(img_gen_args)
-        return prompt
-
+    
+    # Generate the final image based on the image generation arguments."""
     def img_gen_final(self, img_gen_args):
-        """Generate the final image based on the image generation arguments."""
-        if img_gen_args["img_gen_preset"] == "sd12":
-            prompt = self.sd12_preset(img_gen_args)
-        elif img_gen_args["img_gen_preset"] == "sdxl_base":
-            prompt = self.sdxl_base_preset(img_gen_args)
-        elif img_gen_args["img_gen_preset"] == "sdxl_base_refiner":
-            prompt = self.sdxl_base_refiner_preset(img_gen_args)
+        prompt = self.sd_preset(img_gen_args)
 
         ws = websocket.WebSocket()
         ws.connect(f"ws://{self.server_address}/ws?clientId={self.client_id}")
