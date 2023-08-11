@@ -6,6 +6,7 @@ checkpoints:
   sdxl_base: 
   sdxl_refiner: 
   sdxl_vae: 
+  upscale_model: 
   use_ex_vae: false
 lora:
   clip_strength: 1.0
@@ -22,6 +23,7 @@ parameters:
   hrf_steps: 12
   iterations: 1
   mode: SDXL
+  model_upscale: false
   sampler: dpmpp_2m
   scheduler: karras
   sdxl_refiner: false

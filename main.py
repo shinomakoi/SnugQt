@@ -106,6 +106,7 @@ class SettingsWindow(QtWidgets.QWidget, Ui_SettingsDialog):
             self.sd12VaeCombo.setCurrentText(data["checkpoints"]["sd12_vae"])
             self.sdxlVaeCombo.setCurrentText(data["checkpoints"]["sdxl_vae"])
             self.useExternalVaeCheck.setChecked(data["checkpoints"]["use_ex_vae"])
+            self.modelUpscaleCombo.setCurrentText(data["checkpoints"]["upscale_model"])
             # Parameters
             self.modeSelectCombo.setCurrentText(data["parameters"]["mode"])
             self.imgWidthValue.setValue(data["parameters"]["width"])
@@ -121,6 +122,7 @@ class SettingsWindow(QtWidgets.QWidget, Ui_SettingsDialog):
             )
             self.samplerValue.setCurrentText(data["parameters"]["sampler"])
             self.schedulerValue.setCurrentText(data["parameters"]["scheduler"])
+            self.modelUpscaleCheck.setChecked(data["parameters"]["model_upscale"])
             # Hi-res fix
             self.hiresFixCheck.setChecked(data["parameters"]["hrf_check"])
             self.hiresfixScaleByValue.setValue(data["parameters"]["hrf_scaleby"])
@@ -152,7 +154,8 @@ class SettingsWindow(QtWidgets.QWidget, Ui_SettingsDialog):
             data["checkpoints"]["sd12_vae"] = self.sd12VaeCombo.currentText()
             data["checkpoints"]["sdxl_vae"] = self.sdxlVaeCombo.currentText()
             data["checkpoints"]["use_ex_vae"] = self.useExternalVaeCheck.isChecked()
-
+            data["checkpoints"]["upscale_model"] = self.modelUpscaleCombo.currentText()
+            # Parameters
             data["parameters"]["mode"] = self.modeSelectCombo.currentText()
             data["parameters"]["width"] = self.imgWidthValue.value()
             data["parameters"]["height"] = self.imgHeightValue.value()
@@ -165,6 +168,7 @@ class SettingsWindow(QtWidgets.QWidget, Ui_SettingsDialog):
             data["parameters"]["sdxl_refiner_steps"] = self.sdxlRefinerStepsValue.value()
             data["parameters"]["sampler"] = self.samplerValue.currentText()
             data["parameters"]["scheduler"] = self.schedulerValue.currentText()
+            data["parameters"]["model_upscale"] = self.modelUpscaleCheck.isChecked()
             # Hi-res fix
             data["parameters"]["hrf_check"] = self.hiresFixCheck.isChecked()
             data["parameters"]["hrf_scaleby"] = self.hiresfixScaleByValue.value()
