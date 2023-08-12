@@ -288,16 +288,26 @@ class Ui_SettingsDialog(object):
         self.img2imgTab.setAutoFillBackground(True)
         self.gridLayout_5 = QGridLayout(self.img2imgTab)
         self.gridLayout_5.setObjectName(u"gridLayout_5")
+        self.img2imgLoadCombo = QComboBox(self.img2imgTab)
+        self.img2imgLoadCombo.setObjectName(u"img2imgLoadCombo")
+
+        self.gridLayout_5.addWidget(self.img2imgLoadCombo, 1, 2, 1, 1)
+
+        self.label_26 = QLabel(self.img2imgTab)
+        self.label_26.setObjectName(u"label_26")
+
+        self.gridLayout_5.addWidget(self.label_26, 2, 1, 1, 1)
+
         self.img2imgLoadButton = QToolButton(self.img2imgTab)
         self.img2imgLoadButton.setObjectName(u"img2imgLoadButton")
         self.img2imgLoadButton.setArrowType(Qt.RightArrow)
 
-        self.gridLayout_5.addWidget(self.img2imgLoadButton, 6, 4, 1, 1)
+        self.gridLayout_5.addWidget(self.img2imgLoadButton, 1, 4, 1, 1)
 
-        self.inpaintMaskEditorButton = QPushButton(self.img2imgTab)
-        self.inpaintMaskEditorButton.setObjectName(u"inpaintMaskEditorButton")
+        self.label_27 = QLabel(self.img2imgTab)
+        self.label_27.setObjectName(u"label_27")
 
-        self.gridLayout_5.addWidget(self.inpaintMaskEditorButton, 2, 1, 1, 2)
+        self.gridLayout_5.addWidget(self.label_27, 1, 1, 1, 1)
 
         self.img2imgDenoiseSpin = QDoubleSpinBox(self.img2imgTab)
         self.img2imgDenoiseSpin.setObjectName(u"img2imgDenoiseSpin")
@@ -305,46 +315,17 @@ class Ui_SettingsDialog(object):
         self.img2imgDenoiseSpin.setSingleStep(0.050000000000000)
         self.img2imgDenoiseSpin.setValue(0.700000000000000)
 
-        self.gridLayout_5.addWidget(self.img2imgDenoiseSpin, 7, 2, 1, 1)
-
-        self.img2imgLoadCombo = QComboBox(self.img2imgTab)
-        self.img2imgLoadCombo.setObjectName(u"img2imgLoadCombo")
-
-        self.gridLayout_5.addWidget(self.img2imgLoadCombo, 6, 2, 1, 1)
-
-        self.inpaintingRadio = QRadioButton(self.img2imgTab)
-        self.inpaintingRadio.setObjectName(u"inpaintingRadio")
-        self.inpaintingRadio.setChecked(False)
-
-        self.gridLayout_5.addWidget(self.inpaintingRadio, 1, 2, 1, 1)
+        self.gridLayout_5.addWidget(self.img2imgDenoiseSpin, 2, 2, 1, 1)
 
         self.img2imgRadio = QRadioButton(self.img2imgTab)
         self.img2imgRadio.setObjectName(u"img2imgRadio")
-        self.img2imgRadio.setChecked(True)
 
-        self.gridLayout_5.addWidget(self.img2imgRadio, 1, 1, 1, 1)
+        self.gridLayout_5.addWidget(self.img2imgRadio, 0, 1, 1, 1)
 
-        self.img2imgInpaintingCheck = QCheckBox(self.img2imgTab)
-        self.img2imgInpaintingCheck.setObjectName(u"img2imgInpaintingCheck")
+        self.inpaintingRadio = QRadioButton(self.img2imgTab)
+        self.inpaintingRadio.setObjectName(u"inpaintingRadio")
 
-        self.gridLayout_5.addWidget(self.img2imgInpaintingCheck, 0, 1, 1, 1)
-
-        self.line = QFrame(self.img2imgTab)
-        self.line.setObjectName(u"line")
-        self.line.setFrameShape(QFrame.HLine)
-        self.line.setFrameShadow(QFrame.Sunken)
-
-        self.gridLayout_5.addWidget(self.line, 3, 1, 1, 2)
-
-        self.label_26 = QLabel(self.img2imgTab)
-        self.label_26.setObjectName(u"label_26")
-
-        self.gridLayout_5.addWidget(self.label_26, 7, 1, 1, 1)
-
-        self.label_27 = QLabel(self.img2imgTab)
-        self.label_27.setObjectName(u"label_27")
-
-        self.gridLayout_5.addWidget(self.label_27, 6, 1, 1, 1)
+        self.gridLayout_5.addWidget(self.inpaintingRadio, 0, 2, 1, 1)
 
         self.settingsTab.addTab(self.img2imgTab, "")
         self.loraTab = QWidget()
@@ -558,7 +539,7 @@ class Ui_SettingsDialog(object):
 #if QT_CONFIG(tooltip)
         self.saveSettingsButton.setToolTip(QCoreApplication.translate("SettingsDialog", u"Save the current settings", None))
 #endif // QT_CONFIG(tooltip)
-        self.saveSettingsButton.setText(QCoreApplication.translate("SettingsDialog", u"Save settings to file", None))
+        self.saveSettingsButton.setText(QCoreApplication.translate("SettingsDialog", u"Save settings", None))
         self.label_20.setText(QCoreApplication.translate("SettingsDialog", u"Iterations:", None))
         self.label_16.setText(QCoreApplication.translate("SettingsDialog", u"SDXL refiner steps:", None))
         self.label_5.setText(QCoreApplication.translate("SettingsDialog", u"Sampler:", None))
@@ -658,34 +639,23 @@ class Ui_SettingsDialog(object):
 #endif // QT_CONFIG(tooltip)
         self.settingsTab.setTabText(self.settingsTab.indexOf(self.parametersTab), QCoreApplication.translate("SettingsDialog", u"Parameters", None))
 #if QT_CONFIG(tooltip)
+        self.img2imgLoadCombo.setToolTip(QCoreApplication.translate("SettingsDialog", u"Select image to use (from 'ComfyUI/input' folder)", None))
+#endif // QT_CONFIG(tooltip)
+        self.label_26.setText(QCoreApplication.translate("SettingsDialog", u"Denoise strength:", None))
+#if QT_CONFIG(tooltip)
         self.img2imgLoadButton.setToolTip(QCoreApplication.translate("SettingsDialog", u"Load images from 'ComfyUI/input' folder", None))
 #endif // QT_CONFIG(tooltip)
         self.img2imgLoadButton.setText(QCoreApplication.translate("SettingsDialog", u"...", None))
-#if QT_CONFIG(tooltip)
-        self.inpaintMaskEditorButton.setToolTip(QCoreApplication.translate("SettingsDialog", u"Open editor to create a masked image for inpainting", None))
-#endif // QT_CONFIG(tooltip)
-        self.inpaintMaskEditorButton.setText(QCoreApplication.translate("SettingsDialog", u"Inpaint mask editor", None))
+        self.label_27.setText(QCoreApplication.translate("SettingsDialog", u"Image:", None))
 #if QT_CONFIG(tooltip)
         self.img2imgDenoiseSpin.setToolTip(QCoreApplication.translate("SettingsDialog", u"Denoising strength. Higher value = less like starting image", None))
 #endif // QT_CONFIG(tooltip)
 #if QT_CONFIG(tooltip)
-        self.img2imgLoadCombo.setToolTip(QCoreApplication.translate("SettingsDialog", u"Select image to use (from 'ComfyUI/input' folder)", None))
-#endif // QT_CONFIG(tooltip)
-#if QT_CONFIG(tooltip)
-        self.inpaintingRadio.setToolTip(QCoreApplication.translate("SettingsDialog", u"Start with a masked image for inpainting", None))
-#endif // QT_CONFIG(tooltip)
-        self.inpaintingRadio.setText(QCoreApplication.translate("SettingsDialog", u"Mode: inpainting", None))
-#if QT_CONFIG(tooltip)
         self.img2imgRadio.setToolTip(QCoreApplication.translate("SettingsDialog", u"Start with an image instead of empty latent noise", None))
 #endif // QT_CONFIG(tooltip)
-        self.img2imgRadio.setText(QCoreApplication.translate("SettingsDialog", u"Mode: img2img", None))
-#if QT_CONFIG(tooltip)
-        self.img2imgInpaintingCheck.setToolTip(QCoreApplication.translate("SettingsDialog", u"Enable a starting image", None))
-#endif // QT_CONFIG(tooltip)
-        self.img2imgInpaintingCheck.setText(QCoreApplication.translate("SettingsDialog", u"Enable", None))
-        self.label_26.setText(QCoreApplication.translate("SettingsDialog", u"Denoise strength:", None))
-        self.label_27.setText(QCoreApplication.translate("SettingsDialog", u"Image:", None))
-        self.settingsTab.setTabText(self.settingsTab.indexOf(self.img2imgTab), QCoreApplication.translate("SettingsDialog", u"img2img / Inpainting", None))
+        self.img2imgRadio.setText(QCoreApplication.translate("SettingsDialog", u"Enable Image to Image", None))
+        self.inpaintingRadio.setText(QCoreApplication.translate("SettingsDialog", u"Enable inpainting", None))
+        self.settingsTab.setTabText(self.settingsTab.indexOf(self.img2imgTab), QCoreApplication.translate("SettingsDialog", u"Image to Image", None))
 #if QT_CONFIG(tooltip)
         self.sdxlLoraCombo.setToolTip(QCoreApplication.translate("SettingsDialog", u"Select SDXL LoRA", None))
 #endif // QT_CONFIG(tooltip)

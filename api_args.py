@@ -177,6 +177,25 @@ class ApiArgs:
         }
         return LoadImage, VAEEncode
 
+    def gen_inpainting(self, img_gen_args):
+        LoadImage = {
+            "inputs": {
+                "image": str(img_gen_args["inpainting_load"]),
+                "choose file to upload": "image",
+            },
+            "class_type": "LoadImage",
+        }
+        VAEEncode = {
+            "inputs": {
+                "grow_mask_by": 6,
+                "pixels": ["80", 0],
+                "vae": ["1", 2],
+                "mask": ["80", 1],
+            },
+            "class_type": "VAEEncodeForInpaint",
+        }
+        return LoadImage, VAEEncode
+
     def generate_api_prompt(self, img_gen_args):
         api_prompt = self.gen_base(img_gen_args)
 
@@ -219,6 +238,16 @@ class ApiArgs:
 
         if img_gen_args["img2img_load"]:
             LoadImage, VAEEncode = self.gen_img2img(img_gen_args)
+            api_prompt["80"] = LoadImage
+            api_prompt["81"] = VAEEncode
+            api_prompt["7"]["inputs"]["latent_image"][0] = "81"
+            api_prompt["7"]["inputs"]["denoise"] = img_gen_args["img2img_denoise"]
+            if img_gen_args["external_vae"]:
+                api_prompt["81"]["inputs"]["vae"][0] = "2"
+                api_prompt["81"]["inputs"]["vae"][1] = 0
+
+        if img_gen_args["inpainting_load"]:
+            LoadImage, VAEEncode = self.gen_inpainting(img_gen_args)
             api_prompt["80"] = LoadImage
             api_prompt["81"] = VAEEncode
             api_prompt["7"]["inputs"]["latent_image"][0] = "81"

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1227</width>
+    <width>1174</width>
     <height>1152</height>
    </rect>
   </property>
@@ -15,68 +15,13 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0" colspan="4">
-     <widget class="QScrollArea" name="scrollArea">
-      <property name="widgetResizable">
-       <bool>true</bool>
-      </property>
-      <widget class="QWidget" name="scrollAreaWidgetContents">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>1207</width>
-         <height>957</height>
-        </rect>
-       </property>
-       <layout class="QGridLayout" name="gridLayout_3">
-        <item row="0" column="0">
-         <widget class="QLabel" name="imgLabel">
-          <property name="text">
-           <string>Image display</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-          <property name="wordWrap">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-     </widget>
-    </item>
-    <item row="2" column="1" rowspan="2">
-     <widget class="QPlainTextEdit" name="negPromptLine">
+    <item row="1" column="2" colspan="2" alignment="Qt::AlignHCenter">
+     <widget class="QLabel" name="imgDisplayIndex">
       <property name="toolTip">
-       <string>Enter negative prompt here</string>
-      </property>
-      <property name="plainText">
-       <string>ugly, bad quality, worst quality, frame, text, watermark</string>
-      </property>
-      <property name="placeholderText">
-       <string>Negative prompt</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="3">
-     <widget class="QPushButton" name="nextImgButton">
-      <property name="toolTip">
-       <string>Next image</string>
+       <string>Image index</string>
       </property>
       <property name="text">
-       <string>&gt;</string>
-      </property>
-      <property name="shortcut">
-       <string>Right</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0">
-     <widget class="QComboBox" name="promptHistoryCombo">
-      <property name="toolTip">
-       <string>Prompt history</string>
+       <string>----</string>
       </property>
      </widget>
     </item>
@@ -90,26 +35,6 @@
       </property>
       <property name="placeholderText">
        <string>Prompt</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="2">
-     <widget class="QPushButton" name="previousImgButton">
-      <property name="toolTip">
-       <string>Previous image</string>
-      </property>
-      <property name="text">
-       <string>&lt;</string>
-      </property>
-      <property name="shortcut">
-       <string>Left</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QComboBox" name="negPromptHistoryCombo">
-      <property name="toolTip">
-       <string>Negative prompt history</string>
       </property>
      </widget>
     </item>
@@ -137,13 +62,88 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="2" colspan="2" alignment="Qt::AlignHCenter">
-     <widget class="QLabel" name="imgDisplayIndex">
+    <item row="2" column="2">
+     <widget class="QPushButton" name="previousImgButton">
       <property name="toolTip">
-       <string>Image index</string>
+       <string>Previous image</string>
       </property>
       <property name="text">
-       <string>----</string>
+       <string>&lt;</string>
+      </property>
+      <property name="shortcut">
+       <string>Left</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QComboBox" name="negPromptHistoryCombo">
+      <property name="toolTip">
+       <string>Negative prompt history</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1" rowspan="2">
+     <widget class="QPlainTextEdit" name="negPromptLine">
+      <property name="toolTip">
+       <string>Enter negative prompt here</string>
+      </property>
+      <property name="plainText">
+       <string>ugly, bad quality, worst quality, frame, text, watermark</string>
+      </property>
+      <property name="placeholderText">
+       <string>Negative prompt</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QComboBox" name="promptHistoryCombo">
+      <property name="toolTip">
+       <string>Prompt history</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0" colspan="4">
+     <widget class="QScrollArea" name="scrollArea">
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="scrollAreaWidgetContents">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>1154</width>
+         <height>957</height>
+        </rect>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_3">
+        <item row="0" column="0">
+         <widget class="QLabel" name="imgLabel">
+          <property name="text">
+           <string>Image display</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="wordWrap">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+    <item row="2" column="3">
+     <widget class="QPushButton" name="nextImgButton">
+      <property name="toolTip">
+       <string>Next image</string>
+      </property>
+      <property name="text">
+       <string>&gt;</string>
+      </property>
+      <property name="shortcut">
+       <string>Right</string>
       </property>
      </widget>
     </item>
@@ -154,7 +154,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1227</width>
+     <width>1174</width>
      <height>23</height>
     </rect>
    </property>
@@ -163,6 +163,7 @@
      <string>File</string>
     </property>
     <addaction name="actionSettings"/>
+    <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
@@ -188,6 +189,11 @@
   <action name="actionAbout">
    <property name="text">
     <string>About</string>
+   </property>
+  </action>
+  <action name="actionInpaint">
+   <property name="text">
+    <string>Inpaint</string>
    </property>
   </action>
  </widget>

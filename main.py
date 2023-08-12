@@ -12,11 +12,13 @@ from PySide6.QtWidgets import QApplication, QFileDialog
 from qt_material import apply_stylesheet
 
 from comfy_api_fetch import ws_generate
+from inpaint_window import InpaintMaskEditor
 from main_window import Ui_MainWindow
 from settings_window import Ui_SettingsDialog
 
 SETTINGS_FILE = Path("settings.yaml")
 APP_ICON = Path("assets/appicon.png")
+
 
 class RunAPI(QThread):
     final_resultReady = Signal(list, bool)
@@ -82,7 +84,23 @@ class SettingsWindow(QtWidgets.QWidget, Ui_SettingsDialog):
 
         self.saveSettingsButton.clicked.connect(self.save_settings)
         self.reloadModelsButton.clicked.connect(self.add_models)
+        self.inpaintMaskEditorButton.clicked.connect(self.inpaint)
+
         self.load_settings()
+        self.comfyui_folder = Path(self.comfyuiModelFolderValue.text()).parent
+        self.img2img_load_images()
+
+    def inpaint(self):
+        if self.img2imgLoadCombo.currentText():
+            img_input_path = Path(f"{self.comfyui_folder}/input/{self.img2imgLoadCombo.currentText()}")
+            img_mask_path = Path(f"{self.comfyui_folder}/input/snugqt_mask.png")
+            if QImage(img_input_path).height() > 0:
+                self.inpaint_mode = InpaintMaskEditor(str(img_input_path), img_mask_path)
+                self.inpaint_mode.show()
+            else:
+                print('--- Error: Invalid image')
+        else:
+            print('--- Error: Invalid image')
 
     def get_directory_path(self, title):
         directory_path = str(QFileDialog.getExistingDirectory(self, title))
@@ -231,9 +249,7 @@ class SettingsWindow(QtWidgets.QWidget, Ui_SettingsDialog):
             self.add_models()
     
     def img2img_load_images(self):
-        img_input_path=Path(self.comfyuiModelFolderValue.text())
-        img_input_path=img_input_path.parent
-        img2img_images = sorted([Path(img2img_image).name for extension in ("*.png", "*.jpg")for img2img_image in glob.glob(f"{img_input_path}/input/{extension}")])
+        img2img_images = sorted([Path(img2img_image).name for extension in ("*.png", "*.jpg", "*.jpeg")for img2img_image in glob.glob(f"{self.comfyui_folder}/input/{extension}")])
         self.img2imgLoadCombo.clear()
         self.img2imgLoadCombo.addItems(img2img_images)
 
@@ -319,12 +335,17 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
             "clip_skip": self.settings_win.clipSkipValue.value(),
         }
 
+        comfyui_path = Path(self.settings_win.comfyuiModelFolderValue.text()).parent
+        mask_path = Path(f"{comfyui_path}/input/snugqt_mask.png")
+
         img_gen_args["lora_strength"] = self.settings_win.loraStrengthSpin.value() if self.settings_win.loraCheck.isChecked() else None
         img_gen_args["lora_clip_strength"] = self.settings_win.loraClipStrengthSpin.value() if img_gen_args["lora_strength"] else None
         img_gen_args["upscale_model"] = self.settings_win.modelUpscaleCombo.currentText() if self.settings_win.modelUpscaleCheck.isChecked() else None
-        img_gen_args["img2img_load"] = self.settings_win.img2imgLoad.text() if self.settings_win.img2imgCheck.isChecked() else None
-        img_gen_args["img2img_denoise"] = self.settings_win.img2imgDenoiseSpin.value() if img_gen_args["img2img_load"] else None
-
+        
+        img_gen_args["img2img_load"] = self.settings_win.img2imgLoadCombo.currentText() if self.settings_win.img2imgInpaintingCheck.isChecked() and self.settings_win.img2imgRadio.isChecked() else None
+        img_gen_args["inpainting_load"] = mask_path if self.settings_win.img2imgInpaintingCheck.isChecked() and self.settings_win.inpaintingRadio.isChecked() else None
+        img_gen_args["img2img_denoise"] = self.settings_win.img2imgDenoiseSpin.value() if img_gen_args["img2img_load"] or img_gen_args["inpainting_load"] else None
+        
         if self.settings_win.modeSelectCombo.currentText() == "SDXL":
             img_gen_args["sdxl_refiner_ckpt"] = self.settings_win.sdxlRefinerCheckpointCombo.currentText() if self.settings_win.sdxlRefinerCheck.isChecked() else None
             img_gen_args["sdxl_refiner_steps"] = self.settings_win.sdxlRefinerStepsValue.text()
@@ -362,7 +383,6 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
             return
         self.image_list = image_list
         self.image_index = 0
-        # print(len(self.image_list), "images")
         qimage = QImage.fromData(self.image_list[0])
         qpixmap = QPixmap.fromImage(qimage)
         self.imgLabel.setPixmap(qpixmap)

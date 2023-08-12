@@ -20,7 +20,7 @@
       <string>Save the current settings</string>
      </property>
      <property name="text">
-      <string>Save settings</string>
+      <string>Save settings to file</string>
      </property>
     </widget>
    </item>
@@ -520,30 +520,13 @@
        <bool>true</bool>
       </property>
       <attribute name="title">
-       <string>Image to Image</string>
+       <string>img2img / Inpainting</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_5">
-       <item row="2" column="1">
-        <widget class="QLabel" name="label_26">
-         <property name="text">
-          <string>Denoise strength:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QCheckBox" name="img2imgCheck">
-         <property name="toolTip">
-          <string>Start with an image instead of empty latent noise</string>
-         </property>
-         <property name="text">
-          <string>Enable Image to Image</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="4">
+       <item row="6" column="4">
         <widget class="QToolButton" name="img2imgLoadButton">
          <property name="toolTip">
-          <string>Load images from ComfyUI/input folder</string>
+          <string>Load images from 'ComfyUI/input' folder</string>
          </property>
          <property name="text">
           <string>...</string>
@@ -553,10 +536,17 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="2">
-        <widget class="QComboBox" name="img2imgLoadCombo"/>
+       <item row="2" column="1" colspan="2">
+        <widget class="QPushButton" name="inpaintMaskEditorButton">
+         <property name="toolTip">
+          <string>Open editor to create a masked image for inpainting</string>
+         </property>
+         <property name="text">
+          <string>Inpaint mask editor</string>
+         </property>
+        </widget>
        </item>
-       <item row="2" column="2">
+       <item row="7" column="2">
         <widget class="QDoubleSpinBox" name="img2imgDenoiseSpin">
          <property name="toolTip">
           <string>Denoising strength. Higher value = less like starting image</string>
@@ -572,10 +562,67 @@
          </property>
         </widget>
        </item>
+       <item row="6" column="2">
+        <widget class="QComboBox" name="img2imgLoadCombo">
+         <property name="toolTip">
+          <string>Select image to use (from 'ComfyUI/input' folder)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QRadioButton" name="inpaintingRadio">
+         <property name="toolTip">
+          <string>Start with a masked image for inpainting</string>
+         </property>
+         <property name="text">
+          <string>Mode: inpainting</string>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
        <item row="1" column="1">
+        <widget class="QRadioButton" name="img2imgRadio">
+         <property name="toolTip">
+          <string>Start with an image instead of empty latent noise</string>
+         </property>
+         <property name="text">
+          <string>Mode: img2img</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QCheckBox" name="img2imgInpaintingCheck">
+         <property name="toolTip">
+          <string>Enable a starting image</string>
+         </property>
+         <property name="text">
+          <string>Enable</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1" colspan="2">
+        <widget class="Line" name="line">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="1">
+        <widget class="QLabel" name="label_26">
+         <property name="text">
+          <string>Denoise strength:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
         <widget class="QLabel" name="label_27">
          <property name="text">
-          <string>Load image:</string>
+          <string>Image:</string>
          </property>
         </widget>
        </item>
