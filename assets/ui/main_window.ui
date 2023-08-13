@@ -118,17 +118,7 @@
        </property>
        <layout class="QGridLayout" name="gridLayout_3">
         <item row="0" column="0">
-         <widget class="QLabel" name="imgLabel">
-          <property name="text">
-           <string>Image display</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-          <property name="wordWrap">
-           <bool>false</bool>
-          </property>
-         </widget>
+         <widget class="QGraphicsView" name="imgLabel"/>
         </item>
        </layout>
       </widget>

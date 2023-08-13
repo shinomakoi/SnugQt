@@ -8,7 +8,7 @@ import yaml
 from PySide6 import QtWidgets
 from PySide6.QtCore import QSize, QThread, Signal, Slot
 from PySide6.QtGui import QIcon, QImage, QPixmap
-from PySide6.QtWidgets import QApplication, QFileDialog
+from PySide6.QtWidgets import QApplication, QFileDialog, QGraphicsPixmapItem, QGraphicsScene
 from qt_material import apply_stylesheet
 
 from comfy_api_fetch import ws_generate
@@ -49,21 +49,23 @@ class RunAPI(QThread):
         # Define a helper function to generate an image list from a dictionary of images
         def generate_image_list(images):
             return [image_data for node_id in images for image_data in images[node_id]]
-
-        # Use the ternary operator to assign iterations
-        iterations = self.img_gen_args["iterations"] if random_seed else 1
-
-        # Use a for-else loop to handle the case when no images are generated
-        for loop in range(iterations):
+        
+        # Generate images for the specified number of iterations
+        for loop in range(self.img_gen_args["iterations"]):
+            # Set the seed to a random value if random_seed is True
             if random_seed:
                 self.img_gen_args["seed"] = random.randint(1, 4294967294)
+            # Generate the images and add them to the image list
             images = img_fetch.img_gen_final(self.img_gen_args)
             image_list.extend(generate_image_list(images))
-        else:
-            if not image_list:
-                print("No images were generated")
-                self.final_resultReady.emit(None, False)
-                return
+            # Increment the seed if random_seed is False
+            if not random_seed:
+                self.img_gen_args["seed"] += 1
+
+        # Check if no images were generated
+        if not image_list:
+            print("No images were generated")
+            self.final_resultReady.emit(None, False)
 
         self.final_resultReady.emit(image_list, True)
 
@@ -109,95 +111,89 @@ class SettingsWindow(QtWidgets.QWidget, Ui_SettingsDialog):
     def load_settings(self):
         with open(SETTINGS_FILE, "r") as stream:
             data = yaml.safe_load(stream)
-            self.comfyuiModelFolderValue.setText(
-                data["checkpoints"]["comfy_model_folder"]
-            )
-            self.comfyuiExtraFolderValue.setText(data["checkpoints"]["comfy_extra_model_folder"])
-            self.add_models()
 
-            self.sd12CheckpointCombo.setCurrentText(data["checkpoints"]["sd12"])
-            self.sdxlBaseCheckpointCombo.setCurrentText(
-                data["checkpoints"]["sdxl_base"]
-            )
-            self.sdxlRefinerCheckpointCombo.setCurrentText(
-                data["checkpoints"]["sdxl_refiner"]
-            )
-            self.sd12VaeCombo.setCurrentText(data["checkpoints"]["sd12_vae"])
-            self.sdxlVaeCombo.setCurrentText(data["checkpoints"]["sdxl_vae"])
-            self.useExternalVaeCheck.setChecked(data["checkpoints"]["use_ex_vae"])
-            self.modelUpscaleCombo.setCurrentText(data["checkpoints"]["upscale_model"])
+            # Checkpoints
+            checkpoints = data["checkpoints"]
+            self.comfyuiModelFolderValue.setText(checkpoints["comfy_model_folder"])
+            self.comfyuiExtraFolderValue.setText(checkpoints["comfy_extra_model_folder"])
+            self.add_models()
+            self.sd12CheckpointCombo.setCurrentText(checkpoints["sd12"])
+            self.sdxlBaseCheckpointCombo.setCurrentText(checkpoints["sdxl_base"])
+            self.sdxlRefinerCheckpointCombo.setCurrentText(checkpoints["sdxl_refiner"])
+            self.sd12VaeCombo.setCurrentText(checkpoints["sd12_vae"])
+            self.sdxlVaeCombo.setCurrentText(checkpoints["sdxl_vae"])
+            self.modelUpscaleCombo.setCurrentText(checkpoints["upscale_model"])
+            self.useExternalVaeCheck.setChecked(checkpoints["use_ex_vae"])
             # Parameters
-            self.modeSelectCombo.setCurrentText(data["parameters"]["mode"])
-            self.imgWidthValue.setValue(data["parameters"]["width"])
-            self.imgHeightValue.setValue(data["parameters"]["height"])
-            self.seedValue.setValue(data["parameters"]["seed"])
-            self.batchValue.setValue(data["parameters"]["batch_size"])
-            self.iterationsValue.setValue(data["parameters"]["iterations"])
-            self.cfgValue.setValue(data["parameters"]["cfg"])
-            self.stepsValue.setValue(data["parameters"]["steps"])
-            self.sdxlRefinerCheck.setChecked(data["parameters"]["sdxl_refiner"])
-            self.sdxlRefinerStepsValue.setValue(
-                data["parameters"]["sdxl_refiner_steps"]
-            )
-            self.samplerValue.setCurrentText(data["parameters"]["sampler"])
-            self.schedulerValue.setCurrentText(data["parameters"]["scheduler"])
-            self.modelUpscaleCheck.setChecked(data["parameters"]["model_upscale"])
-            # Hi-res fix
-            self.hiresFixCheck.setChecked(data["parameters"]["hrf_check"])
-            self.hiresfixScaleByValue.setValue(data["parameters"]["hrf_scaleby"])
-            self.hiresfixStepsValue.setValue(data["parameters"]["hrf_steps"])
+            params = data["parameters"]
+            self.modeSelectCombo.setCurrentText(params["mode"])
+            self.imgWidthValue.setValue(params["width"])
+            self.imgHeightValue.setValue(params["height"])
+            self.seedValue.setValue(params["seed"])
+            self.batchValue.setValue(params["batch_size"])
+            self.iterationsValue.setValue(params["iterations"])
+            self.cfgValue.setValue(params["cfg"])
+            self.stepsValue.setValue(params["steps"])
+            self.sdxlRefinerCheck.setChecked(params["sdxl_refiner"])
+            self.sdxlRefinerStepsValue.setValue(params["sdxl_refiner_steps"])
+            self.samplerValue.setCurrentText(params["sampler"])
+            self.schedulerValue.setCurrentText(params["scheduler"])
+            self.modelUpscaleCheck.setChecked(params["model_upscale"])
+            self.hiresFixCheck.setChecked(params["hrf_check"])
+            self.hiresfixScaleByValue.setValue(params["hrf_scaleby"])
+            self.hiresfixStepsValue.setValue(params["hrf_steps"])
             # Lora
-            self.loraCheck.setChecked(data["lora"]["use"])
-            self.sd12LoraCombo.setCurrentText(data["lora"]["sd12"])
-            self.sdxlLoraCombo.setCurrentText(data["lora"]["sdxl"])
-            self.loraStrengthSpin.setValue(data["lora"]["model_strength"])
-            self.loraClipStrengthSpin.setValue(data["lora"]["clip_strength"])
+            lora = data["lora"]
+            self.loraCheck.setChecked(lora["use"])
+            self.sd12LoraCombo.setCurrentText(lora["sd12"])
+            self.sdxlLoraCombo.setCurrentText(lora["sdxl"])
+            self.loraStrengthSpin.setValue(lora["model_strength"])
+            self.loraClipStrengthSpin.setValue(lora["clip_strength"])
 
     # Save settings to settings.yaml
     def save_settings(self):
         with open(SETTINGS_FILE, "r") as stream:
             data = yaml.safe_load(stream)
-            data["checkpoints"][
-                "comfy_model_folder"
-            ] = self.comfyuiModelFolderValue.text()
-            data["checkpoints"][
-                "comfy_extra_model_folder"
-            ] = self.comfyuiExtraFolderValue.text()
-            data["checkpoints"]["sd12"] = self.sd12CheckpointCombo.currentText()
-            data["checkpoints"][
-                "sdxl_base"
-            ] = self.sdxlBaseCheckpointCombo.currentText()
-            data["checkpoints"][
-                "sdxl_refiner"
-            ] = self.sdxlRefinerCheckpointCombo.currentText()
-            data["checkpoints"]["sd12_vae"] = self.sd12VaeCombo.currentText()
-            data["checkpoints"]["sdxl_vae"] = self.sdxlVaeCombo.currentText()
-            data["checkpoints"]["use_ex_vae"] = self.useExternalVaeCheck.isChecked()
-            data["checkpoints"]["upscale_model"] = self.modelUpscaleCombo.currentText()
+
+            # Checkpoints
+            data["checkpoints"].update({
+                "comfy_model_folder": self.comfyuiModelFolderValue.text(),
+                "comfy_extra_model_folder": self.comfyuiExtraFolderValue.text(),
+                "sd12": self.sd12CheckpointCombo.currentText(),
+                "sdxl_base": self.sdxlBaseCheckpointCombo.currentText(),
+                "sdxl_refiner": self.sdxlRefinerCheckpointCombo.currentText(),
+                "sd12_vae": self.sd12VaeCombo.currentText(),
+                "sdxl_vae": self.sdxlVaeCombo.currentText(),
+                "use_ex_vae": self.useExternalVaeCheck.isChecked(),
+                "upscale_model": self.modelUpscaleCombo.currentText()
+            })
             # Parameters
-            data["parameters"]["mode"] = self.modeSelectCombo.currentText()
-            data["parameters"]["width"] = self.imgWidthValue.value()
-            data["parameters"]["height"] = self.imgHeightValue.value()
-            data["parameters"]["seed"] = self.seedValue.value()
-            data["parameters"]["batch_size"] = self.batchValue.value()
-            data["parameters"]["iterations"] = self.iterationsValue.value()
-            data["parameters"]["cfg"] = self.cfgValue.value()
-            data["parameters"]["steps"] = self.stepsValue.value()
-            data["parameters"]["sdxl_refiner"] = self.sdxlRefinerCheck.isChecked()
-            data["parameters"]["sdxl_refiner_steps"] = self.sdxlRefinerStepsValue.value()
-            data["parameters"]["sampler"] = self.samplerValue.currentText()
-            data["parameters"]["scheduler"] = self.schedulerValue.currentText()
-            data["parameters"]["model_upscale"] = self.modelUpscaleCheck.isChecked()
-            # Hi-res fix
-            data["parameters"]["hrf_check"] = self.hiresFixCheck.isChecked()
-            data["parameters"]["hrf_scaleby"] = self.hiresfixScaleByValue.value()
-            data["parameters"]["hrf_steps"] = self.hiresfixStepsValue.value()
+            data["parameters"].update({
+                "mode": self.modeSelectCombo.currentText(),
+                "width": self.imgWidthValue.value(),
+                "height": self.imgHeightValue.value(),
+                "seed": self.seedValue.value(),
+                "batch_size": self.batchValue.value(),
+                "iterations": self.iterationsValue.value(),
+                "cfg": self.cfgValue.value(),
+                "steps": self.stepsValue.value(),
+                "sdxl_refiner": self.sdxlRefinerCheck.isChecked(),
+                "sdxl_refiner_steps": self.sdxlRefinerStepsValue.value(),
+                "sampler": self.samplerValue.currentText(),
+                "scheduler": self.schedulerValue.currentText(),
+                "model_upscale": self.modelUpscaleCheck.isChecked(),
+                "hrf_check": self.hiresFixCheck.isChecked(),
+                "hrf_scaleby": self.hiresfixScaleByValue.value(),
+                "hrf_steps": self.hiresfixStepsValue.value(),
+            })
             # Lora
-            data["lora"]["use"] = self.loraCheck.isChecked()
-            data["lora"]["sd12"] = self.sd12LoraCombo.currentText()
-            data["lora"]["sdxl"] = self.sdxlLoraCombo.currentText()
-            data["lora"]["model_strength"] = self.loraStrengthSpin.value()
-            data["lora"]["clip_strength"] = self.loraClipStrengthSpin.value()
+            data["lora"].update({
+                "use": self.loraCheck.isChecked(),
+                "sd12": self.sd12LoraCombo.currentText(),
+                "sdxl": self.sdxlLoraCombo.currentText(),
+                "model_strength": self.loraStrengthSpin.value(),
+                "clip_strength": self.loraClipStrengthSpin.value(),
+            })
 
         with open(SETTINGS_FILE, "w") as stream:
             yaml.dump(data, stream, default_flow_style=False)
@@ -284,6 +280,13 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.settings_win.close()
         event.accept()
 
+    def gfxview_addimg(self, pixmap):
+        # create a pixmap item from the pixmap
+        self.scene = QGraphicsScene()
+        self.pixmap_item = QGraphicsPixmapItem(pixmap)
+        self.scene.addItem(self.pixmap_item)
+        self.imgLabel.setScene(self.scene)
+
     # Cycle through the images in the image list
     def cycle_images(self, mode):
         image_count = len(self.image_list)
@@ -294,13 +297,12 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
             # Use a conditional expression to check if the mode is valid and update the image index accordingly
             self.image_index += delta[mode] if mode in delta and 0 <= self.image_index + delta[mode] < image_count else 0
             # Use a single line to create and set the pixmap from the image data
-            self.imgLabel.setPixmap(QPixmap.fromImage(QImage.fromData(self.image_list[self.image_index])))
+            self.gfxview_addimg(QPixmap.fromImage(QImage.fromData(self.image_list[self.image_index])))
             image_display_index = self.image_index + 1
             self.imgDisplayIndex.setText(f"Image {image_display_index}/{image_count}")
 
-    #P rocess the prompt and generate the image generation arguments
+    # Process the prompt and generate the image generation arguments
     def process_prompt(self):
-        
         # Use a dictionary to map the mode to the corresponding checkpoint and vae combo boxes
         mode_combo = {
             "Stable Diffusion 1/2": (self.settings_win.sd12CheckpointCombo, self.settings_win.sd12VaeCombo, self.settings_win.sd12LoraCombo),
@@ -314,41 +316,42 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
         seed = self.settings_win.seedValue.value() if self.settings_win.seedValue.value() != -1 else "random"
 
         # Create a dictionary of image generation arguments with the values from the prompt and settings window using f-strings and str() where needed
+        settings=self.settings_win
         img_gen_args = {
             "ckpt_name": ckpt_name,
-            "hiresfix_scale_by": self.settings_win.hiresfixScaleByValue.value() if self.settings_win.hiresFixCheck.isChecked() else None,
-            "hiresfix_steps": self.settings_win.hiresfixStepsValue.value() if self.settings_win.hiresFixCheck.isChecked() else None,
+            "hiresfix_scale_by": settings.hiresfixScaleByValue.value() if settings.hiresFixCheck.isChecked() else None,
+            "hiresfix_steps": settings.hiresfixStepsValue.value() if settings.hiresFixCheck.isChecked() else None,
             "external_vae": external_vae,
             "lora": lora,
             "pos_prompt": self.promptLine.toPlainText(),
             "neg_prompt": self.negPromptLine.toPlainText(),
-            "batch_size": self.settings_win.batchValue.value(),
+            "batch_size": settings.batchValue.value(),
             "filename_prefix": "SnugQt/SnugQt",
             "seed": seed,
-            "sampler_name": self.settings_win.samplerValue.currentText(),
-            "scheduler": self.settings_win.schedulerValue.currentText(),
-            "steps": self.settings_win.stepsValue.value(),
-            "width": self.settings_win.imgWidthValue.value(),
-            "height": self.settings_win.imgHeightValue.value(),
-            "cfg": self.settings_win.cfgValue.value(),
-            "iterations": self.settings_win.iterationsValue.value(),
-            "clip_skip": self.settings_win.clipSkipValue.value(),
+            "sampler_name": settings.samplerValue.currentText(),
+            "scheduler": settings.schedulerValue.currentText(),
+            "steps": settings.stepsValue.value(),
+            "width": settings.imgWidthValue.value(),
+            "height": settings.imgHeightValue.value(),
+            "cfg": settings.cfgValue.value(),
+            "iterations": settings.iterationsValue.value(),
+            "clip_skip": settings.clipSkipValue.value(),
         }
 
-        comfyui_path = Path(self.settings_win.comfyuiModelFolderValue.text()).parent
+        comfyui_path = Path(settings.comfyuiModelFolderValue.text()).parent
         mask_path = Path(f"{comfyui_path}/input/snugqt_mask.png")
 
-        img_gen_args["lora_strength"] = self.settings_win.loraStrengthSpin.value() if self.settings_win.loraCheck.isChecked() else None
-        img_gen_args["lora_clip_strength"] = self.settings_win.loraClipStrengthSpin.value() if img_gen_args["lora_strength"] else None
-        img_gen_args["upscale_model"] = self.settings_win.modelUpscaleCombo.currentText() if self.settings_win.modelUpscaleCheck.isChecked() else None
+        img_gen_args["lora_strength"] = settings.loraStrengthSpin.value() if settings.loraCheck.isChecked() else None
+        img_gen_args["lora_clip_strength"] = settings.loraClipStrengthSpin.value() if img_gen_args["lora_strength"] else None
+        img_gen_args["upscale_model"] = settings.modelUpscaleCombo.currentText() if settings.modelUpscaleCheck.isChecked() else None
         
-        img_gen_args["img2img_load"] = self.settings_win.img2imgLoadCombo.currentText() if self.settings_win.img2imgInpaintingCheck.isChecked() and self.settings_win.img2imgRadio.isChecked() else None
-        img_gen_args["inpainting_load"] = mask_path if self.settings_win.img2imgInpaintingCheck.isChecked() and self.settings_win.inpaintingRadio.isChecked() else None
-        img_gen_args["img2img_denoise"] = self.settings_win.img2imgDenoiseSpin.value() if img_gen_args["img2img_load"] or img_gen_args["inpainting_load"] else None
+        img_gen_args["img2img_load"] = settings.img2imgLoadCombo.currentText() if settings.img2imgInpaintingCheck.isChecked() and settings.img2imgRadio.isChecked() else None
+        img_gen_args["inpainting_load"] = mask_path if settings.img2imgInpaintingCheck.isChecked() and settings.inpaintingRadio.isChecked() else None
+        img_gen_args["img2img_denoise"] = settings.img2imgDenoiseSpin.value() if img_gen_args["img2img_load"] or img_gen_args["inpainting_load"] else None
         
-        if self.settings_win.modeSelectCombo.currentText() == "SDXL":
-            img_gen_args["sdxl_refiner_ckpt"] = self.settings_win.sdxlRefinerCheckpointCombo.currentText() if self.settings_win.sdxlRefinerCheck.isChecked() else None
-            img_gen_args["sdxl_refiner_steps"] = self.settings_win.sdxlRefinerStepsValue.text()
+        if settings.modeSelectCombo.currentText() == "SDXL":
+            img_gen_args["sdxl_refiner_ckpt"] = settings.sdxlRefinerCheckpointCombo.currentText() if settings.sdxlRefinerCheck.isChecked() else None
+            img_gen_args["sdxl_refiner_steps"] = settings.sdxlRefinerStepsValue.text()
         else:
             img_gen_args["sdxl_refiner_ckpt"] = None
 
@@ -383,9 +386,7 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
             return
         self.image_list = image_list
         self.image_index = 0
-        qimage = QImage.fromData(self.image_list[0])
-        qpixmap = QPixmap.fromImage(qimage)
-        self.imgLabel.setPixmap(qpixmap)
+        self.gfxview_addimg(QPixmap.fromImage(QImage.fromData(self.image_list[0])))
         self.imgDisplayIndex.setText(f"Image 1/{len(self.image_list)}")
         self.on_completion(success)
 

@@ -187,7 +187,7 @@ class ApiArgs:
         }
         VAEEncode = {
             "inputs": {
-                "grow_mask_by": 6,
+                "grow_mask_by": 18,
                 "pixels": ["80", 0],
                 "vae": ["1", 2],
                 "mask": ["80", 1],

@@ -16,10 +16,10 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QIcon, QImage, QKeySequence, QLinearGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
-from PySide6.QtWidgets import (QApplication, QComboBox, QGridLayout, QLabel,
-    QMainWindow, QMenu, QMenuBar, QPlainTextEdit,
-    QPushButton, QScrollArea, QSizePolicy, QStatusBar,
-    QWidget)
+from PySide6.QtWidgets import (QApplication, QComboBox, QGraphicsView, QGridLayout,
+    QLabel, QMainWindow, QMenu, QMenuBar,
+    QPlainTextEdit, QPushButton, QScrollArea, QSizePolicy,
+    QStatusBar, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -85,10 +85,8 @@ class Ui_MainWindow(object):
         self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 1154, 957))
         self.gridLayout_3 = QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout_3.setObjectName(u"gridLayout_3")
-        self.imgLabel = QLabel(self.scrollAreaWidgetContents)
+        self.imgLabel = QGraphicsView(self.scrollAreaWidgetContents)
         self.imgLabel.setObjectName(u"imgLabel")
-        self.imgLabel.setAlignment(Qt.AlignCenter)
-        self.imgLabel.setWordWrap(False)
 
         self.gridLayout_3.addWidget(self.imgLabel, 0, 0, 1, 1)
 
@@ -173,7 +171,6 @@ class Ui_MainWindow(object):
 #if QT_CONFIG(tooltip)
         self.promptHistoryCombo.setToolTip(QCoreApplication.translate("MainWindow", u"Prompt history", None))
 #endif // QT_CONFIG(tooltip)
-        self.imgLabel.setText(QCoreApplication.translate("MainWindow", u"Image display", None))
 #if QT_CONFIG(tooltip)
         self.nextImgButton.setToolTip(QCoreApplication.translate("MainWindow", u"Next image", None))
 #endif // QT_CONFIG(tooltip)
