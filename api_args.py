@@ -172,7 +172,7 @@ class ApiArgs:
             "class_type": "LoadImage",
         }
         VAEEncode = {
-            "inputs": {"pixels": ["80", 0], "vae": ["1", 0]},
+            "inputs": {"pixels": ["80", 0], "vae": ["1", 2]},
             "class_type": "VAEEncode",
         }
         return LoadImage, VAEEncode
