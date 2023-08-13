@@ -3,6 +3,13 @@ A Qt frontend for image generation that uses ComfyUI
 
 Supports Windows, Linux and Mac(?)
 
+**Features:**
+- Supports SD 1.x, SD 2.x, SDXL, SDXL Refiner
+- txt2img, img2img, hires fix
+- Inpainting
+- Loras
+- Upscaling
+
 **Installation:**
 
 First make sure Python (3.10+ recommended) and GIT are installed. Then:
@@ -20,6 +27,7 @@ source ./.venv/bin/activate ### For Linux
 ```
 pip install -r requirements.txt
 ```
+You can update to latest version with: `git pull`
 
 **Usage:**
 
