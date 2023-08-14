@@ -369,7 +369,6 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
     def closeEvent(self, event):
         # close the child window when the parent window is closed
         self.settings_win.close()
-        self.inpaint_win.close()
         event.accept()
 
     def gfxview_addimg(self, pixmap):
