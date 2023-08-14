@@ -23,10 +23,10 @@ class InpaintMaskEditor(QMainWindow):
 
         self.setWindowTitle("SnugQt - Inpaint mask editor")
 
-        self.setMaximumHeight(img.height())
-        self.setMaximumWidth(img.width())
-        self.setMinimumHeight(img.height())
-        self.setMinimumWidth(img.width())
+        self.setMaximumHeight(img.height()/2)
+        self.setMaximumWidth(img.width()/2)
+        self.setMinimumHeight(img.height()/2)
+        self.setMinimumWidth(img.width()/2)
 
         # creating image object
         self.image = QImage(self.size(), QImage.Format_ARGB32)
