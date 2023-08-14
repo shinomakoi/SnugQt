@@ -311,23 +311,26 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.inpaintMaskEditorButton.clicked.connect(self.inpaint)
 
-        self.comfyui_folder = Path(
-            self.settings_win.comfyuiModelFolderValue.text()
-        ).parent
-
         self.img2imgLoadButton.clicked.connect(self.img2img_load_images)
         self.inpaintLoadButton.clicked.connect(self.inpaint_load_images)
         self.img2img_load_images()
         self.inpaint_load_images()
         self.settings_win.show()
 
+    def get_comfyui_model_folder(self):
+        comfyui_model_folder = Path(
+                    self.settings_win.comfyuiModelFolderValue.text()
+                ).parent
+        return comfyui_model_folder
+
     def img2img_load_images(self):
+        comfyui_model_folder = self.get_comfyui_model_folder()
         img2img_images = sorted(
             [
                 Path(img2img_image).name
                 for extension in ("*.png", "*.jpg", "*.jpeg")
                 for img2img_image in glob.glob(
-                    f"{self.comfyui_folder}/input/{extension}"
+                    f"{comfyui_model_folder}/input/{extension}"
                 )
             ]
         )
@@ -336,12 +339,13 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.img2imgLoadCombo.addItems(img2img_images)
 
     def inpaint_load_images(self):
+        comfyui_model_folder = self.get_comfyui_model_folder()
         inpaint_images = sorted(
             [
                 Path(inpaint_image).name
                 for extension in ("*.png", "*.jpg", "*.jpeg")
                 for inpaint_image in glob.glob(
-                    f"{self.comfyui_folder}/input/{extension}"
+                    f"{comfyui_model_folder}/input/{extension}"
                 )
             ]
         )
@@ -350,16 +354,18 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.inpaintLoadCombo.addItems(inpaint_images)
 
     def inpaint(self):
+        comfyui_model_folder = self.get_comfyui_model_folder()
+
         if self.inpaintLoadCombo.currentIndex() == 0:
             img_input_path = self.save_source_image()
             if not img_input_path:
                 return
         else:
             img_input_path = Path(
-                f"{self.comfyui_folder}/input/{self.inpaintLoadCombo.currentText()}"
+                f"{comfyui_model_folder}/input/{self.inpaintLoadCombo.currentText()}"
             )
 
-        img_mask_path = Path(f"{self.comfyui_folder}/input/snugqt_mask.png")
+        img_mask_path = Path(f"{comfyui_model_folder}/input/snugqt_mask.png")
         if QImage(Path(img_input_path)).height() > 0:
             self.inpaint_mode = InpaintMaskEditor(str(img_input_path), img_mask_path)
             self.inpaint_mode.show()
@@ -369,6 +375,7 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
     def closeEvent(self, event):
         # close the child window when the parent window is closed
         self.settings_win.close()
+        self.inpaint_win.close()
         event.accept()
 
     def gfxview_addimg(self, pixmap):
@@ -401,6 +408,7 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
     # Process the prompt and generate the image generation arguments
     def process_prompt(self):
+        comfyui_model_folder = self.get_comfyui_model_folder()
         settings = self.settings_win
 
         # Use a dictionary to map the mode to the corresponding checkpoint and vae combo boxes
@@ -471,7 +479,7 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
             else None
         )
         img_gen_args["inpainting_load"] = (
-            Path(f"{self.comfyui_folder}/input/snugqt_mask.png")
+            Path(f"{comfyui_model_folder}/input/snugqt_mask.png")
             if self.tabWidget.currentIndex() == 2
             else None
         )
@@ -509,8 +517,9 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
         return img_gen_args
 
     def save_source_image(self):
+        comfyui_model_folder = self.get_comfyui_model_folder()
         if self.displayed_image:
-            source_image = str(Path(f"{self.comfyui_folder}/input/snugqt_source.png"))
+            source_image = str(Path(f"{comfyui_model_folder}/input/snugqt_source.png"))
             self.displayed_image.save(source_image)
         else:
             print("--- Error: No display image")
