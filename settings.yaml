@@ -18,9 +18,6 @@ parameters:
   batch_size: 1
   cfg: 8
   height: 1024
-  hrf_check: false
-  hrf_scaleby: 1.4
-  hrf_steps: 12
   iterations: 1
   mode: SDXL
   model_upscale: false

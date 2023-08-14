@@ -212,7 +212,12 @@ class ApiArgs:
             api_prompt["5"]["inputs"]["clip"][0] = "3"
             api_prompt["7"]["inputs"]["model"][0] = "3"
 
-        if img_gen_args["hiresfix_steps"] and not img_gen_args["sdxl_refiner_ckpt"]:
+        if (
+            img_gen_args["hiresfix_steps"]
+            and not img_gen_args["sdxl_refiner_ckpt"]
+            and not img_gen_args["img2img_load"]
+            and not img_gen_args["inpainting_load"]
+        ):
             node1, node2 = self.gen_hires_fix(img_gen_args)
             api_prompt["8"] = node1
             api_prompt["9"] = node2
@@ -251,7 +256,7 @@ class ApiArgs:
             api_prompt["80"] = LoadImage
             api_prompt["81"] = VAEEncode
             api_prompt["7"]["inputs"]["latent_image"][0] = "81"
-            api_prompt["7"]["inputs"]["denoise"] = img_gen_args["img2img_denoise"]
+            api_prompt["7"]["inputs"]["denoise"] = img_gen_args["inpaint_denoise"]
             if img_gen_args["external_vae"]:
                 api_prompt["81"]["inputs"]["vae"][0] = "2"
                 api_prompt["81"]["inputs"]["vae"][1] = 0

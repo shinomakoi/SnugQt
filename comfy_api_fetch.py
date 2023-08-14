@@ -75,7 +75,7 @@ class ws_generate:
         api_args = ApiArgs()
         prompt = api_args.generate_api_prompt(img_gen_args)
         return prompt
-    
+
     # Generate the final image based on the image generation arguments."""
     def img_gen_final(self, img_gen_args):
         prompt = self.sd_preset(img_gen_args)
