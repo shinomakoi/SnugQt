@@ -17,10 +17,10 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
 from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QDoubleSpinBox,
-    QGraphicsView, QGridLayout, QHBoxLayout, QLabel,
-    QMainWindow, QMenu, QMenuBar, QPlainTextEdit,
-    QPushButton, QSizePolicy, QSpinBox, QStatusBar,
-    QTabWidget, QToolButton, QWidget)
+    QFrame, QGraphicsView, QGridLayout, QHBoxLayout,
+    QLabel, QMainWindow, QMenu, QMenuBar,
+    QPlainTextEdit, QPushButton, QSizePolicy, QSpinBox,
+    QStatusBar, QTabWidget, QToolButton, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -127,6 +127,19 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_3.addWidget(self.hiresfixStepsValue)
 
+        self.label = QLabel(self.tab_3)
+        self.label.setObjectName(u"label")
+
+        self.horizontalLayout_3.addWidget(self.label, 0, Qt.AlignRight)
+
+        self.hiresfixDenoiseSpin = QDoubleSpinBox(self.tab_3)
+        self.hiresfixDenoiseSpin.setObjectName(u"hiresfixDenoiseSpin")
+        self.hiresfixDenoiseSpin.setMaximum(1.000000000000000)
+        self.hiresfixDenoiseSpin.setSingleStep(0.050000000000000)
+        self.hiresfixDenoiseSpin.setValue(0.600000000000000)
+
+        self.horizontalLayout_3.addWidget(self.hiresfixDenoiseSpin)
+
         self.tabWidget.addTab(self.tab_3, "")
         self.tab_5 = QWidget()
         self.tab_5.setObjectName(u"tab_5")
@@ -151,7 +164,7 @@ class Ui_MainWindow(object):
         self.label_29 = QLabel(self.tab_5)
         self.label_29.setObjectName(u"label_29")
 
-        self.horizontalLayout_2.addWidget(self.label_29)
+        self.horizontalLayout_2.addWidget(self.label_29, 0, Qt.AlignRight)
 
         self.img2imgDenoiseSpin = QDoubleSpinBox(self.tab_5)
         self.img2imgDenoiseSpin.setObjectName(u"img2imgDenoiseSpin")
@@ -161,11 +174,12 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_2.addWidget(self.img2imgDenoiseSpin)
 
-        self.inpaintMaskEditorButton_2 = QPushButton(self.tab_5)
-        self.inpaintMaskEditorButton_2.setObjectName(u"inpaintMaskEditorButton_2")
-        self.inpaintMaskEditorButton_2.setEnabled(False)
+        self.line = QFrame(self.tab_5)
+        self.line.setObjectName(u"line")
+        self.line.setFrameShape(QFrame.HLine)
+        self.line.setFrameShadow(QFrame.Sunken)
 
-        self.horizontalLayout_2.addWidget(self.inpaintMaskEditorButton_2)
+        self.horizontalLayout_2.addWidget(self.line)
 
         self.tabWidget.addTab(self.tab_5, "")
         self.tab_4 = QWidget()
@@ -191,7 +205,7 @@ class Ui_MainWindow(object):
         self.label_26 = QLabel(self.tab_4)
         self.label_26.setObjectName(u"label_26")
 
-        self.horizontalLayout.addWidget(self.label_26)
+        self.horizontalLayout.addWidget(self.label_26, 0, Qt.AlignRight)
 
         self.inpaintDenoiseSpin = QDoubleSpinBox(self.tab_4)
         self.inpaintDenoiseSpin.setObjectName(u"inpaintDenoiseSpin")
@@ -300,6 +314,7 @@ class Ui_MainWindow(object):
         self.hiresfixScaleByValue.setToolTip(QCoreApplication.translate("MainWindow", u"Factor to scale hires-fix image by", None))
 #endif // QT_CONFIG(tooltip)
         self.label_13.setText(QCoreApplication.translate("MainWindow", u"Hi-res fix steps:", None))
+        self.label.setText(QCoreApplication.translate("MainWindow", u"Denoise:", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), QCoreApplication.translate("MainWindow", u"Text to image", None))
         self.label_28.setText(QCoreApplication.translate("MainWindow", u"Image:", None))
 #if QT_CONFIG(tooltip)
@@ -313,10 +328,6 @@ class Ui_MainWindow(object):
 #if QT_CONFIG(tooltip)
         self.img2imgDenoiseSpin.setToolTip(QCoreApplication.translate("MainWindow", u"Denoising strength. Higher value = less like starting image", None))
 #endif // QT_CONFIG(tooltip)
-#if QT_CONFIG(tooltip)
-        self.inpaintMaskEditorButton_2.setToolTip(QCoreApplication.translate("MainWindow", u"Open editor to create a masked image for inpainting", None))
-#endif // QT_CONFIG(tooltip)
-        self.inpaintMaskEditorButton_2.setText(QCoreApplication.translate("MainWindow", u"Inpaint mask editor", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_5), QCoreApplication.translate("MainWindow", u"Image to image", None))
         self.label_27.setText(QCoreApplication.translate("MainWindow", u"Image:", None))
 #if QT_CONFIG(tooltip)

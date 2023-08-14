@@ -307,20 +307,44 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.promptHistoryCombo.textActivated.connect(self.prompt_history_set)
         self.negPromptHistoryCombo.textActivated.connect(self.neg_prompt_history_set)
-        print("--- App started")
+        self.img2imgLoadCombo.textActivated.connect(
+            lambda: self.img2img_inpaint_load("img2img")
+        )
+        self.inpaintLoadCombo.textActivated.connect(
+            lambda: self.img2img_inpaint_load("inpaint")
+        )
 
         self.inpaintMaskEditorButton.clicked.connect(self.inpaint)
-
         self.img2imgLoadButton.clicked.connect(self.img2img_load_images)
         self.inpaintLoadButton.clicked.connect(self.inpaint_load_images)
         self.img2img_load_images()
         self.inpaint_load_images()
         self.settings_win.show()
 
+        print("--- App started")
+
+    def img2img_inpaint_load(self, mode):
+        # Get the comfyui model folder path
+        comfyui_model_folder = self.get_comfyui_model_folder()
+        # Use a dictionary to map the mode to the combo box widget
+        mode_dict = {"img2img": self.img2imgLoadCombo, "inpaint": self.inpaintLoadCombo}
+        # Get the combo box text for the given mode
+        combo_text = mode_dict[mode].currentText()
+
+        # Check if the combo text is not "> Current"
+        if combo_text != "> Current":
+            # Construct the image path using Path methods
+            img_path = Path(comfyui_model_folder) / "input" / combo_text
+            # Create a QPixmap object from the image path
+            img = QPixmap(img_path)
+            # Add the image to the graphics view widget
+            self.gfxview_addimg(img)
+
+
     def get_comfyui_model_folder(self):
         comfyui_model_folder = Path(
-                    self.settings_win.comfyuiModelFolderValue.text()
-                ).parent
+            self.settings_win.comfyuiModelFolderValue.text()
+        ).parent
         return comfyui_model_folder
 
     def img2img_load_images(self):
@@ -465,8 +489,17 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
             else None
         )
         img_gen_args["hiresfix_steps"] = (
-            self.hiresfixStepsValue.value() if self.hiresFixCheck.isChecked() else None
+            self.hiresfixStepsValue.value()
+            if img_gen_args["hiresfix_scale_by"]
+            else None
         )
+
+        img_gen_args["hiresfix_denoise"] = (
+            self.hiresfixDenoiseSpin.value()
+            if img_gen_args["hiresfix_scale_by"]
+            else None
+        )
+
         img_gen_args["lora_strength"] = (
             settings.loraStrengthSpin.value()
             if settings.loraCheck.isChecked()

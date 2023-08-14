@@ -187,6 +187,26 @@
           </property>
          </widget>
         </item>
+        <item alignment="Qt::AlignRight">
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>Denoise:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QDoubleSpinBox" name="hiresfixDenoiseSpin">
+          <property name="maximum">
+           <double>1.000000000000000</double>
+          </property>
+          <property name="singleStep">
+           <double>0.050000000000000</double>
+          </property>
+          <property name="value">
+           <double>0.600000000000000</double>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="tab_5">
@@ -221,7 +241,7 @@
           </property>
          </widget>
         </item>
-        <item>
+        <item alignment="Qt::AlignRight">
          <widget class="QLabel" name="label_29">
           <property name="text">
            <string>Denoise strength:</string>
@@ -245,15 +265,9 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="inpaintMaskEditorButton_2">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="toolTip">
-           <string>Open editor to create a masked image for inpainting</string>
-          </property>
-          <property name="text">
-           <string>Inpaint mask editor</string>
+         <widget class="Line" name="line">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
           </property>
          </widget>
         </item>
@@ -291,7 +305,7 @@
           </property>
          </widget>
         </item>
-        <item>
+        <item alignment="Qt::AlignRight">
          <widget class="QLabel" name="label_26">
           <property name="text">
            <string>Denoise strength:</string>

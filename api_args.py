@@ -100,7 +100,7 @@ class ApiArgs:
                 "cfg": img_gen_args["cfg"],
                 "sampler_name": img_gen_args["sampler_name"],
                 "scheduler": img_gen_args["scheduler"],
-                "denoise": 0.58,
+                "denoise": img_gen_args["hiresfix_denoise"],
                 "model": ["1", 0],
                 "positive": ["4", 0],
                 "negative": ["5", 0],

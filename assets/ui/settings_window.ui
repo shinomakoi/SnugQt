@@ -20,7 +20,7 @@
       <string>Save the current settings</string>
      </property>
      <property name="text">
-      <string>Save settings to file</string>
+      <string>Save settings</string>
      </property>
     </widget>
    </item>
@@ -376,6 +376,16 @@
          <item>
           <property name="text">
            <string>dpmpp_2m_sde_gpu</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>dpmpp_3m_sde</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>dpmpp_3m_sde_gpu</string>
           </property>
          </item>
          <item>
