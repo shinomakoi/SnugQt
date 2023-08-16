@@ -15,78 +15,6 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="3" column="2">
-     <widget class="QPushButton" name="previousImgButton">
-      <property name="toolTip">
-       <string>Previous image</string>
-      </property>
-      <property name="text">
-       <string>&lt;</string>
-      </property>
-      <property name="shortcut">
-       <string>Left</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="1" rowspan="2">
-     <widget class="QPlainTextEdit" name="negPromptLine">
-      <property name="toolTip">
-       <string>Enter negative prompt here</string>
-      </property>
-      <property name="plainText">
-       <string>ugly, bad quality, worst quality, frame, text, watermark</string>
-      </property>
-      <property name="placeholderText">
-       <string>Negative prompt</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0" colspan="4">
-     <widget class="QGraphicsView" name="imgLabel"/>
-    </item>
-    <item row="3" column="3">
-     <widget class="QPushButton" name="nextImgButton">
-      <property name="toolTip">
-       <string>Next image</string>
-      </property>
-      <property name="text">
-       <string>&gt;</string>
-      </property>
-      <property name="shortcut">
-       <string>Right</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="2" colspan="2" alignment="Qt::AlignHCenter">
-     <widget class="QLabel" name="imgDisplayIndex">
-      <property name="toolTip">
-       <string>Image index</string>
-      </property>
-      <property name="text">
-       <string>----</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="1">
-     <widget class="QComboBox" name="negPromptHistoryCombo">
-      <property name="toolTip">
-       <string>Negative prompt history</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="0" rowspan="2">
-     <widget class="QPlainTextEdit" name="promptLine">
-      <property name="toolTip">
-       <string>Enter the prompt here</string>
-      </property>
-      <property name="plainText">
-       <string>cute rabbit in the snow, photograph</string>
-      </property>
-      <property name="placeholderText">
-       <string>Prompt</string>
-      </property>
-     </widget>
-    </item>
     <item row="4" column="2" colspan="2">
      <widget class="QPushButton" name="generateButton">
       <property name="minimumSize">
@@ -111,10 +39,82 @@
       </property>
      </widget>
     </item>
+    <item row="2" column="2" colspan="2" alignment="Qt::AlignHCenter">
+     <widget class="QLabel" name="imgDisplayIndex">
+      <property name="toolTip">
+       <string>Image index</string>
+      </property>
+      <property name="text">
+       <string>----</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1" rowspan="2">
+     <widget class="QPlainTextEdit" name="negPromptLine">
+      <property name="toolTip">
+       <string>Enter negative prompt here</string>
+      </property>
+      <property name="plainText">
+       <string>ugly, bad quality, worst quality, frame, text, watermark</string>
+      </property>
+      <property name="placeholderText">
+       <string>Negative prompt</string>
+      </property>
+     </widget>
+    </item>
     <item row="2" column="0">
      <widget class="QComboBox" name="promptHistoryCombo">
       <property name="toolTip">
        <string>Prompt history</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QComboBox" name="negPromptHistoryCombo">
+      <property name="toolTip">
+       <string>Negative prompt history</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0" colspan="4">
+     <widget class="QGraphicsView" name="imgLabel"/>
+    </item>
+    <item row="3" column="3">
+     <widget class="QPushButton" name="nextImgButton">
+      <property name="toolTip">
+       <string>Next image</string>
+      </property>
+      <property name="text">
+       <string>&gt;</string>
+      </property>
+      <property name="shortcut">
+       <string>Right</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="2">
+     <widget class="QPushButton" name="previousImgButton">
+      <property name="toolTip">
+       <string>Previous image</string>
+      </property>
+      <property name="text">
+       <string>&lt;</string>
+      </property>
+      <property name="shortcut">
+       <string>Left</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0" rowspan="2">
+     <widget class="QPlainTextEdit" name="promptLine">
+      <property name="toolTip">
+       <string>Enter the prompt here</string>
+      </property>
+      <property name="plainText">
+       <string>cute rabbit in the snow, photograph</string>
+      </property>
+      <property name="placeholderText">
+       <string>Prompt</string>
       </property>
      </widget>
     </item>
@@ -123,7 +123,7 @@
       <property name="currentIndex">
        <number>0</number>
       </property>
-      <widget class="QWidget" name="tab_3">
+      <widget class="QWidget" name="txt2imgTab">
        <attribute name="title">
         <string>Text to image</string>
        </attribute>
@@ -138,7 +138,7 @@
           </property>
          </widget>
         </item>
-        <item alignment="Qt::AlignRight">
+        <item>
          <widget class="QLabel" name="label_2">
           <property name="text">
            <string>Upscale by:</string>
@@ -167,7 +167,7 @@
           </property>
          </widget>
         </item>
-        <item alignment="Qt::AlignRight">
+        <item>
          <widget class="QLabel" name="label_13">
           <property name="text">
            <string>Hi-res fix steps:</string>
@@ -187,7 +187,7 @@
           </property>
          </widget>
         </item>
-        <item alignment="Qt::AlignRight">
+        <item>
          <widget class="QLabel" name="label">
           <property name="text">
            <string>Denoise:</string>
@@ -207,37 +207,40 @@
           </property>
          </widget>
         </item>
+        <item>
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab_5">
+      <widget class="QWidget" name="img2imgTab">
        <attribute name="title">
         <string>Image to image</string>
        </attribute>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
-         <widget class="QLabel" name="label_28">
+         <widget class="QLabel" name="label_3">
           <property name="text">
            <string>Image:</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="img2imgLoadCombo">
-          <property name="toolTip">
-           <string>Select image to use (from 'ComfyUI/input' folder)</string>
-          </property>
-         </widget>
+         <widget class="QLineEdit" name="img2imgLoadLine"/>
         </item>
         <item>
          <widget class="QToolButton" name="img2imgLoadButton">
-          <property name="toolTip">
-           <string>Load images from 'ComfyUI/input' folder</string>
-          </property>
           <property name="text">
            <string>...</string>
-          </property>
-          <property name="arrowType">
-           <enum>Qt::RightArrow</enum>
           </property>
          </widget>
         </item>
@@ -265,43 +268,39 @@
          </widget>
         </item>
         <item>
-         <widget class="Line" name="line">
+         <spacer name="horizontalSpacer_3">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
-         </widget>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab_4">
+      <widget class="QWidget" name="inpaintTab">
        <attribute name="title">
         <string>Inpainting</string>
        </attribute>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="QLabel" name="label_27">
+         <widget class="QLabel" name="label_4">
           <property name="text">
            <string>Image:</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="inpaintLoadCombo">
-          <property name="toolTip">
-           <string>Select image to use (from 'ComfyUI/input' folder)</string>
-          </property>
-         </widget>
+         <widget class="QLineEdit" name="inpaintLoadLine"/>
         </item>
         <item>
          <widget class="QToolButton" name="inpaintLoadButton">
-          <property name="toolTip">
-           <string>Load images from 'ComfyUI/input' folder</string>
-          </property>
           <property name="text">
            <string>...</string>
-          </property>
-          <property name="arrowType">
-           <enum>Qt::RightArrow</enum>
           </property>
          </widget>
         </item>
@@ -337,6 +336,76 @@
            <string>Inpaint mask editor</string>
           </property>
          </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_4">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="upscaleTab">
+       <attribute name="title">
+        <string>Upscale</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <widget class="QLabel" name="label_5">
+          <property name="text">
+           <string>Image:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="upscaleLoadLine"/>
+        </item>
+        <item>
+         <widget class="QToolButton" name="upscaleLoadButton">
+          <property name="text">
+           <string>...</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="upscaleDownscaleCheck">
+          <property name="text">
+           <string>Downscale to:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="upscaleSpin">
+          <property name="suffix">
+           <string>%</string>
+          </property>
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="value">
+           <number>50</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
         </item>
        </layout>
       </widget>

@@ -9,7 +9,7 @@ APP_ICON = Path("assets/appicon.png")
 
 
 class InpaintMaskEditor(QMainWindow):
-    def __init__(self, inpaint_source, img_mask_path):
+    def __init__(self, inpaint_source):
         super().__init__()
 
         icon = QIcon()
@@ -17,7 +17,7 @@ class InpaintMaskEditor(QMainWindow):
         self.setWindowIcon(icon)
 
         self.inpaint_source = inpaint_source
-        self.img_mask_path = img_mask_path
+        self.img_mask_path = Path("assets/inpaint_mask.png")
 
         img = QImage(self.inpaint_source)
 

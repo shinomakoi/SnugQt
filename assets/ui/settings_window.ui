@@ -29,6 +29,9 @@
      <property name="currentIndex">
       <number>0</number>
      </property>
+     <property name="documentMode">
+      <bool>false</bool>
+     </property>
      <widget class="QWidget" name="parametersTab">
       <property name="autoFillBackground">
        <bool>true</bool>
@@ -575,26 +578,38 @@
        <string>Models</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="0" column="1">
-        <widget class="QLineEdit" name="comfyuiModelFolderValue">
-         <property name="toolTip">
-          <string>Path to the 'ComfyUI/models' folder</string>
-         </property>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_19">
          <property name="text">
-          <string>ComfyUI/models</string>
-         </property>
-         <property name="readOnly">
-          <bool>true</bool>
+          <string>ComfyUI extra checkpoints folder:</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="3">
-        <widget class="QToolButton" name="comfyuiModelFolderSelect">
-         <property name="toolTip">
-          <string>Select the 'ComfyUI/models' folder</string>
+       <item row="8" column="1">
+        <widget class="Line" name="line_6">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
          </property>
+        </widget>
+       </item>
+       <item row="11" column="1" colspan="3">
+        <widget class="QComboBox" name="sdxlBaseCheckpointCombo">
+         <property name="toolTip">
+          <string>Select SDXL base model</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_15">
          <property name="text">
-          <string>...</string>
+          <string>ComfyUI models folder: </string>
+         </property>
+        </widget>
+       </item>
+       <item row="12" column="1" colspan="3">
+        <widget class="QComboBox" name="sdxlRefinerCheckpointCombo">
+         <property name="toolTip">
+          <string>Select the SDXL refiner model</string>
          </property>
         </widget>
        </item>
@@ -602,6 +617,20 @@
         <widget class="Line" name="line_5">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="0">
+        <widget class="QLabel" name="label_11">
+         <property name="text">
+          <string>SDXL Base model:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="14" column="1" colspan="3">
+        <widget class="QComboBox" name="sd12VaeCombo">
+         <property name="toolTip">
+          <string>Select SD1/2 external VAE</string>
          </property>
         </widget>
        </item>
@@ -615,31 +644,20 @@
          </property>
         </widget>
        </item>
-       <item row="11" column="1" colspan="3">
-        <widget class="QComboBox" name="sdxlBaseCheckpointCombo">
+       <item row="15" column="1" colspan="3">
+        <widget class="QComboBox" name="sdxlVaeCombo">
          <property name="toolTip">
-          <string>Select SDXL base model</string>
+          <string>Select the SDXL external VAE</string>
          </property>
         </widget>
        </item>
-       <item row="9" column="1" colspan="3">
-        <widget class="QComboBox" name="sd12CheckpointCombo">
+       <item row="0" column="3">
+        <widget class="QToolButton" name="comfyuiModelFolderSelect">
          <property name="toolTip">
-          <string>Select SD1/2 checkpoint</string>
+          <string>Select the 'ComfyUI/models' folder</string>
          </property>
-        </widget>
-       </item>
-       <item row="8" column="1">
-        <widget class="Line" name="line_6">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_19">
          <property name="text">
-          <string>ComfyUI extra checkpoints folder:</string>
+          <string>...</string>
          </property>
         </widget>
        </item>
@@ -656,10 +674,13 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_15">
+       <item row="2" column="0">
+        <widget class="QPushButton" name="reloadModelsButton">
+         <property name="toolTip">
+          <string>Reload models</string>
+         </property>
          <property name="text">
-          <string>ComfyUI models folder: </string>
+          <string>Reload</string>
          </property>
         </widget>
        </item>
@@ -670,10 +691,10 @@
          </property>
         </widget>
        </item>
-       <item row="12" column="1" colspan="3">
-        <widget class="QComboBox" name="sdxlRefinerCheckpointCombo">
+       <item row="9" column="1" colspan="3">
+        <widget class="QComboBox" name="sd12CheckpointCombo">
          <property name="toolTip">
-          <string>Select the SDXL refiner model</string>
+          <string>Select SD1/2 checkpoint</string>
          </property>
         </widget>
        </item>
@@ -684,24 +705,23 @@
          </property>
         </widget>
        </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="comfyuiModelFolderValue">
+         <property name="toolTip">
+          <string>Path to the 'ComfyUI/models' folder</string>
+         </property>
+         <property name="text">
+          <string>ComfyUI/models</string>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
        <item row="9" column="0">
         <widget class="QLabel" name="label_8">
          <property name="text">
           <string>Stable Diffusion 1/2 model:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="14" column="1" colspan="3">
-        <widget class="QComboBox" name="sd12VaeCombo">
-         <property name="toolTip">
-          <string>Select SD1/2 external VAE</string>
-         </property>
-        </widget>
-       </item>
-       <item row="15" column="1" colspan="3">
-        <widget class="QComboBox" name="sdxlVaeCombo">
-         <property name="toolTip">
-          <string>Select the SDXL external VAE</string>
          </property>
         </widget>
        </item>
@@ -712,20 +732,34 @@
          </property>
         </widget>
        </item>
-       <item row="11" column="0">
-        <widget class="QLabel" name="label_11">
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
+       <string>Preferences</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_5">
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_2">
          <property name="text">
-          <string>SDXL Base model:</string>
+          <string>Max images:</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="0">
-        <widget class="QPushButton" name="reloadModelsButton">
-         <property name="toolTip">
-          <string>Reload models</string>
-         </property>
+       <item row="0" column="0">
+        <widget class="QCheckBox" name="keepImagesCheck">
          <property name="text">
-          <string>Reload</string>
+          <string>Keep images in display</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QSpinBox" name="maxImagesSpin">
+         <property name="minimum">
+          <number>32</number>
+         </property>
+         <property name="maximum">
+          <number>128</number>
          </property>
         </widget>
        </item>

@@ -34,6 +34,7 @@ class Ui_SettingsDialog(object):
 
         self.settingsTab = QTabWidget(SettingsDialog)
         self.settingsTab.setObjectName(u"settingsTab")
+        self.settingsTab.setDocumentMode(False)
         self.parametersTab = QWidget()
         self.parametersTab.setObjectName(u"parametersTab")
         self.parametersTab.setAutoFillBackground(True)
@@ -321,38 +322,10 @@ class Ui_SettingsDialog(object):
         self.modelsTab.setAutoFillBackground(True)
         self.gridLayout_2 = QGridLayout(self.modelsTab)
         self.gridLayout_2.setObjectName(u"gridLayout_2")
-        self.comfyuiModelFolderValue = QLineEdit(self.modelsTab)
-        self.comfyuiModelFolderValue.setObjectName(u"comfyuiModelFolderValue")
-        self.comfyuiModelFolderValue.setReadOnly(True)
+        self.label_19 = QLabel(self.modelsTab)
+        self.label_19.setObjectName(u"label_19")
 
-        self.gridLayout_2.addWidget(self.comfyuiModelFolderValue, 0, 1, 1, 1)
-
-        self.comfyuiModelFolderSelect = QToolButton(self.modelsTab)
-        self.comfyuiModelFolderSelect.setObjectName(u"comfyuiModelFolderSelect")
-
-        self.gridLayout_2.addWidget(self.comfyuiModelFolderSelect, 0, 3, 1, 1)
-
-        self.line_5 = QFrame(self.modelsTab)
-        self.line_5.setObjectName(u"line_5")
-        self.line_5.setFrameShape(QFrame.HLine)
-        self.line_5.setFrameShadow(QFrame.Sunken)
-
-        self.gridLayout_2.addWidget(self.line_5, 13, 1, 1, 1)
-
-        self.comfyuiExtraFolderSelect = QToolButton(self.modelsTab)
-        self.comfyuiExtraFolderSelect.setObjectName(u"comfyuiExtraFolderSelect")
-
-        self.gridLayout_2.addWidget(self.comfyuiExtraFolderSelect, 1, 3, 1, 1)
-
-        self.sdxlBaseCheckpointCombo = QComboBox(self.modelsTab)
-        self.sdxlBaseCheckpointCombo.setObjectName(u"sdxlBaseCheckpointCombo")
-
-        self.gridLayout_2.addWidget(self.sdxlBaseCheckpointCombo, 11, 1, 1, 3)
-
-        self.sd12CheckpointCombo = QComboBox(self.modelsTab)
-        self.sd12CheckpointCombo.setObjectName(u"sd12CheckpointCombo")
-
-        self.gridLayout_2.addWidget(self.sd12CheckpointCombo, 9, 1, 1, 3)
+        self.gridLayout_2.addWidget(self.label_19, 1, 0, 1, 1)
 
         self.line_6 = QFrame(self.modelsTab)
         self.line_6.setObjectName(u"line_6")
@@ -361,10 +334,52 @@ class Ui_SettingsDialog(object):
 
         self.gridLayout_2.addWidget(self.line_6, 8, 1, 1, 1)
 
-        self.label_19 = QLabel(self.modelsTab)
-        self.label_19.setObjectName(u"label_19")
+        self.sdxlBaseCheckpointCombo = QComboBox(self.modelsTab)
+        self.sdxlBaseCheckpointCombo.setObjectName(u"sdxlBaseCheckpointCombo")
 
-        self.gridLayout_2.addWidget(self.label_19, 1, 0, 1, 1)
+        self.gridLayout_2.addWidget(self.sdxlBaseCheckpointCombo, 11, 1, 1, 3)
+
+        self.label_15 = QLabel(self.modelsTab)
+        self.label_15.setObjectName(u"label_15")
+
+        self.gridLayout_2.addWidget(self.label_15, 0, 0, 1, 1)
+
+        self.sdxlRefinerCheckpointCombo = QComboBox(self.modelsTab)
+        self.sdxlRefinerCheckpointCombo.setObjectName(u"sdxlRefinerCheckpointCombo")
+
+        self.gridLayout_2.addWidget(self.sdxlRefinerCheckpointCombo, 12, 1, 1, 3)
+
+        self.line_5 = QFrame(self.modelsTab)
+        self.line_5.setObjectName(u"line_5")
+        self.line_5.setFrameShape(QFrame.HLine)
+        self.line_5.setFrameShadow(QFrame.Sunken)
+
+        self.gridLayout_2.addWidget(self.line_5, 13, 1, 1, 1)
+
+        self.label_11 = QLabel(self.modelsTab)
+        self.label_11.setObjectName(u"label_11")
+
+        self.gridLayout_2.addWidget(self.label_11, 11, 0, 1, 1)
+
+        self.sd12VaeCombo = QComboBox(self.modelsTab)
+        self.sd12VaeCombo.setObjectName(u"sd12VaeCombo")
+
+        self.gridLayout_2.addWidget(self.sd12VaeCombo, 14, 1, 1, 3)
+
+        self.comfyuiExtraFolderSelect = QToolButton(self.modelsTab)
+        self.comfyuiExtraFolderSelect.setObjectName(u"comfyuiExtraFolderSelect")
+
+        self.gridLayout_2.addWidget(self.comfyuiExtraFolderSelect, 1, 3, 1, 1)
+
+        self.sdxlVaeCombo = QComboBox(self.modelsTab)
+        self.sdxlVaeCombo.setObjectName(u"sdxlVaeCombo")
+
+        self.gridLayout_2.addWidget(self.sdxlVaeCombo, 15, 1, 1, 3)
+
+        self.comfyuiModelFolderSelect = QToolButton(self.modelsTab)
+        self.comfyuiModelFolderSelect.setObjectName(u"comfyuiModelFolderSelect")
+
+        self.gridLayout_2.addWidget(self.comfyuiModelFolderSelect, 0, 3, 1, 1)
 
         self.comfyuiExtraFolderValue = QLineEdit(self.modelsTab)
         self.comfyuiExtraFolderValue.setObjectName(u"comfyuiExtraFolderValue")
@@ -372,57 +387,65 @@ class Ui_SettingsDialog(object):
 
         self.gridLayout_2.addWidget(self.comfyuiExtraFolderValue, 1, 1, 1, 1)
 
-        self.label_15 = QLabel(self.modelsTab)
-        self.label_15.setObjectName(u"label_15")
+        self.reloadModelsButton = QPushButton(self.modelsTab)
+        self.reloadModelsButton.setObjectName(u"reloadModelsButton")
 
-        self.gridLayout_2.addWidget(self.label_15, 0, 0, 1, 1)
+        self.gridLayout_2.addWidget(self.reloadModelsButton, 2, 0, 1, 1)
 
         self.label_12 = QLabel(self.modelsTab)
         self.label_12.setObjectName(u"label_12")
 
         self.gridLayout_2.addWidget(self.label_12, 12, 0, 1, 1)
 
-        self.sdxlRefinerCheckpointCombo = QComboBox(self.modelsTab)
-        self.sdxlRefinerCheckpointCombo.setObjectName(u"sdxlRefinerCheckpointCombo")
+        self.sd12CheckpointCombo = QComboBox(self.modelsTab)
+        self.sd12CheckpointCombo.setObjectName(u"sd12CheckpointCombo")
 
-        self.gridLayout_2.addWidget(self.sdxlRefinerCheckpointCombo, 12, 1, 1, 3)
+        self.gridLayout_2.addWidget(self.sd12CheckpointCombo, 9, 1, 1, 3)
 
         self.label_17 = QLabel(self.modelsTab)
         self.label_17.setObjectName(u"label_17")
 
         self.gridLayout_2.addWidget(self.label_17, 14, 0, 1, 1)
 
+        self.comfyuiModelFolderValue = QLineEdit(self.modelsTab)
+        self.comfyuiModelFolderValue.setObjectName(u"comfyuiModelFolderValue")
+        self.comfyuiModelFolderValue.setReadOnly(True)
+
+        self.gridLayout_2.addWidget(self.comfyuiModelFolderValue, 0, 1, 1, 1)
+
         self.label_8 = QLabel(self.modelsTab)
         self.label_8.setObjectName(u"label_8")
 
         self.gridLayout_2.addWidget(self.label_8, 9, 0, 1, 1)
-
-        self.sd12VaeCombo = QComboBox(self.modelsTab)
-        self.sd12VaeCombo.setObjectName(u"sd12VaeCombo")
-
-        self.gridLayout_2.addWidget(self.sd12VaeCombo, 14, 1, 1, 3)
-
-        self.sdxlVaeCombo = QComboBox(self.modelsTab)
-        self.sdxlVaeCombo.setObjectName(u"sdxlVaeCombo")
-
-        self.gridLayout_2.addWidget(self.sdxlVaeCombo, 15, 1, 1, 3)
 
         self.label_18 = QLabel(self.modelsTab)
         self.label_18.setObjectName(u"label_18")
 
         self.gridLayout_2.addWidget(self.label_18, 15, 0, 1, 1)
 
-        self.label_11 = QLabel(self.modelsTab)
-        self.label_11.setObjectName(u"label_11")
-
-        self.gridLayout_2.addWidget(self.label_11, 11, 0, 1, 1)
-
-        self.reloadModelsButton = QPushButton(self.modelsTab)
-        self.reloadModelsButton.setObjectName(u"reloadModelsButton")
-
-        self.gridLayout_2.addWidget(self.reloadModelsButton, 2, 0, 1, 1)
-
         self.settingsTab.addTab(self.modelsTab, "")
+        self.tab = QWidget()
+        self.tab.setObjectName(u"tab")
+        self.gridLayout_5 = QGridLayout(self.tab)
+        self.gridLayout_5.setObjectName(u"gridLayout_5")
+        self.label_2 = QLabel(self.tab)
+        self.label_2.setObjectName(u"label_2")
+
+        self.gridLayout_5.addWidget(self.label_2, 1, 0, 1, 1)
+
+        self.keepImagesCheck = QCheckBox(self.tab)
+        self.keepImagesCheck.setObjectName(u"keepImagesCheck")
+
+        self.gridLayout_5.addWidget(self.keepImagesCheck, 0, 0, 1, 1)
+
+        self.maxImagesSpin = QSpinBox(self.tab)
+        self.maxImagesSpin.setObjectName(u"maxImagesSpin")
+        self.maxImagesSpin.setMinimum(32)
+        self.maxImagesSpin.setMaximum(128)
+
+        self.gridLayout_5.addWidget(self.maxImagesSpin, 1, 1, 1, 1)
+
+        self.settingsTab.addTab(self.tab, "")
 
         self.gridLayout.addWidget(self.settingsTab, 1, 0, 1, 1)
 
@@ -576,48 +599,51 @@ class Ui_SettingsDialog(object):
 #endif // QT_CONFIG(tooltip)
         self.label_22.setText(QCoreApplication.translate("SettingsDialog", u"SDXL LoRA:", None))
         self.settingsTab.setTabText(self.settingsTab.indexOf(self.loraTab), QCoreApplication.translate("SettingsDialog", u"LoRA", None))
+        self.label_19.setText(QCoreApplication.translate("SettingsDialog", u"ComfyUI extra checkpoints folder:", None))
 #if QT_CONFIG(tooltip)
-        self.comfyuiModelFolderValue.setToolTip(QCoreApplication.translate("SettingsDialog", u"Path to the 'ComfyUI/models' folder", None))
+        self.sdxlBaseCheckpointCombo.setToolTip(QCoreApplication.translate("SettingsDialog", u"Select SDXL base model", None))
 #endif // QT_CONFIG(tooltip)
-        self.comfyuiModelFolderValue.setText(QCoreApplication.translate("SettingsDialog", u"ComfyUI/models", None))
+        self.label_15.setText(QCoreApplication.translate("SettingsDialog", u"ComfyUI models folder: ", None))
 #if QT_CONFIG(tooltip)
-        self.comfyuiModelFolderSelect.setToolTip(QCoreApplication.translate("SettingsDialog", u"Select the 'ComfyUI/models' folder", None))
+        self.sdxlRefinerCheckpointCombo.setToolTip(QCoreApplication.translate("SettingsDialog", u"Select the SDXL refiner model", None))
 #endif // QT_CONFIG(tooltip)
-        self.comfyuiModelFolderSelect.setText(QCoreApplication.translate("SettingsDialog", u"...", None))
+        self.label_11.setText(QCoreApplication.translate("SettingsDialog", u"SDXL Base model:", None))
+#if QT_CONFIG(tooltip)
+        self.sd12VaeCombo.setToolTip(QCoreApplication.translate("SettingsDialog", u"Select SD1/2 external VAE", None))
+#endif // QT_CONFIG(tooltip)
 #if QT_CONFIG(tooltip)
         self.comfyuiExtraFolderSelect.setToolTip(QCoreApplication.translate("SettingsDialog", u"Select a ComfyUI extra models folder", None))
 #endif // QT_CONFIG(tooltip)
         self.comfyuiExtraFolderSelect.setText(QCoreApplication.translate("SettingsDialog", u"...", None))
 #if QT_CONFIG(tooltip)
-        self.sdxlBaseCheckpointCombo.setToolTip(QCoreApplication.translate("SettingsDialog", u"Select SDXL base model", None))
+        self.sdxlVaeCombo.setToolTip(QCoreApplication.translate("SettingsDialog", u"Select the SDXL external VAE", None))
 #endif // QT_CONFIG(tooltip)
 #if QT_CONFIG(tooltip)
-        self.sd12CheckpointCombo.setToolTip(QCoreApplication.translate("SettingsDialog", u"Select SD1/2 checkpoint", None))
+        self.comfyuiModelFolderSelect.setToolTip(QCoreApplication.translate("SettingsDialog", u"Select the 'ComfyUI/models' folder", None))
 #endif // QT_CONFIG(tooltip)
-        self.label_19.setText(QCoreApplication.translate("SettingsDialog", u"ComfyUI extra checkpoints folder:", None))
+        self.comfyuiModelFolderSelect.setText(QCoreApplication.translate("SettingsDialog", u"...", None))
 #if QT_CONFIG(tooltip)
         self.comfyuiExtraFolderValue.setToolTip(QCoreApplication.translate("SettingsDialog", u"Path to extra checkpoints folder, must be recognised by ComfyUI", None))
 #endif // QT_CONFIG(tooltip)
         self.comfyuiExtraFolderValue.setText("")
-        self.label_15.setText(QCoreApplication.translate("SettingsDialog", u"ComfyUI models folder: ", None))
-        self.label_12.setText(QCoreApplication.translate("SettingsDialog", u"SDXL Refiner model:", None))
-#if QT_CONFIG(tooltip)
-        self.sdxlRefinerCheckpointCombo.setToolTip(QCoreApplication.translate("SettingsDialog", u"Select the SDXL refiner model", None))
-#endif // QT_CONFIG(tooltip)
-        self.label_17.setText(QCoreApplication.translate("SettingsDialog", u"Stable Diffusion 1/2 VAE:", None))
-        self.label_8.setText(QCoreApplication.translate("SettingsDialog", u"Stable Diffusion 1/2 model:", None))
-#if QT_CONFIG(tooltip)
-        self.sd12VaeCombo.setToolTip(QCoreApplication.translate("SettingsDialog", u"Select SD1/2 external VAE", None))
-#endif // QT_CONFIG(tooltip)
-#if QT_CONFIG(tooltip)
-        self.sdxlVaeCombo.setToolTip(QCoreApplication.translate("SettingsDialog", u"Select the SDXL external VAE", None))
-#endif // QT_CONFIG(tooltip)
-        self.label_18.setText(QCoreApplication.translate("SettingsDialog", u"SDXL VAE:", None))
-        self.label_11.setText(QCoreApplication.translate("SettingsDialog", u"SDXL Base model:", None))
 #if QT_CONFIG(tooltip)
         self.reloadModelsButton.setToolTip(QCoreApplication.translate("SettingsDialog", u"Reload models", None))
 #endif // QT_CONFIG(tooltip)
         self.reloadModelsButton.setText(QCoreApplication.translate("SettingsDialog", u"Reload", None))
+        self.label_12.setText(QCoreApplication.translate("SettingsDialog", u"SDXL Refiner model:", None))
+#if QT_CONFIG(tooltip)
+        self.sd12CheckpointCombo.setToolTip(QCoreApplication.translate("SettingsDialog", u"Select SD1/2 checkpoint", None))
+#endif // QT_CONFIG(tooltip)
+        self.label_17.setText(QCoreApplication.translate("SettingsDialog", u"Stable Diffusion 1/2 VAE:", None))
+#if QT_CONFIG(tooltip)
+        self.comfyuiModelFolderValue.setToolTip(QCoreApplication.translate("SettingsDialog", u"Path to the 'ComfyUI/models' folder", None))
+#endif // QT_CONFIG(tooltip)
+        self.comfyuiModelFolderValue.setText(QCoreApplication.translate("SettingsDialog", u"ComfyUI/models", None))
+        self.label_8.setText(QCoreApplication.translate("SettingsDialog", u"Stable Diffusion 1/2 model:", None))
+        self.label_18.setText(QCoreApplication.translate("SettingsDialog", u"SDXL VAE:", None))
         self.settingsTab.setTabText(self.settingsTab.indexOf(self.modelsTab), QCoreApplication.translate("SettingsDialog", u"Models", None))
+        self.label_2.setText(QCoreApplication.translate("SettingsDialog", u"Max images:", None))
+        self.keepImagesCheck.setText(QCoreApplication.translate("SettingsDialog", u"Keep images in display", None))
+        self.settingsTab.setTabText(self.settingsTab.indexOf(self.tab), QCoreApplication.translate("SettingsDialog", u"Preferences", None))
     # retranslateUi
 

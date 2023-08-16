@@ -17,10 +17,11 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
 from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QDoubleSpinBox,
-    QFrame, QGraphicsView, QGridLayout, QHBoxLayout,
-    QLabel, QMainWindow, QMenu, QMenuBar,
-    QPlainTextEdit, QPushButton, QSizePolicy, QSpinBox,
-    QStatusBar, QTabWidget, QToolButton, QWidget)
+    QGraphicsView, QGridLayout, QHBoxLayout, QLabel,
+    QLineEdit, QMainWindow, QMenu, QMenuBar,
+    QPlainTextEdit, QPushButton, QSizePolicy, QSpacerItem,
+    QSpinBox, QStatusBar, QTabWidget, QToolButton,
+    QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -39,15 +40,34 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName(u"centralwidget")
         self.gridLayout = QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName(u"gridLayout")
-        self.previousImgButton = QPushButton(self.centralwidget)
-        self.previousImgButton.setObjectName(u"previousImgButton")
+        self.generateButton = QPushButton(self.centralwidget)
+        self.generateButton.setObjectName(u"generateButton")
+        self.generateButton.setMinimumSize(QSize(0, 64))
+        font = QFont()
+        font.setBold(True)
+        self.generateButton.setFont(font)
 
-        self.gridLayout.addWidget(self.previousImgButton, 3, 2, 1, 1)
+        self.gridLayout.addWidget(self.generateButton, 4, 2, 1, 2)
+
+        self.imgDisplayIndex = QLabel(self.centralwidget)
+        self.imgDisplayIndex.setObjectName(u"imgDisplayIndex")
+
+        self.gridLayout.addWidget(self.imgDisplayIndex, 2, 2, 1, 2, Qt.AlignHCenter)
 
         self.negPromptLine = QPlainTextEdit(self.centralwidget)
         self.negPromptLine.setObjectName(u"negPromptLine")
 
         self.gridLayout.addWidget(self.negPromptLine, 3, 1, 2, 1)
+
+        self.promptHistoryCombo = QComboBox(self.centralwidget)
+        self.promptHistoryCombo.setObjectName(u"promptHistoryCombo")
+
+        self.gridLayout.addWidget(self.promptHistoryCombo, 2, 0, 1, 1)
+
+        self.negPromptHistoryCombo = QComboBox(self.centralwidget)
+        self.negPromptHistoryCombo.setObjectName(u"negPromptHistoryCombo")
+
+        self.gridLayout.addWidget(self.negPromptHistoryCombo, 2, 1, 1, 1)
 
         self.imgLabel = QGraphicsView(self.centralwidget)
         self.imgLabel.setObjectName(u"imgLabel")
@@ -59,52 +79,33 @@ class Ui_MainWindow(object):
 
         self.gridLayout.addWidget(self.nextImgButton, 3, 3, 1, 1)
 
-        self.imgDisplayIndex = QLabel(self.centralwidget)
-        self.imgDisplayIndex.setObjectName(u"imgDisplayIndex")
+        self.previousImgButton = QPushButton(self.centralwidget)
+        self.previousImgButton.setObjectName(u"previousImgButton")
 
-        self.gridLayout.addWidget(self.imgDisplayIndex, 2, 2, 1, 2, Qt.AlignHCenter)
-
-        self.negPromptHistoryCombo = QComboBox(self.centralwidget)
-        self.negPromptHistoryCombo.setObjectName(u"negPromptHistoryCombo")
-
-        self.gridLayout.addWidget(self.negPromptHistoryCombo, 2, 1, 1, 1)
+        self.gridLayout.addWidget(self.previousImgButton, 3, 2, 1, 1)
 
         self.promptLine = QPlainTextEdit(self.centralwidget)
         self.promptLine.setObjectName(u"promptLine")
 
         self.gridLayout.addWidget(self.promptLine, 3, 0, 2, 1)
 
-        self.generateButton = QPushButton(self.centralwidget)
-        self.generateButton.setObjectName(u"generateButton")
-        self.generateButton.setMinimumSize(QSize(0, 64))
-        font = QFont()
-        font.setBold(True)
-        self.generateButton.setFont(font)
-
-        self.gridLayout.addWidget(self.generateButton, 4, 2, 1, 2)
-
-        self.promptHistoryCombo = QComboBox(self.centralwidget)
-        self.promptHistoryCombo.setObjectName(u"promptHistoryCombo")
-
-        self.gridLayout.addWidget(self.promptHistoryCombo, 2, 0, 1, 1)
-
         self.tabWidget = QTabWidget(self.centralwidget)
         self.tabWidget.setObjectName(u"tabWidget")
-        self.tab_3 = QWidget()
-        self.tab_3.setObjectName(u"tab_3")
-        self.horizontalLayout_3 = QHBoxLayout(self.tab_3)
+        self.txt2imgTab = QWidget()
+        self.txt2imgTab.setObjectName(u"txt2imgTab")
+        self.horizontalLayout_3 = QHBoxLayout(self.txt2imgTab)
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.hiresFixCheck = QCheckBox(self.tab_3)
+        self.hiresFixCheck = QCheckBox(self.txt2imgTab)
         self.hiresFixCheck.setObjectName(u"hiresFixCheck")
 
         self.horizontalLayout_3.addWidget(self.hiresFixCheck)
 
-        self.label_2 = QLabel(self.tab_3)
+        self.label_2 = QLabel(self.txt2imgTab)
         self.label_2.setObjectName(u"label_2")
 
-        self.horizontalLayout_3.addWidget(self.label_2, 0, Qt.AlignRight)
+        self.horizontalLayout_3.addWidget(self.label_2)
 
-        self.hiresfixScaleByValue = QDoubleSpinBox(self.tab_3)
+        self.hiresfixScaleByValue = QDoubleSpinBox(self.txt2imgTab)
         self.hiresfixScaleByValue.setObjectName(u"hiresfixScaleByValue")
         self.hiresfixScaleByValue.setDecimals(2)
         self.hiresfixScaleByValue.setMinimum(1.000000000000000)
@@ -114,12 +115,12 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_3.addWidget(self.hiresfixScaleByValue)
 
-        self.label_13 = QLabel(self.tab_3)
+        self.label_13 = QLabel(self.txt2imgTab)
         self.label_13.setObjectName(u"label_13")
 
-        self.horizontalLayout_3.addWidget(self.label_13, 0, Qt.AlignRight)
+        self.horizontalLayout_3.addWidget(self.label_13)
 
-        self.hiresfixStepsValue = QSpinBox(self.tab_3)
+        self.hiresfixStepsValue = QSpinBox(self.txt2imgTab)
         self.hiresfixStepsValue.setObjectName(u"hiresfixStepsValue")
         self.hiresfixStepsValue.setMinimum(1)
         self.hiresfixStepsValue.setMaximum(256)
@@ -127,12 +128,12 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_3.addWidget(self.hiresfixStepsValue)
 
-        self.label = QLabel(self.tab_3)
+        self.label = QLabel(self.txt2imgTab)
         self.label.setObjectName(u"label")
 
-        self.horizontalLayout_3.addWidget(self.label, 0, Qt.AlignRight)
+        self.horizontalLayout_3.addWidget(self.label)
 
-        self.hiresfixDenoiseSpin = QDoubleSpinBox(self.tab_3)
+        self.hiresfixDenoiseSpin = QDoubleSpinBox(self.txt2imgTab)
         self.hiresfixDenoiseSpin.setObjectName(u"hiresfixDenoiseSpin")
         self.hiresfixDenoiseSpin.setMaximum(1.000000000000000)
         self.hiresfixDenoiseSpin.setSingleStep(0.050000000000000)
@@ -140,33 +141,36 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_3.addWidget(self.hiresfixDenoiseSpin)
 
-        self.tabWidget.addTab(self.tab_3, "")
-        self.tab_5 = QWidget()
-        self.tab_5.setObjectName(u"tab_5")
-        self.horizontalLayout_2 = QHBoxLayout(self.tab_5)
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_3.addItem(self.horizontalSpacer_2)
+
+        self.tabWidget.addTab(self.txt2imgTab, "")
+        self.img2imgTab = QWidget()
+        self.img2imgTab.setObjectName(u"img2imgTab")
+        self.horizontalLayout_2 = QHBoxLayout(self.img2imgTab)
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.label_28 = QLabel(self.tab_5)
-        self.label_28.setObjectName(u"label_28")
+        self.label_3 = QLabel(self.img2imgTab)
+        self.label_3.setObjectName(u"label_3")
 
-        self.horizontalLayout_2.addWidget(self.label_28)
+        self.horizontalLayout_2.addWidget(self.label_3)
 
-        self.img2imgLoadCombo = QComboBox(self.tab_5)
-        self.img2imgLoadCombo.setObjectName(u"img2imgLoadCombo")
+        self.img2imgLoadLine = QLineEdit(self.img2imgTab)
+        self.img2imgLoadLine.setObjectName(u"img2imgLoadLine")
 
-        self.horizontalLayout_2.addWidget(self.img2imgLoadCombo)
+        self.horizontalLayout_2.addWidget(self.img2imgLoadLine)
 
-        self.img2imgLoadButton = QToolButton(self.tab_5)
+        self.img2imgLoadButton = QToolButton(self.img2imgTab)
         self.img2imgLoadButton.setObjectName(u"img2imgLoadButton")
-        self.img2imgLoadButton.setArrowType(Qt.RightArrow)
 
         self.horizontalLayout_2.addWidget(self.img2imgLoadButton)
 
-        self.label_29 = QLabel(self.tab_5)
+        self.label_29 = QLabel(self.img2imgTab)
         self.label_29.setObjectName(u"label_29")
 
         self.horizontalLayout_2.addWidget(self.label_29, 0, Qt.AlignRight)
 
-        self.img2imgDenoiseSpin = QDoubleSpinBox(self.tab_5)
+        self.img2imgDenoiseSpin = QDoubleSpinBox(self.img2imgTab)
         self.img2imgDenoiseSpin.setObjectName(u"img2imgDenoiseSpin")
         self.img2imgDenoiseSpin.setMaximum(1.000000000000000)
         self.img2imgDenoiseSpin.setSingleStep(0.050000000000000)
@@ -174,40 +178,36 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_2.addWidget(self.img2imgDenoiseSpin)
 
-        self.line = QFrame(self.tab_5)
-        self.line.setObjectName(u"line")
-        self.line.setFrameShape(QFrame.HLine)
-        self.line.setFrameShadow(QFrame.Sunken)
+        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
-        self.horizontalLayout_2.addWidget(self.line)
+        self.horizontalLayout_2.addItem(self.horizontalSpacer_3)
 
-        self.tabWidget.addTab(self.tab_5, "")
-        self.tab_4 = QWidget()
-        self.tab_4.setObjectName(u"tab_4")
-        self.horizontalLayout = QHBoxLayout(self.tab_4)
+        self.tabWidget.addTab(self.img2imgTab, "")
+        self.inpaintTab = QWidget()
+        self.inpaintTab.setObjectName(u"inpaintTab")
+        self.horizontalLayout = QHBoxLayout(self.inpaintTab)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.label_27 = QLabel(self.tab_4)
-        self.label_27.setObjectName(u"label_27")
+        self.label_4 = QLabel(self.inpaintTab)
+        self.label_4.setObjectName(u"label_4")
 
-        self.horizontalLayout.addWidget(self.label_27)
+        self.horizontalLayout.addWidget(self.label_4)
 
-        self.inpaintLoadCombo = QComboBox(self.tab_4)
-        self.inpaintLoadCombo.setObjectName(u"inpaintLoadCombo")
+        self.inpaintLoadLine = QLineEdit(self.inpaintTab)
+        self.inpaintLoadLine.setObjectName(u"inpaintLoadLine")
 
-        self.horizontalLayout.addWidget(self.inpaintLoadCombo)
+        self.horizontalLayout.addWidget(self.inpaintLoadLine)
 
-        self.inpaintLoadButton = QToolButton(self.tab_4)
+        self.inpaintLoadButton = QToolButton(self.inpaintTab)
         self.inpaintLoadButton.setObjectName(u"inpaintLoadButton")
-        self.inpaintLoadButton.setArrowType(Qt.RightArrow)
 
         self.horizontalLayout.addWidget(self.inpaintLoadButton)
 
-        self.label_26 = QLabel(self.tab_4)
+        self.label_26 = QLabel(self.inpaintTab)
         self.label_26.setObjectName(u"label_26")
 
         self.horizontalLayout.addWidget(self.label_26, 0, Qt.AlignRight)
 
-        self.inpaintDenoiseSpin = QDoubleSpinBox(self.tab_4)
+        self.inpaintDenoiseSpin = QDoubleSpinBox(self.inpaintTab)
         self.inpaintDenoiseSpin.setObjectName(u"inpaintDenoiseSpin")
         self.inpaintDenoiseSpin.setMaximum(1.000000000000000)
         self.inpaintDenoiseSpin.setSingleStep(0.050000000000000)
@@ -215,12 +215,52 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout.addWidget(self.inpaintDenoiseSpin)
 
-        self.inpaintMaskEditorButton = QPushButton(self.tab_4)
+        self.inpaintMaskEditorButton = QPushButton(self.inpaintTab)
         self.inpaintMaskEditorButton.setObjectName(u"inpaintMaskEditorButton")
 
         self.horizontalLayout.addWidget(self.inpaintMaskEditorButton)
 
-        self.tabWidget.addTab(self.tab_4, "")
+        self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout.addItem(self.horizontalSpacer_4)
+
+        self.tabWidget.addTab(self.inpaintTab, "")
+        self.upscaleTab = QWidget()
+        self.upscaleTab.setObjectName(u"upscaleTab")
+        self.horizontalLayout_4 = QHBoxLayout(self.upscaleTab)
+        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
+        self.label_5 = QLabel(self.upscaleTab)
+        self.label_5.setObjectName(u"label_5")
+
+        self.horizontalLayout_4.addWidget(self.label_5)
+
+        self.upscaleLoadLine = QLineEdit(self.upscaleTab)
+        self.upscaleLoadLine.setObjectName(u"upscaleLoadLine")
+
+        self.horizontalLayout_4.addWidget(self.upscaleLoadLine)
+
+        self.upscaleLoadButton = QToolButton(self.upscaleTab)
+        self.upscaleLoadButton.setObjectName(u"upscaleLoadButton")
+
+        self.horizontalLayout_4.addWidget(self.upscaleLoadButton)
+
+        self.upscaleDownscaleCheck = QCheckBox(self.upscaleTab)
+        self.upscaleDownscaleCheck.setObjectName(u"upscaleDownscaleCheck")
+
+        self.horizontalLayout_4.addWidget(self.upscaleDownscaleCheck)
+
+        self.upscaleSpin = QSpinBox(self.upscaleTab)
+        self.upscaleSpin.setObjectName(u"upscaleSpin")
+        self.upscaleSpin.setMinimum(1)
+        self.upscaleSpin.setValue(50)
+
+        self.horizontalLayout_4.addWidget(self.upscaleSpin)
+
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_4.addItem(self.horizontalSpacer)
+
+        self.tabWidget.addTab(self.upscaleTab, "")
 
         self.gridLayout.addWidget(self.tabWidget, 0, 0, 1, 4, Qt.AlignTop)
 
@@ -265,17 +305,27 @@ class Ui_MainWindow(object):
         self.actionAbout.setText(QCoreApplication.translate("MainWindow", u"About", None))
         self.actionInpaint.setText(QCoreApplication.translate("MainWindow", u"Inpaint", None))
 #if QT_CONFIG(tooltip)
-        self.previousImgButton.setToolTip(QCoreApplication.translate("MainWindow", u"Previous image", None))
+        self.generateButton.setToolTip(QCoreApplication.translate("MainWindow", u"Generate images", None))
 #endif // QT_CONFIG(tooltip)
-        self.previousImgButton.setText(QCoreApplication.translate("MainWindow", u"<", None))
+        self.generateButton.setText(QCoreApplication.translate("MainWindow", u"Generate", None))
 #if QT_CONFIG(shortcut)
-        self.previousImgButton.setShortcut(QCoreApplication.translate("MainWindow", u"Left", None))
+        self.generateButton.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+Return", None))
 #endif // QT_CONFIG(shortcut)
+#if QT_CONFIG(tooltip)
+        self.imgDisplayIndex.setToolTip(QCoreApplication.translate("MainWindow", u"Image index", None))
+#endif // QT_CONFIG(tooltip)
+        self.imgDisplayIndex.setText(QCoreApplication.translate("MainWindow", u"----", None))
 #if QT_CONFIG(tooltip)
         self.negPromptLine.setToolTip(QCoreApplication.translate("MainWindow", u"Enter negative prompt here", None))
 #endif // QT_CONFIG(tooltip)
         self.negPromptLine.setPlainText(QCoreApplication.translate("MainWindow", u"ugly, bad quality, worst quality, frame, text, watermark", None))
         self.negPromptLine.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Negative prompt", None))
+#if QT_CONFIG(tooltip)
+        self.promptHistoryCombo.setToolTip(QCoreApplication.translate("MainWindow", u"Prompt history", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.negPromptHistoryCombo.setToolTip(QCoreApplication.translate("MainWindow", u"Negative prompt history", None))
+#endif // QT_CONFIG(tooltip)
 #if QT_CONFIG(tooltip)
         self.nextImgButton.setToolTip(QCoreApplication.translate("MainWindow", u"Next image", None))
 #endif // QT_CONFIG(tooltip)
@@ -284,27 +334,17 @@ class Ui_MainWindow(object):
         self.nextImgButton.setShortcut(QCoreApplication.translate("MainWindow", u"Right", None))
 #endif // QT_CONFIG(shortcut)
 #if QT_CONFIG(tooltip)
-        self.imgDisplayIndex.setToolTip(QCoreApplication.translate("MainWindow", u"Image index", None))
+        self.previousImgButton.setToolTip(QCoreApplication.translate("MainWindow", u"Previous image", None))
 #endif // QT_CONFIG(tooltip)
-        self.imgDisplayIndex.setText(QCoreApplication.translate("MainWindow", u"----", None))
-#if QT_CONFIG(tooltip)
-        self.negPromptHistoryCombo.setToolTip(QCoreApplication.translate("MainWindow", u"Negative prompt history", None))
-#endif // QT_CONFIG(tooltip)
+        self.previousImgButton.setText(QCoreApplication.translate("MainWindow", u"<", None))
+#if QT_CONFIG(shortcut)
+        self.previousImgButton.setShortcut(QCoreApplication.translate("MainWindow", u"Left", None))
+#endif // QT_CONFIG(shortcut)
 #if QT_CONFIG(tooltip)
         self.promptLine.setToolTip(QCoreApplication.translate("MainWindow", u"Enter the prompt here", None))
 #endif // QT_CONFIG(tooltip)
         self.promptLine.setPlainText(QCoreApplication.translate("MainWindow", u"cute rabbit in the snow, photograph", None))
         self.promptLine.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Prompt", None))
-#if QT_CONFIG(tooltip)
-        self.generateButton.setToolTip(QCoreApplication.translate("MainWindow", u"Generate images", None))
-#endif // QT_CONFIG(tooltip)
-        self.generateButton.setText(QCoreApplication.translate("MainWindow", u"Generate", None))
-#if QT_CONFIG(shortcut)
-        self.generateButton.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+Return", None))
-#endif // QT_CONFIG(shortcut)
-#if QT_CONFIG(tooltip)
-        self.promptHistoryCombo.setToolTip(QCoreApplication.translate("MainWindow", u"Prompt history", None))
-#endif // QT_CONFIG(tooltip)
 #if QT_CONFIG(tooltip)
         self.hiresFixCheck.setToolTip(QCoreApplication.translate("MainWindow", u"Enable hi-res fix", None))
 #endif // QT_CONFIG(tooltip)
@@ -315,27 +355,15 @@ class Ui_MainWindow(object):
 #endif // QT_CONFIG(tooltip)
         self.label_13.setText(QCoreApplication.translate("MainWindow", u"Hi-res fix steps:", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Denoise:", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), QCoreApplication.translate("MainWindow", u"Text to image", None))
-        self.label_28.setText(QCoreApplication.translate("MainWindow", u"Image:", None))
-#if QT_CONFIG(tooltip)
-        self.img2imgLoadCombo.setToolTip(QCoreApplication.translate("MainWindow", u"Select image to use (from 'ComfyUI/input' folder)", None))
-#endif // QT_CONFIG(tooltip)
-#if QT_CONFIG(tooltip)
-        self.img2imgLoadButton.setToolTip(QCoreApplication.translate("MainWindow", u"Load images from 'ComfyUI/input' folder", None))
-#endif // QT_CONFIG(tooltip)
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.txt2imgTab), QCoreApplication.translate("MainWindow", u"Text to image", None))
+        self.label_3.setText(QCoreApplication.translate("MainWindow", u"Image:", None))
         self.img2imgLoadButton.setText(QCoreApplication.translate("MainWindow", u"...", None))
         self.label_29.setText(QCoreApplication.translate("MainWindow", u"Denoise strength:", None))
 #if QT_CONFIG(tooltip)
         self.img2imgDenoiseSpin.setToolTip(QCoreApplication.translate("MainWindow", u"Denoising strength. Higher value = less like starting image", None))
 #endif // QT_CONFIG(tooltip)
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_5), QCoreApplication.translate("MainWindow", u"Image to image", None))
-        self.label_27.setText(QCoreApplication.translate("MainWindow", u"Image:", None))
-#if QT_CONFIG(tooltip)
-        self.inpaintLoadCombo.setToolTip(QCoreApplication.translate("MainWindow", u"Select image to use (from 'ComfyUI/input' folder)", None))
-#endif // QT_CONFIG(tooltip)
-#if QT_CONFIG(tooltip)
-        self.inpaintLoadButton.setToolTip(QCoreApplication.translate("MainWindow", u"Load images from 'ComfyUI/input' folder", None))
-#endif // QT_CONFIG(tooltip)
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.img2imgTab), QCoreApplication.translate("MainWindow", u"Image to image", None))
+        self.label_4.setText(QCoreApplication.translate("MainWindow", u"Image:", None))
         self.inpaintLoadButton.setText(QCoreApplication.translate("MainWindow", u"...", None))
         self.label_26.setText(QCoreApplication.translate("MainWindow", u"Denoise strength:", None))
 #if QT_CONFIG(tooltip)
@@ -345,7 +373,12 @@ class Ui_MainWindow(object):
         self.inpaintMaskEditorButton.setToolTip(QCoreApplication.translate("MainWindow", u"Open editor to create a masked image for inpainting", None))
 #endif // QT_CONFIG(tooltip)
         self.inpaintMaskEditorButton.setText(QCoreApplication.translate("MainWindow", u"Inpaint mask editor", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_4), QCoreApplication.translate("MainWindow", u"Inpainting", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.inpaintTab), QCoreApplication.translate("MainWindow", u"Inpainting", None))
+        self.label_5.setText(QCoreApplication.translate("MainWindow", u"Image:", None))
+        self.upscaleLoadButton.setText(QCoreApplication.translate("MainWindow", u"...", None))
+        self.upscaleDownscaleCheck.setText(QCoreApplication.translate("MainWindow", u"Downscale to:", None))
+        self.upscaleSpin.setSuffix(QCoreApplication.translate("MainWindow", u"%", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.upscaleTab), QCoreApplication.translate("MainWindow", u"Upscale", None))
         self.menuFile.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
         self.menuHelp.setTitle(QCoreApplication.translate("MainWindow", u"Help", None))
     # retranslateUi

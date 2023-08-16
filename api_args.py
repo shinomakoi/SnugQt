@@ -5,6 +5,30 @@ class ApiArgs:
     def __init__(self):
         pass
 
+    def so_upscale(self, img_gen_args):
+        prompt = {
+            "1": {
+                "inputs": {
+                    "image": img_gen_args["so_upscale_image"],
+                    "choose file to upload": "image",
+                },
+                "class_type": "LoadImage",
+            },
+            "2": {
+                "inputs": {"model_name": img_gen_args["so_upscale_model"]},
+                "class_type": "UpscaleModelLoader",
+            },
+            "3": {
+                "inputs": {"upscale_model": ["2", 0], "image": ["1", 0]},
+                "class_type": "ImageUpscaleWithModel",
+            },
+            "4": {
+                "inputs": {"filename_prefix": "SnugQt/SnugQt", "images": ["3", 0]},
+                "class_type": "SaveImage",
+            },
+        }
+        return prompt
+
     def gen_base(self, img_gen_args):
         base_node = {
             "1": {

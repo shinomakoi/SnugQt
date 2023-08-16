@@ -70,15 +70,13 @@ class ws_generate:
 
         return output_images
 
-    # Get args from api_args.py
-    def sd_preset(self, img_gen_args):
-        api_args = ApiArgs()
-        prompt = api_args.generate_api_prompt(img_gen_args)
-        return prompt
-
     # Generate the final image based on the image generation arguments."""
     def img_gen_final(self, img_gen_args):
-        prompt = self.sd_preset(img_gen_args)
+        api_args = ApiArgs()
+        if img_gen_args["so_upscale_model"]:
+            prompt = api_args.so_upscale(img_gen_args)
+        else:
+            prompt = api_args.generate_api_prompt(img_gen_args)
 
         ws = websocket.WebSocket()
         ws.connect(f"ws://{self.server_address}/ws?clientId={self.client_id}")
