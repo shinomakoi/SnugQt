@@ -41,9 +41,12 @@ class RunAPI(QThread):
     # Launcher of SD gen or upscale
     def run(self):
         if self.img_gen_args:
-            self.upscale_gen() if self.img_gen_args[
-                "so_upscale_model"
-            ] else self.img_gen()
+            try:
+                self.img_gen()
+            except Exception as error:
+                self.final_resultReady.emit(None, False)
+                print("--- Error during generation:\n", error)
+                return
 
     def upscale_gen(self):
         img_fetch = ws_generate()
