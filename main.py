@@ -44,7 +44,7 @@ class RunAPI(QThread):
             try:
                 self.img_gen()
             except Exception as error:
-                self.final_resultReady.emit(None, False)
+                self.final_resultReady.emit(None, False, None)
                 print("--- Error during generation:\n", error)
                 return
 
