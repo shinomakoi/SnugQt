@@ -158,6 +158,10 @@ class SettingsWindow(QtWidgets.QWidget, Ui_SettingsDialog):
             self.sdxlLoraCombo.setCurrentText(lora["sdxl"])
             self.loraStrengthSpin.setValue(lora["model_strength"])
             self.loraClipStrengthSpin.setValue(lora["clip_strength"])
+            # Preferences
+            preferences = data["preferences"]
+            self.keepImagesCheck.setChecked(preferences["keep_images"])
+            self.maxImagesSpin.setValue(preferences["max_images"])
 
     # Save settings to settings.yaml
     def save_settings(self):
@@ -204,6 +208,12 @@ class SettingsWindow(QtWidgets.QWidget, Ui_SettingsDialog):
                     "sdxl": self.sdxlLoraCombo.currentText(),
                     "model_strength": self.loraStrengthSpin.value(),
                     "clip_strength": self.loraClipStrengthSpin.value(),
+                }
+            )
+            data["preferences"].update(
+                {
+                    "keep_images": self.keepImagesCheck.isChecked(),
+                    "max_images": self.maxImagesSpin.value(),
                 }
             )
 
@@ -671,7 +681,7 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
         if success:
             self.completion_imgs_tabs(temp_image_list, tab_index)
             self.set_tab_images(tab_index)
-            
+
         self.on_completion(success)
 
     # Final handle of result

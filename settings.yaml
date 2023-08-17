@@ -28,3 +28,6 @@ parameters:
   seed: -1
   steps: 20
   width: 1024
+preferences:
+  keep_images: false
+  max_images: 32
