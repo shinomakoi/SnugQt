@@ -38,4 +38,4 @@ python main.py
 You can change settings in File > Settings. Make sure to set the path to the 'ComfyUI/models' folder (click the ... button to select).
 Images are saved in the ComfyUI/ouput/SnugQT folder.
 
-![image](https://github.com/shinomakoi/SnugQt/assets/112139428/23238904-323c-4f95-bbf8-32469d65f052)
+![image](https://github.com/shinomakoi/SnugQt/assets/112139428/7474dcb8-a37e-4fa9-b1a9-2819663a9e4e)
