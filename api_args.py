@@ -23,10 +23,23 @@ class ApiArgs:
                 "class_type": "ImageUpscaleWithModel",
             },
             "4": {
-                "inputs": {"filename_prefix": "SnugQt/SnugQt", "images": ["3", 0]},
+                "inputs": {"filename_prefix": "SnugQt/SnugQt", "images": ["5", 0]},
                 "class_type": "SaveImage",
             },
         }
+
+        if img_gen_args["downscale"]:
+            downscale_node = {
+                "inputs": {
+                    "upscale_method": "bicubic",
+                    "scale_by": img_gen_args["downscale"],
+                    "image": ["3", 0],
+                },
+                "class_type": "ImageScaleBy",
+            }
+            prompt["5"] = downscale_node
+        print(prompt)
+
         return prompt
 
     def gen_base(self, img_gen_args):

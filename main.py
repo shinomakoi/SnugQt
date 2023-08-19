@@ -7,7 +7,7 @@ from pathlib import Path
 import yaml
 from PySide6 import QtWidgets
 from PySide6.QtCore import QSize, QThread, Signal, Slot
-from PySide6.QtGui import QIcon, QImage, QPixmap
+from PySide6.QtGui import QIcon, QImage, QPixmap, Qt
 from PySide6.QtWidgets import (
     QApplication,
     QFileDialog,
@@ -40,9 +40,14 @@ class RunAPI(QThread):
 
     # Launcher of SD gen or upscale
     def run(self):
+        mode = (
+            self.upscale_gen()
+            if self.img_gen_args["so_upscale_model"]
+            else self.img_gen()
+        )
         if self.img_gen_args:
             try:
-                self.img_gen()
+                mode
             except Exception as error:
                 self.final_resultReady.emit(None, False, None)
                 print("--- Error during generation:\n", error)
@@ -362,7 +367,13 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
         if current_tab_index in [0, 1, 2, 3]:
             key = tab_images_keys[current_tab_index]
             if self.image_dict[key]:
-                self.gfxview_addimg(QPixmap.fromImage(QImage.fromData(self.image_dict[key][self.image_index_dict[key]])))
+                self.gfxview_addimg(
+                    QPixmap.fromImage(
+                        QImage.fromData(
+                            self.image_dict[key][self.image_index_dict[key]]
+                        )
+                    )
+                )
                 image_count = len(self.image_dict[key])
                 imgDisplayIndex_text = (
                     image_count
@@ -667,6 +678,11 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
             ] = self.settings_win.modelUpscaleCombo.currentText()
             img_input_path = self.upscaleLoadLine.text()
             img_gen_args["so_upscale_image"] = img_input_path
+            img_gen_args["downscale"] = (
+                self.upscaleSpin.value() / 100
+                if self.upscaleDownscaleCheck.isChecked()
+                else None
+            )
 
         self.statusbar.showMessage("Status: Generating...")
         self.generateButton.setEnabled(False)
