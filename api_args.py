@@ -23,7 +23,7 @@ class ApiArgs:
                 "class_type": "ImageUpscaleWithModel",
             },
             "4": {
-                "inputs": {"filename_prefix": "SnugQt/SnugQt", "images": ["5", 0]},
+                "inputs": {"filename_prefix": "SnugQt/SnugQt", "images": ["3", 0]},
                 "class_type": "SaveImage",
             },
         }
@@ -38,7 +38,7 @@ class ApiArgs:
                 "class_type": "ImageScaleBy",
             }
             prompt["5"] = downscale_node
-        print(prompt)
+            prompt["4"]["inputs"]["images"][0] = "5"
 
         return prompt
 
