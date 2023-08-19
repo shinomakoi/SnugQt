@@ -60,7 +60,7 @@ class RunAPI(QThread):
         # Check if no images were generated
         if not self.temp_image_list:
             print("--- No images were generated")
-            self.final_resultReady.emit(None, False)
+            self.final_resultReady.emit(None, False, None)
 
         self.final_resultReady.emit(self.temp_image_list, True, self.tab_index)
 
