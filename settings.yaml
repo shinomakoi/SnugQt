@@ -1,25 +1,21 @@
 checkpoints:
-  comfy_model_folder: 
+  checkpoint: 
   comfy_extra_model_folder: 
-  sd12: 
-  sd12_vae: 
-  sdxl_base: 
+  comfy_model_folder: 
+  external_vae: 
   sdxl_refiner: 
-  sdxl_vae: 
   upscale_model: 
   use_ex_vae: false
 lora:
   clip_strength: 1.0
+  lora_file: 
   model_strength: 1.0
-  sd12: 
-  sdxl: 
   use: false
 parameters:
   batch_size: 1
   cfg: 8
   height: 1024
   iterations: 1
-  mode: SDXL
   model_upscale: false
   sampler: dpmpp_2m
   scheduler: karras

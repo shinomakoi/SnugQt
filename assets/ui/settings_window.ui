@@ -40,41 +40,44 @@
        <string>Parameters</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_4">
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_14">
-         <property name="text">
-          <string>Mode:</string>
-         </property>
-        </widget>
+       <item row="1" column="1" colspan="2">
+        <widget class="QComboBox" name="checkpointCombo"/>
        </item>
-       <item row="31" column="0">
-        <widget class="QLabel" name="label_16">
-         <property name="text">
-          <string>SDXL refiner steps:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="23" column="0">
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>Sampler:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0" colspan="3">
-        <widget class="Line" name="line_4">
+       <item row="41" column="0" colspan="3">
+        <widget class="Line" name="line_2">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
-       <item row="30" column="0">
-        <widget class="QCheckBox" name="sdxlRefinerCheck">
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_9">
+         <property name="text">
+          <string>Width:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QCheckBox" name="useExternalVaeCheck">
          <property name="toolTip">
-          <string>Enable refiner when using SDXL</string>
+          <string>Use an external VAE instead of model's built-in VAE</string>
          </property>
          <property name="text">
-          <string>SDXL Refiner</string>
+          <string>Use external VAE:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_10">
+         <property name="text">
+          <string>Height:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="23" column="0">
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>Scheduler:</string>
          </property>
         </widget>
        </item>
@@ -94,7 +97,24 @@
          </property>
         </widget>
        </item>
-       <item row="40" column="0">
+       <item row="29" column="0">
+        <widget class="QCheckBox" name="sdxlRefinerCheck">
+         <property name="toolTip">
+          <string>Enable refiner when using SDXL</string>
+         </property>
+         <property name="text">
+          <string>SDXL Refiner</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" colspan="3">
+        <widget class="Line" name="line_4">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="42" column="0">
         <widget class="QCheckBox" name="modelUpscaleCheck">
          <property name="toolTip">
           <string>Upscale final image with upscale model</string>
@@ -104,20 +124,7 @@
          </property>
         </widget>
        </item>
-       <item row="17" column="1">
-        <widget class="QSpinBox" name="iterationsValue">
-         <property name="toolTip">
-          <string>Number of iterations to perform</string>
-         </property>
-         <property name="minimum">
-          <number>1</number>
-         </property>
-         <property name="maximum">
-          <number>128</number>
-         </property>
-        </widget>
-       </item>
-       <item row="20" column="1">
+       <item row="19" column="1">
         <widget class="QSpinBox" name="stepsValue">
          <property name="toolTip">
           <string>Number of steps to perform when generating iamge</string>
@@ -133,131 +140,65 @@
          </property>
         </widget>
        </item>
-       <item row="6" column="0">
-        <widget class="QLabel" name="label_10">
-         <property name="text">
-          <string>Height:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="1">
-        <widget class="QSpinBox" name="imgWidthValue">
-         <property name="toolTip">
-          <string>Width of the generated image</string>
-         </property>
-         <property name="minimum">
-          <number>256</number>
-         </property>
-         <property name="maximum">
-          <number>4096</number>
-         </property>
-         <property name="singleStep">
-          <number>64</number>
-         </property>
-         <property name="value">
-          <number>512</number>
-         </property>
-        </widget>
-       </item>
-       <item row="18" column="0">
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>Batch size:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="19" column="0">
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>CFG scale:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="39" column="0" colspan="3">
-        <widget class="Line" name="line_2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0">
-        <widget class="QLabel" name="label_9">
-         <property name="text">
-          <string>Width:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="20" column="0">
-        <widget class="QLabel" name="label_7">
-         <property name="text">
-          <string>Steps:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="19" column="1">
-        <widget class="QSpinBox" name="cfgValue">
-         <property name="toolTip">
-          <string>CFG scale value</string>
-         </property>
-         <property name="minimum">
-          <number>1</number>
-         </property>
-         <property name="maximum">
-          <number>40</number>
-         </property>
-         <property name="value">
-          <number>8</number>
-         </property>
-        </widget>
-       </item>
-       <item row="17" column="0">
-        <widget class="QLabel" name="label_20">
-         <property name="text">
-          <string>Iterations:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="1">
-        <widget class="QSpinBox" name="imgHeightValue">
-         <property name="toolTip">
-          <string>Height of the generated image</string>
-         </property>
-         <property name="minimum">
-          <number>256</number>
-         </property>
-         <property name="maximum">
-          <number>4096</number>
-         </property>
-         <property name="singleStep">
-          <number>64</number>
-         </property>
-         <property name="value">
-          <number>512</number>
-         </property>
-        </widget>
-       </item>
-       <item row="40" column="1" colspan="2">
+       <item row="42" column="1" colspan="2">
         <widget class="QComboBox" name="modelUpscaleCombo">
          <property name="toolTip">
           <string>Upscale model to use</string>
          </property>
         </widget>
        </item>
-       <item row="25" column="0">
+       <item row="24" column="1">
+        <widget class="QSpinBox" name="clipSkipValue">
+         <property name="toolTip">
+          <string>Set last layer of CLIP. -1 for normal</string>
+         </property>
+         <property name="minimum">
+          <number>-8</number>
+         </property>
+         <property name="maximum">
+          <number>-1</number>
+         </property>
+        </widget>
+       </item>
+       <item row="31" column="0">
+        <widget class="QLabel" name="label_16">
+         <property name="text">
+          <string>SDXL refiner steps:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="30" column="0">
+        <widget class="QLabel" name="label_13">
+         <property name="text">
+          <string>SDXL Refiner model:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="16" column="0">
+        <widget class="QLabel" name="label_20">
+         <property name="text">
+          <string>Iterations:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="24" column="0">
         <widget class="QLabel" name="label_25">
          <property name="text">
           <string>Clip skip:</string>
          </property>
         </widget>
        </item>
-       <item row="29" column="0" colspan="3">
+       <item row="2" column="1" colspan="2">
+        <widget class="QComboBox" name="externalVaeCombo"/>
+       </item>
+       <item row="28" column="0" colspan="3">
         <widget class="Line" name="line_3">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
-       <item row="24" column="1" colspan="2">
+       <item row="23" column="1" colspan="2">
         <widget class="QComboBox" name="schedulerValue">
          <property name="toolTip">
           <string>Noise scheduler to use</string>
@@ -289,34 +230,26 @@
          </item>
         </widget>
        </item>
-       <item row="1" column="1" colspan="2">
-        <widget class="QComboBox" name="modeSelectCombo">
+       <item row="4" column="1">
+        <widget class="QSpinBox" name="imgWidthValue">
          <property name="toolTip">
-          <string>Select the model type</string>
+          <string>Width of the generated image</string>
          </property>
-         <item>
-          <property name="text">
-           <string>Stable Diffusion 1/2</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>SDXL</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QCheckBox" name="useExternalVaeCheck">
-         <property name="toolTip">
-          <string>Use an external VAE instead of model's built-in VAE</string>
+         <property name="minimum">
+          <number>256</number>
          </property>
-         <property name="text">
-          <string>Use external VAE</string>
+         <property name="maximum">
+          <number>4096</number>
+         </property>
+         <property name="singleStep">
+          <number>64</number>
+         </property>
+         <property name="value">
+          <number>512</number>
          </property>
         </widget>
        </item>
-       <item row="23" column="1" colspan="2">
+       <item row="22" column="1" colspan="2">
         <widget class="QComboBox" name="samplerValue">
          <property name="toolTip">
           <string>Noise sampler to use</string>
@@ -408,23 +341,27 @@
          </item>
         </widget>
        </item>
-       <item row="18" column="1">
-        <widget class="QSpinBox" name="batchValue">
+       <item row="16" column="1">
+        <widget class="QSpinBox" name="iterationsValue">
          <property name="toolTip">
-          <string>How many images to generate at once. More VRAM</string>
+          <string>Number of iterations to perform</string>
          </property>
          <property name="minimum">
           <number>1</number>
          </property>
          <property name="maximum">
-          <number>64</number>
-         </property>
-         <property name="value">
-          <number>2</number>
+          <number>128</number>
          </property>
         </widget>
        </item>
-       <item row="16" column="1">
+       <item row="22" column="0">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Sampler:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="15" column="1">
         <widget class="QSpinBox" name="seedValue">
          <property name="toolTip">
           <string>Seed to use. -1 for random</string>
@@ -440,30 +377,92 @@
          </property>
         </widget>
        </item>
-       <item row="24" column="0">
-        <widget class="QLabel" name="label_6">
-         <property name="text">
-          <string>Scheduler:</string>
+       <item row="5" column="1">
+        <widget class="QSpinBox" name="imgHeightValue">
+         <property name="toolTip">
+          <string>Height of the generated image</string>
+         </property>
+         <property name="minimum">
+          <number>256</number>
+         </property>
+         <property name="maximum">
+          <number>4096</number>
+         </property>
+         <property name="singleStep">
+          <number>64</number>
+         </property>
+         <property name="value">
+          <number>512</number>
          </property>
         </widget>
        </item>
-       <item row="16" column="0">
+       <item row="30" column="1" colspan="2">
+        <widget class="QComboBox" name="sdxlRefinerCheckpointCombo"/>
+       </item>
+       <item row="17" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Batch size:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="19" column="0">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>Steps:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="18" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>CFG scale:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_11">
+         <property name="text">
+          <string>Model:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="18" column="1">
+        <widget class="QSpinBox" name="cfgValue">
+         <property name="toolTip">
+          <string>CFG scale value</string>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>40</number>
+         </property>
+         <property name="value">
+          <number>8</number>
+         </property>
+        </widget>
+       </item>
+       <item row="17" column="1">
+        <widget class="QSpinBox" name="batchValue">
+         <property name="toolTip">
+          <string>How many images to generate at once. More VRAM</string>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>64</number>
+         </property>
+         <property name="value">
+          <number>2</number>
+         </property>
+        </widget>
+       </item>
+       <item row="15" column="0">
         <widget class="QLabel" name="label">
          <property name="text">
           <string>Seed:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="25" column="1">
-        <widget class="QSpinBox" name="clipSkipValue">
-         <property name="toolTip">
-          <string>Set last layer of CLIP. -1 for normal</string>
-         </property>
-         <property name="minimum">
-          <number>-8</number>
-         </property>
-         <property name="maximum">
-          <number>-1</number>
          </property>
         </widget>
        </item>
@@ -477,68 +476,14 @@
        <string>LoRA</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_3">
-       <item row="2" column="3">
-        <widget class="QComboBox" name="sdxlLoraCombo">
-         <property name="toolTip">
-          <string>Select SDXL LoRA</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0">
-        <widget class="QLabel" name="label_21">
-         <property name="text">
-          <string>LoRA clip strength:</string>
-         </property>
-        </widget>
-       </item>
        <item row="1" column="0">
         <widget class="QLabel" name="label_24">
          <property name="text">
-          <string>SD1/2 LoRA:</string>
+          <string>LoRA model:</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="3">
-        <widget class="QComboBox" name="sd12LoraCombo">
-         <property name="toolTip">
-          <string>Select SD1/2 LoRA</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QCheckBox" name="loraCheck">
-         <property name="toolTip">
-          <string>Enable a LoRA when generating images</string>
-         </property>
-         <property name="text">
-          <string>Enable LoRA</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0">
-        <widget class="QLabel" name="label_23">
-         <property name="text">
-          <string>LoRA model strength:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="3">
-        <widget class="QDoubleSpinBox" name="loraClipStrengthSpin">
-         <property name="toolTip">
-          <string>Select the clip strength of the LoRA</string>
-         </property>
-         <property name="maximum">
-          <double>2.000000000000000</double>
-         </property>
-         <property name="singleStep">
-          <double>0.050000000000000</double>
-         </property>
-         <property name="value">
-          <double>1.000000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="3">
+       <item row="4" column="3">
         <widget class="QDoubleSpinBox" name="loraStrengthSpin">
          <property name="toolTip">
           <string>Select the model strength of the LoRA</string>
@@ -554,17 +499,57 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_22">
-         <property name="text">
-          <string>SDXL LoRA:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="3">
+       <item row="2" column="3">
         <widget class="Line" name="line_7">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QCheckBox" name="loraCheck">
+         <property name="toolTip">
+          <string>Enable a LoRA when generating images</string>
+         </property>
+         <property name="text">
+          <string>Enable LoRA</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="3">
+        <widget class="QDoubleSpinBox" name="loraClipStrengthSpin">
+         <property name="toolTip">
+          <string>Select the clip strength of the LoRA</string>
+         </property>
+         <property name="maximum">
+          <double>2.000000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.050000000000000</double>
+         </property>
+         <property name="value">
+          <double>1.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="3">
+        <widget class="QComboBox" name="loraCombo">
+         <property name="toolTip">
+          <string>Select SD1/2 LoRA</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_23">
+         <property name="text">
+          <string>LoRA model strength:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_21">
+         <property name="text">
+          <string>LoRA clip strength:</string>
          </property>
         </widget>
        </item>
@@ -575,7 +560,7 @@
        <bool>true</bool>
       </property>
       <attribute name="title">
-       <string>Models</string>
+       <string>Paths</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_2">
        <item row="1" column="0">
@@ -585,79 +570,13 @@
          </property>
         </widget>
        </item>
-       <item row="8" column="1">
-        <widget class="Line" name="line_6">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="11" column="1" colspan="3">
-        <widget class="QComboBox" name="sdxlBaseCheckpointCombo">
+       <item row="2" column="0">
+        <widget class="QPushButton" name="reloadModelsButton">
          <property name="toolTip">
-          <string>Select SDXL base model</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_15">
-         <property name="text">
-          <string>ComfyUI models folder: </string>
-         </property>
-        </widget>
-       </item>
-       <item row="12" column="1" colspan="3">
-        <widget class="QComboBox" name="sdxlRefinerCheckpointCombo">
-         <property name="toolTip">
-          <string>Select the SDXL refiner model</string>
-         </property>
-        </widget>
-       </item>
-       <item row="13" column="1">
-        <widget class="Line" name="line_5">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="11" column="0">
-        <widget class="QLabel" name="label_11">
-         <property name="text">
-          <string>SDXL Base model:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="14" column="1" colspan="3">
-        <widget class="QComboBox" name="sd12VaeCombo">
-         <property name="toolTip">
-          <string>Select SD1/2 external VAE</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="3">
-        <widget class="QToolButton" name="comfyuiExtraFolderSelect">
-         <property name="toolTip">
-          <string>Select a ComfyUI extra models folder</string>
+          <string>Reload models</string>
          </property>
          <property name="text">
-          <string>...</string>
-         </property>
-        </widget>
-       </item>
-       <item row="15" column="1" colspan="3">
-        <widget class="QComboBox" name="sdxlVaeCombo">
-         <property name="toolTip">
-          <string>Select the SDXL external VAE</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="3">
-        <widget class="QToolButton" name="comfyuiModelFolderSelect">
-         <property name="toolTip">
-          <string>Select the 'ComfyUI/models' folder</string>
-         </property>
-         <property name="text">
-          <string>...</string>
+          <string>Reload</string>
          </property>
         </widget>
        </item>
@@ -674,34 +593,30 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="0">
-        <widget class="QPushButton" name="reloadModelsButton">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_15">
+         <property name="text">
+          <string>ComfyUI models folder: </string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QToolButton" name="comfyuiModelFolderSelect">
          <property name="toolTip">
-          <string>Reload models</string>
+          <string>Select the 'ComfyUI/models' folder</string>
          </property>
          <property name="text">
-          <string>Reload</string>
+          <string>...</string>
          </property>
         </widget>
        </item>
-       <item row="12" column="0">
-        <widget class="QLabel" name="label_12">
-         <property name="text">
-          <string>SDXL Refiner model:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="1" colspan="3">
-        <widget class="QComboBox" name="sd12CheckpointCombo">
+       <item row="1" column="2">
+        <widget class="QToolButton" name="comfyuiExtraFolderSelect">
          <property name="toolTip">
-          <string>Select SD1/2 checkpoint</string>
+          <string>Select a ComfyUI extra models folder</string>
          </property>
-        </widget>
-       </item>
-       <item row="14" column="0">
-        <widget class="QLabel" name="label_17">
          <property name="text">
-          <string>Stable Diffusion 1/2 VAE:</string>
+          <string>...</string>
          </property>
         </widget>
        </item>
@@ -715,20 +630,6 @@
          </property>
          <property name="readOnly">
           <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="0">
-        <widget class="QLabel" name="label_8">
-         <property name="text">
-          <string>Stable Diffusion 1/2 model:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="15" column="0">
-        <widget class="QLabel" name="label_18">
-         <property name="text">
-          <string>SDXL VAE:</string>
          </property>
         </widget>
        </item>
@@ -779,20 +680,13 @@
   <tabstop>cfgValue</tabstop>
   <tabstop>stepsValue</tabstop>
   <tabstop>loraCheck</tabstop>
-  <tabstop>sd12LoraCombo</tabstop>
-  <tabstop>sdxlLoraCombo</tabstop>
+  <tabstop>loraCombo</tabstop>
   <tabstop>loraStrengthSpin</tabstop>
   <tabstop>loraClipStrengthSpin</tabstop>
-  <tabstop>modeSelectCombo</tabstop>
   <tabstop>comfyuiModelFolderValue</tabstop>
   <tabstop>comfyuiModelFolderSelect</tabstop>
   <tabstop>comfyuiExtraFolderValue</tabstop>
   <tabstop>comfyuiExtraFolderSelect</tabstop>
-  <tabstop>sd12CheckpointCombo</tabstop>
-  <tabstop>sdxlBaseCheckpointCombo</tabstop>
-  <tabstop>sdxlRefinerCheckpointCombo</tabstop>
-  <tabstop>sd12VaeCombo</tabstop>
-  <tabstop>sdxlVaeCombo</tabstop>
   <tabstop>saveSettingsButton</tabstop>
  </tabstops>
  <resources/>

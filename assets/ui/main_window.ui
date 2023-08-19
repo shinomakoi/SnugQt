@@ -15,93 +15,10 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="4" column="2" colspan="2">
-     <widget class="QPushButton" name="generateButton">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>64</height>
-       </size>
-      </property>
-      <property name="font">
-       <font>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="toolTip">
-       <string>Generate images</string>
-      </property>
-      <property name="text">
-       <string>Generate</string>
-      </property>
-      <property name="shortcut">
-       <string>Ctrl+Return</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="2" colspan="2" alignment="Qt::AlignHCenter">
-     <widget class="QLabel" name="imgDisplayIndex">
-      <property name="toolTip">
-       <string>Image index</string>
-      </property>
-      <property name="text">
-       <string>----</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="1" rowspan="2">
-     <widget class="QPlainTextEdit" name="negPromptLine">
-      <property name="toolTip">
-       <string>Enter negative prompt here</string>
-      </property>
-      <property name="plainText">
-       <string>ugly, bad quality, worst quality, frame, text, watermark</string>
-      </property>
-      <property name="placeholderText">
-       <string>Negative prompt</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="0">
-     <widget class="QComboBox" name="promptHistoryCombo">
-      <property name="toolTip">
-       <string>Prompt history</string>
-      </property>
-     </widget>
-    </item>
     <item row="2" column="1">
      <widget class="QComboBox" name="negPromptHistoryCombo">
       <property name="toolTip">
        <string>Negative prompt history</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0" colspan="4">
-     <widget class="QGraphicsView" name="imgLabel"/>
-    </item>
-    <item row="3" column="3">
-     <widget class="QPushButton" name="nextImgButton">
-      <property name="toolTip">
-       <string>Next image</string>
-      </property>
-      <property name="text">
-       <string>&gt;</string>
-      </property>
-      <property name="shortcut">
-       <string>Right</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="2">
-     <widget class="QPushButton" name="previousImgButton">
-      <property name="toolTip">
-       <string>Previous image</string>
-      </property>
-      <property name="text">
-       <string>&lt;</string>
-      </property>
-      <property name="shortcut">
-       <string>Left</string>
       </property>
      </widget>
     </item>
@@ -219,6 +136,81 @@
            </size>
           </property>
          </spacer>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>Style:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="promptStyleCombo">
+          <property name="minimumSize">
+           <size>
+            <width>168</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Apply style to prompt. Negative prompt is overridden</string>
+          </property>
+          <item>
+           <property name="text">
+            <string>None</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Enhance</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Anime</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Photographic</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Digital art</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Fantasy art</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Analog film</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Line art</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Cinematic</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>3D Model</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Pixel art</string>
+           </property>
+          </item>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -411,6 +403,89 @@
       </widget>
      </widget>
     </item>
+    <item row="4" column="2" colspan="2">
+     <widget class="QPushButton" name="generateButton">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>64</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string>Generate images</string>
+      </property>
+      <property name="text">
+       <string>Generate</string>
+      </property>
+      <property name="shortcut">
+       <string>Ctrl+Return</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1" rowspan="2">
+     <widget class="QPlainTextEdit" name="negPromptLine">
+      <property name="toolTip">
+       <string>Enter negative prompt here</string>
+      </property>
+      <property name="plainText">
+       <string>ugly, bad quality, worst quality, frame, text, watermark</string>
+      </property>
+      <property name="placeholderText">
+       <string>Negative prompt</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0" colspan="4">
+     <widget class="QGraphicsView" name="imgLabel"/>
+    </item>
+    <item row="2" column="0">
+     <widget class="QComboBox" name="promptHistoryCombo">
+      <property name="toolTip">
+       <string>Prompt history</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="2" colspan="2" alignment="Qt::AlignHCenter">
+     <widget class="QLabel" name="imgDisplayIndex">
+      <property name="toolTip">
+       <string>Image index</string>
+      </property>
+      <property name="text">
+       <string>----</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="3">
+     <widget class="QPushButton" name="nextImgButton">
+      <property name="toolTip">
+       <string>Next image</string>
+      </property>
+      <property name="text">
+       <string>&gt;</string>
+      </property>
+      <property name="shortcut">
+       <string>Right</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="2">
+     <widget class="QPushButton" name="previousImgButton">
+      <property name="toolTip">
+       <string>Previous image</string>
+      </property>
+      <property name="text">
+       <string>&lt;</string>
+      </property>
+      <property name="shortcut">
+       <string>Left</string>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -419,7 +494,7 @@
      <x>0</x>
      <y>0</y>
      <width>1174</width>
-     <height>27</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

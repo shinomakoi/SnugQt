@@ -129,16 +129,13 @@ class SettingsWindow(QtWidgets.QWidget, Ui_SettingsDialog):
                 checkpoints["comfy_extra_model_folder"]
             )
             self.add_models()
-            self.sd12CheckpointCombo.setCurrentText(checkpoints["sd12"])
-            self.sdxlBaseCheckpointCombo.setCurrentText(checkpoints["sdxl_base"])
+            self.checkpointCombo.setCurrentText(checkpoints["checkpoint"])
             self.sdxlRefinerCheckpointCombo.setCurrentText(checkpoints["sdxl_refiner"])
-            self.sd12VaeCombo.setCurrentText(checkpoints["sd12_vae"])
-            self.sdxlVaeCombo.setCurrentText(checkpoints["sdxl_vae"])
+            self.externalVaeCombo.setCurrentText(checkpoints["external_vae"])
             self.modelUpscaleCombo.setCurrentText(checkpoints["upscale_model"])
             self.useExternalVaeCheck.setChecked(checkpoints["use_ex_vae"])
             # Parameters
             params = data["parameters"]
-            self.modeSelectCombo.setCurrentText(params["mode"])
             self.imgWidthValue.setValue(params["width"])
             self.imgHeightValue.setValue(params["height"])
             self.seedValue.setValue(params["seed"])
@@ -154,8 +151,7 @@ class SettingsWindow(QtWidgets.QWidget, Ui_SettingsDialog):
             # Lora
             lora = data["lora"]
             self.loraCheck.setChecked(lora["use"])
-            self.sd12LoraCombo.setCurrentText(lora["sd12"])
-            self.sdxlLoraCombo.setCurrentText(lora["sdxl"])
+            self.loraCombo.setCurrentText(lora["lora_file"])
             self.loraStrengthSpin.setValue(lora["model_strength"])
             self.loraClipStrengthSpin.setValue(lora["clip_strength"])
             # Preferences
@@ -173,11 +169,9 @@ class SettingsWindow(QtWidgets.QWidget, Ui_SettingsDialog):
                 {
                     "comfy_model_folder": self.comfyuiModelFolderValue.text(),
                     "comfy_extra_model_folder": self.comfyuiExtraFolderValue.text(),
-                    "sd12": self.sd12CheckpointCombo.currentText(),
-                    "sdxl_base": self.sdxlBaseCheckpointCombo.currentText(),
+                    "checkpoint": self.checkpointCombo.currentText(),
                     "sdxl_refiner": self.sdxlRefinerCheckpointCombo.currentText(),
-                    "sd12_vae": self.sd12VaeCombo.currentText(),
-                    "sdxl_vae": self.sdxlVaeCombo.currentText(),
+                    "external_vae": self.externalVaeCombo.currentText(),
                     "use_ex_vae": self.useExternalVaeCheck.isChecked(),
                     "upscale_model": self.modelUpscaleCombo.currentText(),
                 }
@@ -185,7 +179,6 @@ class SettingsWindow(QtWidgets.QWidget, Ui_SettingsDialog):
             # Parameters
             data["parameters"].update(
                 {
-                    "mode": self.modeSelectCombo.currentText(),
                     "width": self.imgWidthValue.value(),
                     "height": self.imgHeightValue.value(),
                     "seed": self.seedValue.value(),
@@ -204,8 +197,7 @@ class SettingsWindow(QtWidgets.QWidget, Ui_SettingsDialog):
             data["lora"].update(
                 {
                     "use": self.loraCheck.isChecked(),
-                    "sd12": self.sd12LoraCombo.currentText(),
-                    "sdxl": self.sdxlLoraCombo.currentText(),
+                    "lora_file": self.loraCombo.currentText(),
                     "model_strength": self.loraStrengthSpin.value(),
                     "clip_strength": self.loraClipStrengthSpin.value(),
                 }
@@ -243,8 +235,7 @@ class SettingsWindow(QtWidgets.QWidget, Ui_SettingsDialog):
             ]
         )
         for combo in (
-            self.sd12CheckpointCombo,
-            self.sdxlBaseCheckpointCombo,
+            self.checkpointCombo,
             self.sdxlRefinerCheckpointCombo,
         ):
             combo.clear()
@@ -262,9 +253,8 @@ class SettingsWindow(QtWidgets.QWidget, Ui_SettingsDialog):
                 )
             ]
         )
-        for combo in (self.sd12VaeCombo, self.sdxlVaeCombo):
-            combo.clear()
-            combo.addItems(vaes)
+        self.externalVaeCombo.clear()
+        self.externalVaeCombo.addItems(vaes)
         print("--- Added VAEs:", vaes)
 
         # Add LoRAs
@@ -277,9 +267,8 @@ class SettingsWindow(QtWidgets.QWidget, Ui_SettingsDialog):
                 )
             ]
         )
-        for combo in (self.sd12LoraCombo, self.sdxlLoraCombo):
-            combo.clear()
-            combo.addItems(loras)
+        self.loraCombo.clear()
+        self.loraCombo.addItems(loras)
         print("--- Added LoRAs:", loras)
 
         # Add upscale models
@@ -460,34 +449,68 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
                     f"Image {self.image_index_dict[key]+1}/{image_count}"
                 )
 
+    # Define a function to get the prompt styles based on the style argument
+    def prompt_styles(self, style):
+        prompt_line = self.promptLine.toPlainText()
+
+        style_dict = {
+            "Enhance": (
+                f"breathtaking {prompt_line} . award-winning, professional, highly detailed",
+                "ugly, deformed, noisy, blurry, distorted, grainy",
+            ),
+            "Anime": (
+                f"anime artwork {prompt_line} . anime style, key visual, vibrant, studio anime, highly detailed",
+                "photo, deformed, black and white, realism, disfigured, low contrast",
+            ),
+            "Photographic": (
+                f"cinematic photo {prompt_line} . 35mm photograph, film, bokeh, professional, 4k, highly detailed",
+                "drawing, painting, crayon, sketch, graphite, impressionist, noisy, blurry, soft, deformed, ugly",
+            ),
+            "Digital art": (
+                f"concept art {prompt_line} . digital artwork, illustrative, painterly, matte painting, highly detailed",
+                "photo, photorealistic, realism, ugly",
+            ),
+            "Fantasy art": (
+                f"ethereal fantasy concept art of {prompt_line} . magnificent, celestial, ethereal, painterly, epic, majestic, magical, fantasy art, cover art, dreamy",
+                "photographic, realistic, realism, 35mm film, dslr, cropped, frame, text, deformed, glitch, noise, noisy, off-center, deformed, cross-eyed, closed eyes, bad anatomy, ugly, disfigured, sloppy, duplicate, mutated, black and white",
+            ),
+            "Analog film": (
+                f"analog film photo {prompt_line} . faded film, desaturated, 35mm photo, grainy, vignette, vintage, Kodachrome, Lomography, stained, highly detailed, found footage",
+                "painting, drawing, illustration, glitch, deformed, mutated, cross-eyed, ugly, disfigured",
+            ),
+            "Line art": (
+                f"line art drawing {prompt_line} . professional, sleek, modern, minimalist, graphic, line art, vector graphics",
+                "anime, photorealistic, 35mm film, deformed, glitch, blurry, noisy, off-center, deformed, cross-eyed, closed eyes, bad anatomy, ugly, disfigured, mutated, realism, realistic, impressionism, expressionism, oil, acrylic",
+            ),
+            "Cinematic": (
+                f"cinematic film still {prompt_line} . shallow depth of field, vignette, highly detailed, high budget Hollywood movie, bokeh, cinemascope, moody, epic, gorgeous, film grain, grainy",
+                "anime, cartoon, graphic, text, painting, crayon, graphite, abstract, glitch, deformed, mutated, ugly, disfigured",
+            ),
+            "3D Model": (
+                f"professional 3d model {prompt_line} . octane render, highly detailed, volumetric, dramatic lighting",
+                "ugly, deformed, noisy, low poly, blurry, painting",
+            ),
+            "Pixel art": (
+                f"pixel-art {prompt_line} . low-res, blocky, pixel art style, 8-bit graphics",
+                "sloppy, messy, blurry, noisy, highly detailed, ultra textured, photo, realistic",
+            ),
+        }
+        return style_dict[style]
+
     # Process the prompt and generate the image generation arguments
     def process_prompt(self):
         settings = self.settings_win
 
-        # Use a dictionary to map the mode to the corresponding checkpoint and vae combo boxes
-        mode_combo = {
-            "Stable Diffusion 1/2": (
-                settings.sd12CheckpointCombo,
-                settings.sd12VaeCombo,
-                settings.sd12LoraCombo,
-            ),
-            "SDXL": (
-                settings.sdxlBaseCheckpointCombo,
-                settings.sdxlVaeCombo,
-                settings.sdxlLoraCombo,
-            ),
-        }
-        ckpt_name = mode_combo[settings.modeSelectCombo.currentText()][0].currentText()
-        external_vae = (
-            mode_combo[settings.modeSelectCombo.currentText()][1].currentText()
-            if settings.useExternalVaeCheck.isChecked()
-            else None
-        )
-        lora = (
-            mode_combo[settings.modeSelectCombo.currentText()][2].currentText()
-            if settings.loraCheck.isChecked()
-            else None
-        )
+        if self.promptStyleCombo.currentIndex() != 0:
+            style_dict = self.prompt_styles(self.promptStyleCombo.currentText())
+            pos_prompt, neg_prompt = style_dict[0], style_dict[1]
+        else:
+            pos_prompt, neg_prompt = (
+                self.promptLine.toPlainText(),
+                self.negPromptLine.toPlainText(),
+            )
+
+        ckpt_name = settings.checkpointCombo.currentText()
         seed = (
             settings.seedValue.value() if settings.seedValue.value() != -1 else "random"
         )
@@ -495,8 +518,8 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
         # Add base args
         img_gen_args = {
             "ckpt_name": ckpt_name,
-            "pos_prompt": self.promptLine.toPlainText(),
-            "neg_prompt": self.negPromptLine.toPlainText(),
+            "pos_prompt": pos_prompt,
+            "neg_prompt": neg_prompt,
             "batch_size": settings.batchValue.value(),
             "filename_prefix": "SnugQt/SnugQt",
             "seed": seed,
@@ -511,8 +534,14 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
         }
 
         # Add optional args
-        img_gen_args["external_vae"] = external_vae if external_vae else None
-        img_gen_args["lora"] = lora if lora else None
+        img_gen_args["external_vae"] = (
+            settings.externalVaeCombo.currentText()
+            if settings.useExternalVaeCheck.isChecked()
+            else None
+        )
+        img_gen_args["lora"] = (
+            settings.loraCombo.currentText() if settings.loraCheck.isChecked() else None
+        )
         img_gen_args["hiresfix_scale_by"] = (
             self.hiresfixScaleByValue.value()
             if self.hiresFixCheck.isChecked()
@@ -564,7 +593,7 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
             img_gen_args["inpainting_load"] = None
 
         # SDXL
-        if settings.modeSelectCombo.currentText() == "SDXL":
+        if settings.sdxlRefinerCheck.isChecked():
             img_gen_args["sdxl_refiner_ckpt"] = (
                 settings.sdxlRefinerCheckpointCombo.currentText()
                 if settings.sdxlRefinerCheck.isChecked()
