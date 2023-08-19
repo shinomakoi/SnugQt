@@ -362,9 +362,7 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
         if current_tab_index in [0, 1, 2, 3]:
             key = tab_images_keys[current_tab_index]
             if self.image_dict[key]:
-                scaledimg = QPixmap.fromImage(QImage.fromData(self.image_dict[key][self.image_index_dict[key]]))
-
-                self.gfxview_addimg(scaledimg.scaled(s=50))
+                self.gfxview_addimg(QPixmap.fromImage(QImage.fromData(self.image_dict[key][self.image_index_dict[key]])))
                 image_count = len(self.image_dict[key])
                 imgDisplayIndex_text = (
                     image_count
