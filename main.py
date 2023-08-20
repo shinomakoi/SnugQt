@@ -42,7 +42,9 @@ class RunAPI(QThread):
     def run(self):
         if self.img_gen_args:
             try:
-                self.upscale_gen() if self.img_gen_args["so_upscale_model"] else self.img_gen()
+                self.upscale_gen() if self.img_gen_args[
+                    "so_upscale_model"
+                ] else self.img_gen()
             except Exception as error:
                 self.final_resultReady.emit(None, False, None)
                 print("--- Error during generation:\n", error)
@@ -379,7 +381,7 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.imgDisplayIndex.setText(
                     f"Image {imgDisplayIndex_text}/{image_count}"
                 )
-                
+
             else:
                 self.gfxview_addimg(None)
                 self.imgDisplayIndex.setText("---")
@@ -416,11 +418,11 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def gfxview_addimg(self, pixmap):
         # create a pixmap item from the pixmap
-        self.displayed_image = pixmap
-        pixmap_item = QGraphicsPixmapItem(pixmap)
-        self.image_gfx_scene.clear()
-        self.image_gfx_scene.addItem(pixmap_item)
-        self.imageView.setScene(self.image_gfx_scene)
+        if pixmap:
+            self.displayed_image = pixmap
+            self.imageView.setPixmap(pixmap)
+        else:
+            self.imageView.clear()
 
     # Cycle through the images in the image list
     def cycle_images(self, mode):
@@ -541,6 +543,7 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
             if settings.useExternalVaeCheck.isChecked()
             else None
         )
+        
         # LoRA
         img_gen_args["lora"] = (
             settings.loraCombo.currentText() if settings.loraCheck.isChecked() else None
@@ -555,6 +558,7 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
             if img_gen_args["lora_strength"]
             else None
         )
+
         # Hires fix
         img_gen_args["hiresfix_scale_by"] = (
             self.hiresfixScaleByValue.value()
@@ -572,6 +576,7 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
             if img_gen_args["hiresfix_scale_by"]
             else None
         )
+
         # Upscale generated image
         img_gen_args["upscale_model"] = (
             settings.modelUpscaleCombo.currentText()
@@ -592,6 +597,15 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
             full_mask_path = mask.absolute()
             img_gen_args["inpainting_load"] = full_mask_path
             img_gen_args["inpaint_denoise"] = self.inpaintDenoiseSpin.value()
+            img_gen_args["outpaint_check"] = self.outpaintCheck.isChecked()
+            # Outpainting
+            if img_gen_args["outpaint_check"]:
+                img_gen_args["outpaint_l"] = self.outpaintLSpin.value()
+                img_gen_args["outpaint_r"] = self.outpaintRSpin.value()
+                img_gen_args["outpaint_t"] = self.outpaintUSpin.value()
+                img_gen_args["outpaint_b"] = self.outpaintDSpin.value()
+                outpaint_img = self.imageView.pixmap()
+                outpaint_img.save(str(Path("assets/inpaint_mask.png")))
         else:
             img_gen_args["inpainting_load"] = None
 

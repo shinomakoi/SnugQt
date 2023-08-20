@@ -231,7 +231,22 @@ class ApiArgs:
             },
             "class_type": "VAEEncodeForInpaint",
         }
-        return LoadImage, VAEEncode
+        ImagePadForOutpaint = (
+            {
+                "inputs": {
+                    "left": img_gen_args["outpaint_l"],
+                    "top": img_gen_args["outpaint_t"],
+                    "right": img_gen_args["outpaint_r"],
+                    "bottom": img_gen_args["outpaint_b"],
+                    "feathering": 40,
+                    "image": ["80", 0],
+                },
+                "class_type": "ImagePadForOutpaint",
+            }
+            if img_gen_args["outpaint_check"]
+            else None
+        )
+        return LoadImage, VAEEncode, ImagePadForOutpaint
 
     def generate_api_prompt(self, img_gen_args):
         api_prompt = self.gen_base(img_gen_args)
@@ -289,7 +304,9 @@ class ApiArgs:
                 api_prompt["81"]["inputs"]["vae"][1] = 0
 
         if img_gen_args["inpainting_load"]:
-            LoadImage, VAEEncode = self.gen_inpainting(img_gen_args)
+            LoadImage, VAEEncode, ImagePadForOutpaint = self.gen_inpainting(
+                img_gen_args
+            )
             api_prompt["80"] = LoadImage
             api_prompt["81"] = VAEEncode
             api_prompt["7"]["inputs"]["latent_image"][0] = "81"
@@ -297,5 +314,9 @@ class ApiArgs:
             if img_gen_args["external_vae"]:
                 api_prompt["81"]["inputs"]["vae"][0] = "2"
                 api_prompt["81"]["inputs"]["vae"][1] = 0
+            if img_gen_args["outpaint_check"]:
+                api_prompt["82"] = ImagePadForOutpaint
+                api_prompt["81"]["inputs"]["pixels"][0] = "82"
+                api_prompt["81"]["inputs"]["mask"][0] = "82"
 
         return api_prompt
