@@ -7,7 +7,7 @@ from pathlib import Path
 import yaml
 from PySide6 import QtWidgets
 from PySide6.QtCore import QSize, QThread, Signal, Slot
-from PySide6.QtGui import QIcon, QImage, QPixmap, Qt
+from PySide6.QtGui import QIcon, QImage, QPixmap, QFont, Qt
 from PySide6.QtWidgets import (
     QApplication,
     QFileDialog,
@@ -40,14 +40,9 @@ class RunAPI(QThread):
 
     # Launcher of SD gen or upscale
     def run(self):
-        mode = (
-            self.upscale_gen()
-            if self.img_gen_args["so_upscale_model"]
-            else self.img_gen()
-        )
         if self.img_gen_args:
             try:
-                mode
+                self.upscale_gen() if self.img_gen_args["so_upscale_model"] else self.img_gen()
             except Exception as error:
                 self.final_resultReady.emit(None, False, None)
                 print("--- Error during generation:\n", error)
@@ -324,8 +319,9 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.image_dict["img2img"] = None
         self.image_dict["inpaint"] = None
         self.image_dict["upscale"] = None
-
         self.image_index = None
+
+        self.image_gfx_scene = QGraphicsScene()
 
         self.prompt_history = []
         self.neg_prompt_history = []
@@ -383,6 +379,7 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.imgDisplayIndex.setText(
                     f"Image {imgDisplayIndex_text}/{image_count}"
                 )
+                
             else:
                 self.gfxview_addimg(None)
                 self.imgDisplayIndex.setText("---")
@@ -420,10 +417,10 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
     def gfxview_addimg(self, pixmap):
         # create a pixmap item from the pixmap
         self.displayed_image = pixmap
-        scene = QGraphicsScene()
         pixmap_item = QGraphicsPixmapItem(pixmap)
-        scene.addItem(pixmap_item)
-        self.imgLabel.setScene(scene)
+        self.image_gfx_scene.clear()
+        self.image_gfx_scene.addItem(pixmap_item)
+        self.imageView.setScene(self.image_gfx_scene)
 
     # Cycle through the images in the image list
     def cycle_images(self, mode):
@@ -544,9 +541,21 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
             if settings.useExternalVaeCheck.isChecked()
             else None
         )
+        # LoRA
         img_gen_args["lora"] = (
             settings.loraCombo.currentText() if settings.loraCheck.isChecked() else None
         )
+        img_gen_args["lora_strength"] = (
+            settings.loraStrengthSpin.value()
+            if settings.loraCheck.isChecked()
+            else None
+        )
+        img_gen_args["lora_clip_strength"] = (
+            settings.loraClipStrengthSpin.value()
+            if img_gen_args["lora_strength"]
+            else None
+        )
+        # Hires fix
         img_gen_args["hiresfix_scale_by"] = (
             self.hiresfixScaleByValue.value()
             if self.hiresFixCheck.isChecked()
@@ -563,18 +572,7 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
             if img_gen_args["hiresfix_scale_by"]
             else None
         )
-
-        img_gen_args["lora_strength"] = (
-            settings.loraStrengthSpin.value()
-            if settings.loraCheck.isChecked()
-            else None
-        )
-        img_gen_args["lora_clip_strength"] = (
-            settings.loraClipStrengthSpin.value()
-            if img_gen_args["lora_strength"]
-            else None
-        )
-
+        # Upscale generated image
         img_gen_args["upscale_model"] = (
             settings.modelUpscaleCombo.currentText()
             if settings.modelUpscaleCheck.isChecked()
@@ -588,7 +586,7 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
         else:
             img_gen_args["img2img_load"] = None
 
-        # img2img
+        # inpainting
         if self.tabWidget.currentIndex() == 2:
             mask = Path("assets/inpaint_mask.png")
             full_mask_path = mask.absolute()
