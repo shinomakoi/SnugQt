@@ -11,6 +11,7 @@ Supports Windows, Linux and Mac(?)
 - Loras
 - Upscaling
 - Prompt styles
+- Controlnet
 
 **Installation:**
 
