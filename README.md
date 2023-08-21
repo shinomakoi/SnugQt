@@ -7,8 +7,10 @@ Supports Windows, Linux and Mac(?)
 - Supports SD 1.x, SD 2.x, SDXL, SDXL Refiner
 - txt2img, img2img, hires fix
 - Inpainting
+- Outpainting
 - Loras
 - Upscaling
+- Prompt styles
 
 **Installation:**
 
@@ -36,6 +38,6 @@ Make sure you have launched ComfyUI first, then to launch SnugQt run:
 python main.py
 ```
 You can change settings in File > Settings. Make sure to set the path to the 'ComfyUI/models' folder (click the ... button to select).
-Images are saved in the ComfyUI/ouput/SnugQT folder.
+Images are saved in the ComfyUI/ouput/SnugQt folder.
 
-![image](https://github.com/shinomakoi/SnugQt/assets/112139428/7474dcb8-a37e-4fa9-b1a9-2819663a9e4e)
+![image](https://github.com/shinomakoi/SnugQt/assets/112139428/e698d499-9014-47f6-acac-a4eaba0a10fe)
