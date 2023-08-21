@@ -104,6 +104,88 @@
         </size>
        </property>
        <layout class="QGridLayout" name="gridLayout_6">
+        <item row="1" column="0">
+         <widget class="Line" name="line">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QComboBox" name="promptStyleCombo">
+          <property name="minimumSize">
+           <size>
+            <width>168</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Apply style to prompt. Negative prompt is overridden</string>
+          </property>
+          <item>
+           <property name="text">
+            <string>None</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Enhance</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Anime</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Photographic</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Digital art</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Fantasy art</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Analog film</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Line art</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Cinematic</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>3D Model</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Pixel art</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>Style:</string>
+          </property>
+         </widget>
+        </item>
         <item row="0" column="0">
          <widget class="QToolBox" name="tabWidget">
           <property name="sizePolicy">
@@ -117,8 +199,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>181</width>
-             <height>676</height>
+             <width>262</width>
+             <height>645</height>
             </rect>
            </property>
            <attribute name="label">
@@ -224,8 +306,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>181</width>
-             <height>676</height>
+             <width>262</width>
+             <height>645</height>
             </rect>
            </property>
            <attribute name="label">
@@ -292,8 +374,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>206</width>
-             <height>659</height>
+             <width>262</width>
+             <height>645</height>
             </rect>
            </property>
            <attribute name="label">
@@ -479,8 +561,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>181</width>
-             <height>676</height>
+             <width>262</width>
+             <height>645</height>
             </rect>
            </property>
            <attribute name="label">
@@ -539,88 +621,61 @@
             </item>
            </layout>
           </widget>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="Line" name="line">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_6">
-          <property name="text">
-           <string>Style:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QComboBox" name="promptStyleCombo">
-          <property name="minimumSize">
-           <size>
-            <width>168</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="toolTip">
-           <string>Apply style to prompt. Negative prompt is overridden</string>
-          </property>
-          <item>
-           <property name="text">
-            <string>None</string>
+          <widget class="QWidget" name="controlnetTab">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>301</width>
+             <height>628</height>
+            </rect>
            </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Enhance</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Anime</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Photographic</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Digital art</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Fantasy art</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Analog film</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Line art</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Cinematic</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>3D Model</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Pixel art</string>
-           </property>
-          </item>
+           <attribute name="label">
+            <string>Controlnet</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_7">
+            <item row="4" column="0">
+             <spacer name="verticalSpacer_5">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="1" column="0" colspan="2">
+             <widget class="QComboBox" name="controlnetModelCombo"/>
+            </item>
+            <item row="3" column="1">
+             <widget class="QToolButton" name="controlnetLoadButton">
+              <property name="text">
+               <string>...</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLineEdit" name="controlnetLoadLine"/>
+            </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_12">
+              <property name="text">
+               <string>Controlnet model:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_11">
+              <property name="text">
+               <string>Source image:</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
          </widget>
         </item>
        </layout>
@@ -634,18 +689,18 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>1221</width>
+          <width>1140</width>
           <height>877</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
           <widget class="QLabel" name="imageView">
-           <property name="toolTip">
-            <string>Image display</string>
+           <property name="contextMenuPolicy">
+            <enum>Qt::CustomContextMenu</enum>
            </property>
            <property name="text">
-            <string>Image display</string>
+            <string>Right click on image here for options</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>

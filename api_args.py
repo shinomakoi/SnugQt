@@ -248,6 +248,32 @@ class ApiArgs:
         )
         return LoadImage, VAEEncode, ImagePadForOutpaint
 
+    def control_net(self, img_gen_args):
+        LoadImage = {
+            "inputs": {
+                "image": img_gen_args["controlnet"],
+                "choose file to upload": "image",
+            },
+            "class_type": "LoadImage",
+        }
+        DiffControlNetLoader = {
+            "inputs": {
+                "control_net_name": img_gen_args["model"],
+                "model": ["1", 0],
+            },
+            "class_type": "DiffControlNetLoader",
+        }
+        ControlNetApply = {
+            "inputs": {
+                "strength": 1,
+                "conditioning": ["4", 0],
+                "control_net": ["71", 0],
+                "image": ["70", 0],
+            },
+            "class_type": "ControlNetApply",
+        }
+        return LoadImage, DiffControlNetLoader, ControlNetApply
+
     def generate_api_prompt(self, img_gen_args):
         api_prompt = self.gen_base(img_gen_args)
 
@@ -319,4 +345,12 @@ class ApiArgs:
                 api_prompt["81"]["inputs"]["pixels"][0] = "82"
                 api_prompt["81"]["inputs"]["mask"][0] = "82"
 
+        if img_gen_args["controlnet"]:
+            LoadImage, DiffControlNetLoader, ControlNetApply = self.control_net(
+                img_gen_args
+            )
+            api_prompt["70"] = LoadImage
+            api_prompt["71"] = DiffControlNetLoader
+            api_prompt["72"] = ControlNetApply
+            api_prompt["7"]["inputs"]["positive"][0] = "72"
         return api_prompt

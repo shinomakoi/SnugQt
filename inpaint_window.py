@@ -1,15 +1,14 @@
 from pathlib import Path
 
-from PySide6.QtCore import QPoint, QSize  # , QPropertyAnimation
-from PySide6.QtGui import *
+from PySide6.QtCore import QPoint, QSize
+from PySide6.QtGui import Qt, QIcon, QImage, QColor, QAction, QColor, QPen, QPainter
 from PySide6.QtWidgets import QMainWindow
 
-INPAINTING_DIR = "inpainting/"
 APP_ICON = Path("assets/appicon.png")
 
 
 class InpaintMaskEditor(QMainWindow):
-    def __init__(self, inpaint_source):
+    def __init__(self, inpaint_source, inpaint_mask):
         super().__init__()
 
         icon = QIcon()
@@ -17,23 +16,21 @@ class InpaintMaskEditor(QMainWindow):
         self.setWindowIcon(icon)
 
         self.inpaint_source = inpaint_source
-        self.img_mask_path = Path("assets/inpaint_mask.png")
-
-        img = QImage(self.inpaint_source)
+        self.img_mask_path = inpaint_mask
 
         self.setWindowTitle("SnugQt - Inpaint mask editor")
 
-        self.setMaximumHeight(img.height()/1.6)
-        self.setMaximumWidth(img.width()/1.6)
-        self.setMinimumHeight(img.height()/1.6)
-        self.setMinimumWidth(img.width()/1.6)
+        self.setMaximumHeight(self.inpaint_source.height() / 1.6)
+        self.setMaximumWidth(self.inpaint_source.width() / 1.6)
+        self.setMinimumHeight(self.inpaint_source.height() / 1.6)
+        self.setMinimumWidth(self.inpaint_source.width() / 1.6)
 
         # creating image object
         self.image = QImage(self.size(), QImage.Format_ARGB32)
         self.out_img = QImage(self.size(), QImage.Format_ARGB32)
 
-        # making image color to black
-        self.image.load(self.inpaint_source)
+        # Load inpaint source
+        self.image = self.inpaint_source
 
         # drawing flag
         self.drawing = False

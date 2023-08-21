@@ -2,18 +2,14 @@ import glob
 import platform
 import random
 import sys
+import tempfile
 from pathlib import Path
 
 import yaml
 from PySide6 import QtWidgets
 from PySide6.QtCore import QSize, QThread, Signal, Slot
-from PySide6.QtGui import QIcon, QImage, QPixmap, QFont, Qt
-from PySide6.QtWidgets import (
-    QApplication,
-    QFileDialog,
-    QGraphicsPixmapItem,
-    QGraphicsScene,
-)
+from PySide6.QtGui import QIcon, QImage, QPixmap
+from PySide6.QtWidgets import QApplication, QFileDialog, QMenu
 from qt_material import apply_stylesheet
 
 from comfy_api_fetch import ws_generate
@@ -315,15 +311,14 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.settings_win = SettingsWindow()
         self.statusbar.showMessage("Status: Ready")
 
+        empty_mask = QImage()
+        self.inpaint_mask = self.save_source_img(empty_mask)
+
         self.image_dict = {}
         self.image_index_dict = {}
-        self.image_dict["txt2img"] = None
-        self.image_dict["img2img"] = None
-        self.image_dict["inpaint"] = None
-        self.image_dict["upscale"] = None
+        self.image_dict = {key: None for key in 
+                           ["txt2img", "img2img", "inpaint", "upscale", "controlnet"]}
         self.image_index = None
-
-        self.image_gfx_scene = QGraphicsScene()
 
         self.prompt_history = []
         self.neg_prompt_history = []
@@ -337,7 +332,7 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.previousImgButton.clicked.connect(lambda: self.cycle_images("previous"))
 
         self.promptHistoryCombo.textActivated.connect(self.prompt_history_set)
-        self.negPromptHistoryCombo.textActivated.connect(self.neg_prompt_history_set)
+        self.negPromptHistoryCombo.textActivated.connect(lambda: self.prompt_history_set(True))
 
         self.inpaintMaskEditorButton.clicked.connect(self.launch_inpaint)
 
@@ -350,27 +345,56 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.upscaleLoadButton.clicked.connect(
             lambda: self.image_select(self.upscaleLoadLine)
         )
-
+        self.controlnetLoadButton.clicked.connect(
+            lambda: self.image_select(self.controlnetLoadLine)
+        )
         self.tabWidget.currentChanged.connect(self.set_tab_images)
 
         self.settings_win.show()
-
         print("--- App started")
 
+        self.imageView.customContextMenuRequested.connect(self.image_view_menu)
+        self.add_controlnets()
+
+    def add_controlnets(self):
+        # Add controlnet models
+        controlnet_models = sorted(
+            [
+                Path(controlnet_model).name
+                for extension in ("*.safetensors", "*.ckpt")
+                for controlnet_model in glob.glob(
+                    f"{self.settings_win.comfyuiModelFolderValue.text()}/controlnet/{extension}"
+                )
+            ]
+        )
+        self.controlnetModelCombo.clear()
+        self.controlnetModelCombo.addItems(controlnet_models)
+        print("--- Added controlnet models:", controlnet_models)
+
+    # Image view context menu
+    def image_view_menu(self, position):
+        if self.displayed_image:
+            menu = QMenu()
+            actions = ["Image to image", "Inpaint", "Upscale"]
+            actions = [menu.addAction(action) for action in actions]
+            action = menu.exec(self.imageView.mapToGlobal(position))
+            source_image = self.displayed_image
+            for i, act in enumerate(actions):
+                if action == act:
+                    self.tabWidget.setCurrentIndex(i + 1)
+            self.gfxview_addimg(source_image)
+
+    # Assign images to the appropriate tab
     def set_tab_images(self, current_tab_index=None):
         if not current_tab_index:
             current_tab_index = self.tabWidget.currentIndex()
 
-        tab_images_keys = ["txt2img", "img2img", "inpaint", "upscale"]
-        if current_tab_index in [0, 1, 2, 3]:
+        tab_images_keys = ["txt2img", "img2img", "inpaint", "upscale", "controlnet"]
+        if current_tab_index in range(5):
             key = tab_images_keys[current_tab_index]
             if self.image_dict[key]:
                 self.gfxview_addimg(
-                    QPixmap.fromImage(
-                        QImage.fromData(
-                            self.image_dict[key][self.image_index_dict[key]]
-                        )
-                    )
+                    QImage.fromData(self.image_dict[key][self.image_index_dict[key]])
                 )
                 image_count = len(self.image_dict[key])
                 imgDisplayIndex_text = (
@@ -384,6 +408,7 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
             else:
                 self.gfxview_addimg(None)
+                self.displayed_image = None
                 self.imgDisplayIndex.setText("---")
 
     def get_file_path(self, title, filter):
@@ -395,7 +420,7 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
         image = self.get_file_path("Open file", "Images (*png)")
         if image:
             line.setText(image)
-            pixmap = QPixmap(image)
+            pixmap = QImage(image)
             self.gfxview_addimg(pixmap)
 
     def get_comfyui_model_folder(self):
@@ -405,11 +430,11 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
         return comfyui_model_folder
 
     def launch_inpaint(self):
-        if self.inpaintLoadLine.text():
-            self.inpaint_mode = InpaintMaskEditor(str(self.inpaintLoadLine.text()))
+        if self.displayed_image:
+            self.inpaint_mode = InpaintMaskEditor(
+                self.displayed_image, self.inpaint_mask
+            )
             self.inpaint_mode.show()
-        else:
-            print("--- No inpaint source image selected")
 
     def closeEvent(self, event):
         # close the child window when the parent window is closed
@@ -420,15 +445,15 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
         # create a pixmap item from the pixmap
         if pixmap:
             self.displayed_image = pixmap
-            self.imageView.setPixmap(pixmap)
+            self.imageView.setPixmap(QPixmap(pixmap))
         else:
             self.imageView.clear()
 
     # Cycle through the images in the image list
     def cycle_images(self, mode):
         current_tab_index = self.tabWidget.currentIndex()
-        tab_images_keys = ["txt2img", "img2img", "inpaint", "upscale"]
-        if current_tab_index in [0, 1, 2, 3]:
+        tab_images_keys = ["txt2img", "img2img", "inpaint", "upscale", "controlnet"]
+        if current_tab_index in [0, 1, 2, 3, 4]:
             key = tab_images_keys[current_tab_index]
             image_list = self.image_dict[key] if self.image_dict[key] else None
 
@@ -445,9 +470,7 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
                 )
                 # Use a single line to create and set the pixmap from the image data
                 self.gfxview_addimg(
-                    QPixmap.fromImage(
-                        QImage.fromData(image_list[self.image_index_dict[key]])
-                    )
+                    QImage.fromData(image_list[self.image_index_dict[key]])
                 )
                 self.imgDisplayIndex.setText(
                     f"Image {self.image_index_dict[key]+1}/{image_count}"
@@ -543,7 +566,7 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
             if settings.useExternalVaeCheck.isChecked()
             else None
         )
-        
+
         # LoRA
         img_gen_args["lora"] = (
             settings.loraCombo.currentText() if settings.loraCheck.isChecked() else None
@@ -586,16 +609,14 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
         # img2img
         if self.tabWidget.currentIndex() == 1:
-            img_gen_args["img2img_load"] = self.img2imgLoadLine.text()
+            img_gen_args["img2img_load"] = self.save_source_img(self.displayed_image)
             img_gen_args["img2img_denoise"] = self.img2imgDenoiseSpin.value()
         else:
             img_gen_args["img2img_load"] = None
 
         # inpainting
         if self.tabWidget.currentIndex() == 2:
-            mask = Path("assets/inpaint_mask.png")
-            full_mask_path = mask.absolute()
-            img_gen_args["inpainting_load"] = full_mask_path
+            img_gen_args["inpainting_load"] = self.inpaint_mask
             img_gen_args["inpaint_denoise"] = self.inpaintDenoiseSpin.value()
             img_gen_args["outpaint_check"] = self.outpaintCheck.isChecked()
             # Outpainting
@@ -604,10 +625,17 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
                 img_gen_args["outpaint_r"] = self.outpaintRSpin.value()
                 img_gen_args["outpaint_t"] = self.outpaintUSpin.value()
                 img_gen_args["outpaint_b"] = self.outpaintDSpin.value()
-                outpaint_img = self.imageView.pixmap()
-                outpaint_img.save(str(Path("assets/inpaint_mask.png")))
+                outpaint_img = self.displayed_image
+                outpaint_img.save(str(Path(self.inpaint_mask)))
         else:
             img_gen_args["inpainting_load"] = None
+
+        # Controlnet
+        if self.tabWidget.currentIndex() == 4:
+            img_gen_args["controlnet"] = self.controlnetLoadLine.text()
+            img_gen_args["model"] = self.controlnetModelCombo.currentText()
+        else:
+            img_gen_args["controlnet"] = None
 
         # SDXL
         if settings.sdxlRefinerCheck.isChecked():
@@ -626,76 +654,74 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.prompt_history_add(
             self.promptLine.toPlainText()
         ) if self.promptLine.toPlainText() not in self.prompt_history else None
-        self.neg_prompt_history_add(
-            self.negPromptLine.toPlainText()
+        self.prompt_history_add(
+            self.negPromptLine.toPlainText(), True
         ) if self.negPromptLine.toPlainText() not in self.neg_prompt_history else None
 
-        self.RunAPI_Thread.start()
 
     # Add the prompt input to the combo box and the history list
-    def prompt_history_add(self, prompt_input):
-        self.promptHistoryCombo.addItem(str(prompt_input[:96]))
-        self.prompt_history.append(prompt_input)
-
-    # Add the negative prompt input to the combo box and the history list
-    def neg_prompt_history_add(self, neg_prompt_input):
-        self.negPromptHistoryCombo.addItem(str(neg_prompt_input[:96]))
-        self.neg_prompt_history.append(neg_prompt_input)
+    def prompt_history_add(self, prompt_input, neg=False):
+        combo = self.negPromptHistoryCombo if neg else self.promptHistoryCombo
+        history = self.neg_prompt_history if neg else self.prompt_history
+        combo.addItem(str(prompt_input[:96]))
+        history.append(prompt_input)
 
     # Set the prompt input field to the saved history
-    def prompt_history_set(self):
-        if self.promptHistoryCombo.count() >= 1:
-            text = self.prompt_history[int(self.promptHistoryCombo.currentIndex())]
-            self.promptLine.setPlainText(text)
+    def prompt_history_set(self, neg=False):
+        combo = self.negPromptHistoryCombo if neg else self.promptHistoryCombo
+        line = self.negPromptLine if neg else self.promptLine
+        history = self.neg_prompt_history if neg else self.prompt_history
+        if combo.count() >= 1:
+            text = history[int(combo.currentIndex())]
+            line.setPlainText(text)
 
-    # Set the negative prompt input field to the saved history
-    def neg_prompt_history_set(self):
-        if self.negPromptHistoryCombo.count() >= 1:
-            text = self.neg_prompt_history[
-                int(self.negPromptHistoryCombo.currentIndex())
-            ]
-            self.negPromptLine.setPlainText(text)
+    def save_source_img(self, source):
+        # Create a temporary file
+        with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as tmp:
+            # Open an image file
+            source_image = QImage(source)
+            # Save the image to the temporary file
+            source_image.save(tmp.name, format="PNG")
+            # Get the path of the temporary file
+            source_image_path = tmp.name
+            # print(f"The path of the temporary PNG file is: {source_image_path}")
+        return source_image_path
 
     # Check for any failures before launch
     def launch_checks(self):
         standalone = None
-        if self.tabWidget.currentIndex() == 1:
-            if not self.img2imgLoadLine.text():
-                print("--- No img2img source image selected")
-                return
-        if self.tabWidget.currentIndex() == 2:
-            if not self.inpaintLoadLine.text():
-                print("--- No inpaint source image selected")
-                return
+        if not self.displayed_image and self.tabWidget.currentIndex() > 0:
+            print("--- No image selected")
+            return
         if self.tabWidget.currentIndex() == 3:
-            if not self.upscaleLoadLine.text():
-                print("--- No upscale source image selected")
-                return
             if not self.settings_win.modelUpscaleCombo.currentText():
                 print("--- No upscale model selected")
                 return
-            standalone = "upscale"
+            else:
+                standalone = "upscale"
         self.launch_thread(standalone)
 
     # Start a thread to load the model asynchronously
     def launch_thread(self, standalone):
         # Determine SD or standalone mode
+        img_gen_args = {}
         if not standalone:
             img_gen_args = self.process_prompt()
             img_gen_args["so_upscale_model"] = None
         elif standalone == "upscale":
-            img_gen_args = {}
             img_gen_args[
                 "so_upscale_model"
             ] = self.settings_win.modelUpscaleCombo.currentText()
-            img_input_path = self.upscaleLoadLine.text()
-            img_gen_args["so_upscale_image"] = img_input_path
+            img_gen_args["so_upscale_image"] = self.save_source_img(
+                self.displayed_image
+            )
             img_gen_args["downscale"] = (
                 self.upscaleSpin.value() / 100
                 if self.upscaleDownscaleCheck.isChecked()
                 else None
             )
 
+        self.add_prompt_history()
         self.statusbar.showMessage("Status: Generating...")
         self.generateButton.setEnabled(False)
         self.RunAPI_Thread = RunAPI(
@@ -704,11 +730,11 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
         )
         self.RunAPI_Thread.final_resultReady.connect(self.RunAPI_handleResult)
         self.RunAPI_Thread.finished.connect(self.RunAPI_Thread.deleteLater)
-        self.add_prompt_history()
+        self.RunAPI_Thread.start()
 
     def completion_imgs_tabs(self, temp_image_list, tab_index):
-        tab_images_keys = ["txt2img", "img2img", "inpaint", "upscale"]
-        if tab_index in [0, 1, 2, 3]:
+        tab_images_keys = ["txt2img", "img2img", "inpaint", "upscale", "controlnet"]
+        if tab_index in range(5):
             key = tab_images_keys[tab_index]
 
             if self.settings_win.keepImagesCheck.isChecked():
