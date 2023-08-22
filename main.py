@@ -671,6 +671,7 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
         combo = self.negPromptHistoryCombo if neg else self.promptHistoryCombo
         line = self.negPromptLine if neg else self.promptLine
         history = self.neg_prompt_history if neg else self.prompt_history
+        # print(history)
         if combo.count() >= 1:
             text = history[int(combo.currentIndex())]
             line.setPlainText(text)

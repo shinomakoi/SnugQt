@@ -1,20 +1,20 @@
 checkpoints:
-  checkpoint: 
-  comfy_extra_model_folder: 
-  comfy_model_folder: 
-  external_vae: 
-  sdxl_refiner: 
-  upscale_model: 
-  use_ex_vae: false
+  checkpoint: juggernaut_final.safetensors
+  comfy_extra_model_folder: C:/Users/davey/Software/stable-stuff/stable-diffusion-webui/models/Stable-diffusion
+  comfy_model_folder: D:/LLaMA/ComfyUI_windows_portable/ComfyUI/models
+  external_vae: vae-ft-mse-840000-ema-pruned.ckpt
+  sdxl_refiner: animagine-xl.safetensors
+  upscale_model: 2xLexicaSwinIR.pth
+  use_ex_vae: true
 lora:
   clip_strength: 1.0
-  lora_file: 
+  lora_file: DetailedEyes_xl_V2.safetensors
   model_strength: 1.0
   use: false
 parameters:
   batch_size: 1
   cfg: 8
-  height: 1024
+  height: 512
   iterations: 1
   model_upscale: false
   sampler: dpmpp_2m
@@ -23,7 +23,7 @@ parameters:
   sdxl_refiner_steps: 5
   seed: -1
   steps: 20
-  width: 1024
+  width: 576
 preferences:
   keep_images: false
   max_images: 32
