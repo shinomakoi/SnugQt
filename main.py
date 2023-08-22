@@ -18,6 +18,7 @@ from main_window import Ui_MainWindow
 from settings_window import Ui_SettingsDialog
 
 SETTINGS_FILE = Path("settings.yaml")
+DEFAULT_SETTINGS_FILE = Path("assets/default_settings.yaml")
 APP_ICON = Path("assets/appicon.png")
 
 
@@ -48,10 +49,8 @@ class RunAPI(QThread):
 
     def upscale_gen(self):
         img_fetch = ws_generate()
-
         def generate_image_list(images):
             return [image_data for node_id in images for image_data in images[node_id]]
-
         images = img_fetch.img_gen_final(self.img_gen_args)
         self.temp_image_list.extend(generate_image_list(images))
 
@@ -117,7 +116,8 @@ class SettingsWindow(QtWidgets.QWidget, Ui_SettingsDialog):
 
     # Load settings from settings.yaml
     def load_settings(self):
-        with open(SETTINGS_FILE, "r") as stream:
+        read_file = SETTINGS_FILE if SETTINGS_FILE.is_file() else DEFAULT_SETTINGS_FILE
+        with open(read_file, "r") as stream:
             data = yaml.safe_load(stream)
 
             # Checkpoints
@@ -159,9 +159,9 @@ class SettingsWindow(QtWidgets.QWidget, Ui_SettingsDialog):
 
     # Save settings to settings.yaml
     def save_settings(self):
-        with open(SETTINGS_FILE, "r") as stream:
+        read_file = SETTINGS_FILE if SETTINGS_FILE.is_file() else DEFAULT_SETTINGS_FILE
+        with open(read_file, "r") as stream:
             data = yaml.safe_load(stream)
-
             # Checkpoints
             data["checkpoints"].update(
                 {
@@ -350,11 +350,10 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
         )
         self.tabWidget.currentChanged.connect(self.set_tab_images)
 
-        self.settings_win.show()
-        print("--- App started")
-
         self.imageView.customContextMenuRequested.connect(self.image_view_menu)
         self.add_controlnets()
+        self.settings_win.show()
+        print("--- App started")
 
     def add_controlnets(self):
         # Add controlnet models
@@ -406,8 +405,8 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
                     f"Image {imgDisplayIndex_text}/{image_count}"
                 )
 
-            else:
-                self.gfxview_addimg(None)
+            elif self.displayed_image:
+                self.imageView.clear()
                 self.displayed_image = None
                 self.imgDisplayIndex.setText("---")
 
@@ -658,7 +657,6 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
             self.negPromptLine.toPlainText(), True
         ) if self.negPromptLine.toPlainText() not in self.neg_prompt_history else None
 
-
     # Add the prompt input to the combo box and the history list
     def prompt_history_add(self, prompt_input, neg=False):
         combo = self.negPromptHistoryCombo if neg else self.promptHistoryCombo
@@ -671,7 +669,6 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
         combo = self.negPromptHistoryCombo if neg else self.promptHistoryCombo
         line = self.negPromptLine if neg else self.promptLine
         history = self.neg_prompt_history if neg else self.prompt_history
-        # print(history)
         if combo.count() >= 1:
             text = history[int(combo.currentIndex())]
             line.setPlainText(text)
