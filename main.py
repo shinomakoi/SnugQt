@@ -331,7 +331,7 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.nextImgButton.clicked.connect(lambda: self.cycle_images("next"))
         self.previousImgButton.clicked.connect(lambda: self.cycle_images("previous"))
 
-        self.promptHistoryCombo.textActivated.connect(self.prompt_history_set)
+        self.promptHistoryCombo.textActivated.connect(lambda: self.prompt_history_set(False))
         self.negPromptHistoryCombo.textActivated.connect(lambda: self.prompt_history_set(True))
 
         self.inpaintMaskEditorButton.clicked.connect(self.launch_inpaint)
@@ -652,7 +652,7 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def add_prompt_history(self):
         self.prompt_history_add(
-            self.promptLine.toPlainText()
+            self.promptLine.toPlainText(), False
         ) if self.promptLine.toPlainText() not in self.prompt_history else None
         self.prompt_history_add(
             self.negPromptLine.toPlainText(), True
@@ -671,6 +671,7 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
         combo = self.negPromptHistoryCombo if neg else self.promptHistoryCombo
         line = self.negPromptLine if neg else self.promptLine
         history = self.neg_prompt_history if neg else self.prompt_history
+        print(history)
         if combo.count() >= 1:
             text = history[int(combo.currentIndex())]
             line.setPlainText(text)
