@@ -375,34 +375,63 @@ class Ui_MainWindow(object):
         self.controlnetTab.setGeometry(QRect(0, 0, 262, 645))
         self.gridLayout_7 = QGridLayout(self.controlnetTab)
         self.gridLayout_7.setObjectName(u"gridLayout_7")
-        self.verticalSpacer_5 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.controlnetScaleCheck = QCheckBox(self.controlnetTab)
+        self.controlnetScaleCheck.setObjectName(u"controlnetScaleCheck")
+        self.controlnetScaleCheck.setChecked(True)
 
-        self.gridLayout_7.addItem(self.verticalSpacer_5, 4, 0, 1, 1)
-
-        self.controlnetModelCombo = QComboBox(self.controlnetTab)
-        self.controlnetModelCombo.setObjectName(u"controlnetModelCombo")
-
-        self.gridLayout_7.addWidget(self.controlnetModelCombo, 1, 0, 1, 2)
+        self.gridLayout_7.addWidget(self.controlnetScaleCheck, 6, 0, 1, 1)
 
         self.controlnetLoadButton = QToolButton(self.controlnetTab)
         self.controlnetLoadButton.setObjectName(u"controlnetLoadButton")
 
         self.gridLayout_7.addWidget(self.controlnetLoadButton, 3, 1, 1, 1)
 
-        self.controlnetLoadLine = QLineEdit(self.controlnetTab)
-        self.controlnetLoadLine.setObjectName(u"controlnetLoadLine")
+        self.controlnetModelCombo = QComboBox(self.controlnetTab)
+        self.controlnetModelCombo.setObjectName(u"controlnetModelCombo")
 
-        self.gridLayout_7.addWidget(self.controlnetLoadLine, 3, 0, 1, 1)
+        self.gridLayout_7.addWidget(self.controlnetModelCombo, 1, 0, 1, 2)
 
         self.label_12 = QLabel(self.controlnetTab)
         self.label_12.setObjectName(u"label_12")
 
         self.gridLayout_7.addWidget(self.label_12, 0, 0, 1, 1)
 
+        self.controlnetScaleSpin = QDoubleSpinBox(self.controlnetTab)
+        self.controlnetScaleSpin.setObjectName(u"controlnetScaleSpin")
+        self.controlnetScaleSpin.setDecimals(1)
+        self.controlnetScaleSpin.setMinimum(0.100000000000000)
+        self.controlnetScaleSpin.setMaximum(4.000000000000000)
+        self.controlnetScaleSpin.setSingleStep(0.100000000000000)
+        self.controlnetScaleSpin.setValue(1.000000000000000)
+
+        self.gridLayout_7.addWidget(self.controlnetScaleSpin, 7, 0, 1, 1)
+
+        self.verticalSpacer_5 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.gridLayout_7.addItem(self.verticalSpacer_5, 11, 0, 1, 1)
+
+        self.controlnetStrengthSpin = QDoubleSpinBox(self.controlnetTab)
+        self.controlnetStrengthSpin.setObjectName(u"controlnetStrengthSpin")
+        self.controlnetStrengthSpin.setMaximum(1.000000000000000)
+        self.controlnetStrengthSpin.setSingleStep(0.050000000000000)
+        self.controlnetStrengthSpin.setValue(1.000000000000000)
+
+        self.gridLayout_7.addWidget(self.controlnetStrengthSpin, 5, 0, 1, 1)
+
+        self.controlnetLoadLine = QLineEdit(self.controlnetTab)
+        self.controlnetLoadLine.setObjectName(u"controlnetLoadLine")
+
+        self.gridLayout_7.addWidget(self.controlnetLoadLine, 3, 0, 1, 1)
+
         self.label_11 = QLabel(self.controlnetTab)
         self.label_11.setObjectName(u"label_11")
 
         self.gridLayout_7.addWidget(self.label_11, 2, 0, 1, 1)
+
+        self.label_14 = QLabel(self.controlnetTab)
+        self.label_14.setObjectName(u"label_14")
+
+        self.gridLayout_7.addWidget(self.label_14, 4, 0, 1, 1)
 
         self.tabWidget.addItem(self.controlnetTab, u"Controlnet")
 
@@ -575,9 +604,11 @@ class Ui_MainWindow(object):
         self.upscaleSpin.setSuffix(QCoreApplication.translate("MainWindow", u"%", None))
         self.upscaleLoadButton.setText(QCoreApplication.translate("MainWindow", u"...", None))
         self.tabWidget.setItemText(self.tabWidget.indexOf(self.upscaleTab), QCoreApplication.translate("MainWindow", u"Upscale", None))
+        self.controlnetScaleCheck.setText(QCoreApplication.translate("MainWindow", u"Scale to image size:", None))
         self.controlnetLoadButton.setText(QCoreApplication.translate("MainWindow", u"...", None))
         self.label_12.setText(QCoreApplication.translate("MainWindow", u"Controlnet model:", None))
         self.label_11.setText(QCoreApplication.translate("MainWindow", u"Source image:", None))
+        self.label_14.setText(QCoreApplication.translate("MainWindow", u"Strength:", None))
         self.tabWidget.setItemText(self.tabWidget.indexOf(self.controlnetTab), QCoreApplication.translate("MainWindow", u"Controlnet", None))
         self.imageView.setText(QCoreApplication.translate("MainWindow", u"Right click on image here for options", None))
 #if QT_CONFIG(tooltip)

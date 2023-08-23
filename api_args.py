@@ -265,7 +265,7 @@ class ApiArgs:
         }
         ControlNetApply = {
             "inputs": {
-                "strength": 1,
+                "strength": img_gen_args["controlnet_strength"],
                 "conditioning": ["4", 0],
                 "control_net": ["71", 0],
                 "image": ["70", 0],

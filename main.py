@@ -616,6 +616,11 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
         # Controlnet
         if self.tabWidget.currentIndex() == 4:
             img_gen_args["controlnet"] = self.controlnetLoadLine.text()
+            img_gen_args["controlnet_strength"] = self.controlnetStrengthSpin.value()
+            if self.controlnetScaleCheck.isChecked():
+                img_gen_args["height"], img_gen_args["width"] = self.scale_to_image(
+                    self.controlnetLoadLine.text()
+                )
             img_gen_args["model"] = self.controlnetModelCombo.currentText()
         else:
             img_gen_args["controlnet"] = None
@@ -632,6 +637,21 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
             img_gen_args["sdxl_refiner_ckpt"] = None
 
         return img_gen_args
+
+    def scale_to_image(self, img_path):
+        image = QImage(img_path)
+        height, width = image.height(), image.width()
+        new_height = height * self.controlnetScaleSpin.value()
+        new_width = width * self.controlnetScaleSpin.value()
+
+        def round_nearest(new_dimension):
+            divisor = 8
+            nearest = round(new_dimension / divisor) * divisor
+            return nearest
+
+        new_height = round_nearest(new_height)
+        new_width = round_nearest(new_width)
+        return new_height, new_width
 
     def add_prompt_history(self):
         self.prompt_history_add(
