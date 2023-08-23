@@ -1,0 +1,51 @@
+Enhance:
+  pos: breathtaking <prompt> . award-winning, professional, highly detailed
+  neg: ugly, deformed, noisy, blurry, distorted, grainy
+Anime:
+  pos: anime artwork <prompt> . anime style, key visual, vibrant, studio anime, highly detailed
+  neg: photo, deformed, black and white, realism, disfigured, low contrast
+Photographic:
+  pos: cinematic photo <prompt> . 35mm photograph, film, bokeh, professional, 4k, highly detailed
+  neg: drawing, painting, crayon, sketch, graphite, impressionist, noisy, blurry, soft, deformed, ugly
+Digital art:
+  pos: concept art <prompt> . digital artwork, illustrative, painterly, matte painting, highly detailed
+  neg: photo, photorealistic, realism, ugly
+Fantasy art:
+  pos: ethereal fantasy concept art of <prompt> . magnificent, celestial, ethereal, painterly, epic, majestic, magical, fantasy art, cover art, dreamy
+  neg: photographic, realistic, realism, 35mm film, dslr, cropped, frame, text, deformed, glitch, noise, noisy, off-center, deformed, cross-eyed, closed eyes, bad anatomy, ugly, disfigured, sloppy, duplicate, mutated, black and white
+Analog film:
+  pos: analog film photo <prompt> . faded film, desaturated, 35mm photo, grainy, vignette, vintage, Kodachrome, Lomography, stained, highly detailed, found footage
+  neg: painting, drawing, illustration, glitch, deformed, mutated, cross-eyed, ugly, disfigured
+Cinematic:
+  pos: cinematic film still <prompt> . shallow depth of field, vignette, highly detailed, high budget Hollywood movie, bokeh, cinemascope, moody, epic, gorgeous, film grain, grainy
+  neg: anime, cartoon, graphic, text, painting, crayon, graphite, abstract, glitch, deformed, mutated, ugly, disfigured
+3D Model:
+  pos: professional 3d model <prompt> . octane render, highly detailed, volumetric, dramatic lighting
+  neg: ugly, deformed, noisy, low poly, blurry, painting
+Pixel art:
+  pos: pixel-art <prompt> . low-res, blocky, pixel art style, 8-bit graphics
+  neg: sloppy, messy, blurry, noisy, highly detailed, ultra textured, photo, realistic
+Art:Hyperrealism:
+  pos: hyperrealistic art <prompt> . extremely high-resolution details, photographic, realism pushed to extreme, fine texture, incredibly lifelike
+  neg: simplified, abstract, unrealistic, impressionistic, low resolution
+Art:Renaissance:
+  pos: Renaissance style <prompt> . realistic, perspective, light and shadow, religious or mythological themes, highly detailed
+  neg: ugly, deformed, noisy, blurry, low contrast, modernist, minimalist, abstract
+Art:Steampunk:
+  pos: steampunk style <prompt> . antique, mechanical, brass and copper tones, gears, intricate, detailed
+  neg: deformed, glitch, noisy, low contrast, anime, photorealistic
+Art:Watercolor:
+  pos: watercolor painting <prompt> . vibrant, beautiful, painterly, detailed, textural, artistic
+  neg: anime, photorealistic, 35mm film, deformed, glitch, low contrast, noisy
+Art:Impressionism:
+  pos: impressionist painting <prompt> . loose brushwork, vibrant color, light and shadow play, captures feeling over form
+  neg: anime, photorealistic, 35mm film, deformed, glitch, low contrast, noisy
+Genre:Futuristic:
+  pos: futuristic style <prompt> . sleek, modern, ultramodern, high tech, detailed
+  neg: ugly, deformed, noisy, blurry, low contrast, realism, photorealistic, vintage, antique
+Genre:Sci-fi:
+  pos: sci-fi style <prompt> . futuristic, technological, alien worlds, space themes, advanced civilizations
+  neg: ugly, deformed, noisy, blurry, low contrast, realism, photorealistic, historical, medieval
+Genre:Vaporwave:
+  pos: vaporwave style <prompt> . retro aesthetic, cyberpunk, vibrant, neon colors, vintage 80s and 90s style, highly detailed
+  neg: monochrome, muted colors, realism, rustic, minimalist, dark

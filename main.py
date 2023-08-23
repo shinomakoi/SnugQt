@@ -3,6 +3,7 @@ import platform
 import random
 import sys
 import tempfile
+from datetime import datetime
 from pathlib import Path
 
 import yaml
@@ -19,6 +20,7 @@ from settings_window import Ui_SettingsDialog
 
 SETTINGS_FILE = Path("settings.yaml")
 DEFAULT_SETTINGS_FILE = Path("assets/default_settings.yaml")
+STYLES_FILE = Path("assets/styles.yaml")
 APP_ICON = Path("assets/appicon.png")
 
 
@@ -49,8 +51,10 @@ class RunAPI(QThread):
 
     def upscale_gen(self):
         img_fetch = ws_generate()
+
         def generate_image_list(images):
             return [image_data for node_id in images for image_data in images[node_id]]
+
         images = img_fetch.img_gen_final(self.img_gen_args)
         self.temp_image_list.extend(generate_image_list(images))
 
@@ -316,8 +320,10 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.image_dict = {}
         self.image_index_dict = {}
-        self.image_dict = {key: None for key in 
-                           ["txt2img", "img2img", "inpaint", "upscale", "controlnet"]}
+        self.image_dict = {
+            key: None
+            for key in ["txt2img", "img2img", "inpaint", "upscale", "controlnet"]
+        }
         self.image_index = None
 
         self.prompt_history = []
@@ -331,8 +337,12 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.nextImgButton.clicked.connect(lambda: self.cycle_images("next"))
         self.previousImgButton.clicked.connect(lambda: self.cycle_images("previous"))
 
-        self.promptHistoryCombo.textActivated.connect(lambda: self.prompt_history_set(False))
-        self.negPromptHistoryCombo.textActivated.connect(lambda: self.prompt_history_set(True))
+        self.promptHistoryCombo.textActivated.connect(
+            lambda: self.prompt_history_set(False)
+        )
+        self.negPromptHistoryCombo.textActivated.connect(
+            lambda: self.prompt_history_set(True)
+        )
 
         self.inpaintMaskEditorButton.clicked.connect(self.launch_inpaint)
 
@@ -351,6 +361,7 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.tabWidget.currentChanged.connect(self.set_tab_images)
 
         self.imageView.customContextMenuRequested.connect(self.image_view_menu)
+        self.folder_date = self.get_chat_date()
         self.add_controlnets()
         self.settings_win.show()
         print("--- App started")
@@ -409,6 +420,14 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.imageView.clear()
                 self.displayed_image = None
                 self.imgDisplayIndex.setText("---")
+
+    # Get data for chat log save
+    def get_chat_date(self):
+        today = datetime.today()
+        day = today.day
+        month = today.month
+        year = today.year
+        return f"{day}-{month}-{year}"
 
     def get_file_path(self, title, filter):
         file_path = QFileDialog.getOpenFileName(self, title, "", filter)[0]
@@ -475,61 +494,26 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
                     f"Image {self.image_index_dict[key]+1}/{image_count}"
                 )
 
-    # Define a function to get the prompt styles based on the style argument
+    # Get the prompt styles based on the style argument
     def prompt_styles(self, style):
         prompt_line = self.promptLine.toPlainText()
 
-        style_dict = {
-            "Enhance": (
-                f"breathtaking {prompt_line} . award-winning, professional, highly detailed",
-                "ugly, deformed, noisy, blurry, distorted, grainy",
-            ),
-            "Anime": (
-                f"anime artwork {prompt_line} . anime style, key visual, vibrant, studio anime, highly detailed",
-                "photo, deformed, black and white, realism, disfigured, low contrast",
-            ),
-            "Photographic": (
-                f"cinematic photo {prompt_line} . 35mm photograph, film, bokeh, professional, 4k, highly detailed",
-                "drawing, painting, crayon, sketch, graphite, impressionist, noisy, blurry, soft, deformed, ugly",
-            ),
-            "Digital art": (
-                f"concept art {prompt_line} . digital artwork, illustrative, painterly, matte painting, highly detailed",
-                "photo, photorealistic, realism, ugly",
-            ),
-            "Fantasy art": (
-                f"ethereal fantasy concept art of {prompt_line} . magnificent, celestial, ethereal, painterly, epic, majestic, magical, fantasy art, cover art, dreamy",
-                "photographic, realistic, realism, 35mm film, dslr, cropped, frame, text, deformed, glitch, noise, noisy, off-center, deformed, cross-eyed, closed eyes, bad anatomy, ugly, disfigured, sloppy, duplicate, mutated, black and white",
-            ),
-            "Analog film": (
-                f"analog film photo {prompt_line} . faded film, desaturated, 35mm photo, grainy, vignette, vintage, Kodachrome, Lomography, stained, highly detailed, found footage",
-                "painting, drawing, illustration, glitch, deformed, mutated, cross-eyed, ugly, disfigured",
-            ),
-            "Line art": (
-                f"line art drawing {prompt_line} . professional, sleek, modern, minimalist, graphic, line art, vector graphics",
-                "anime, photorealistic, 35mm film, deformed, glitch, blurry, noisy, off-center, deformed, cross-eyed, closed eyes, bad anatomy, ugly, disfigured, mutated, realism, realistic, impressionism, expressionism, oil, acrylic",
-            ),
-            "Cinematic": (
-                f"cinematic film still {prompt_line} . shallow depth of field, vignette, highly detailed, high budget Hollywood movie, bokeh, cinemascope, moody, epic, gorgeous, film grain, grainy",
-                "anime, cartoon, graphic, text, painting, crayon, graphite, abstract, glitch, deformed, mutated, ugly, disfigured",
-            ),
-            "3D Model": (
-                f"professional 3d model {prompt_line} . octane render, highly detailed, volumetric, dramatic lighting",
-                "ugly, deformed, noisy, low poly, blurry, painting",
-            ),
-            "Pixel art": (
-                f"pixel-art {prompt_line} . low-res, blocky, pixel art style, 8-bit graphics",
-                "sloppy, messy, blurry, noisy, highly detailed, ultra textured, photo, realistic",
-            ),
-        }
-        return style_dict[style]
+        with open(STYLES_FILE, "r") as stream:
+            data = yaml.safe_load(stream)
+            pos_prompt = str(data[style]["pos"])
+            prompt_line_add = pos_prompt.replace("<prompt>", prompt_line)
+            data[style]["pos"] = prompt_line_add
+        return data[style]
 
     # Process the prompt and generate the image generation arguments
     def process_prompt(self):
         settings = self.settings_win
 
         if self.promptStyleCombo.currentIndex() != 0:
-            style_dict = self.prompt_styles(self.promptStyleCombo.currentText())
-            pos_prompt, neg_prompt = style_dict[0], style_dict[1]
+            style_dict = self.prompt_styles(
+                self.promptStyleCombo.currentText().replace(": ", ":")
+            )
+            pos_prompt, neg_prompt = style_dict["pos"], style_dict["neg"]
         else:
             pos_prompt, neg_prompt = (
                 self.promptLine.toPlainText(),
@@ -547,7 +531,7 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
             "pos_prompt": pos_prompt,
             "neg_prompt": neg_prompt,
             "batch_size": settings.batchValue.value(),
-            "filename_prefix": "SnugQt/SnugQt",
+            "filename_prefix": f"SnugQt/{self.folder_date}/SnugQt",
             "seed": seed,
             "sampler_name": settings.samplerValue.currentText(),
             "scheduler": settings.schedulerValue.currentText(),

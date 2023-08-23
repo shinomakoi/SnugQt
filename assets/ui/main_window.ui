@@ -122,6 +122,9 @@
           <property name="toolTip">
            <string>Apply style to prompt. Negative prompt is overridden</string>
           </property>
+          <property name="insertPolicy">
+           <enum>QComboBox::InsertAlphabetically</enum>
+          </property>
           <item>
            <property name="text">
             <string>None</string>
@@ -175,6 +178,46 @@
           <item>
            <property name="text">
             <string>Pixel art</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Art: Hyperrealism</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Art: Impressionism</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Art: Renaissance</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Art: Steampunk</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Art: Watercolor</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Genre: Futuristic</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Genre: Sci-fi</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Genre: Vaporwave</string>
            </property>
           </item>
          </widget>
@@ -626,8 +669,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>301</width>
-             <height>628</height>
+             <width>262</width>
+             <height>645</height>
             </rect>
            </property>
            <attribute name="label">
