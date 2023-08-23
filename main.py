@@ -361,7 +361,7 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.tabWidget.currentChanged.connect(self.set_tab_images)
 
         self.imageView.customContextMenuRequested.connect(self.image_view_menu)
-        self.folder_date = self.get_chat_date()
+        self.folder_date = self.get_date()
         self.add_controlnets()
         self.settings_win.show()
         print("--- App started")
@@ -422,7 +422,7 @@ class MagiApp(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.imgDisplayIndex.setText("---")
 
     # Get data for chat log save
-    def get_chat_date(self):
+    def get_date(self):
         today = datetime.today()
         day = today.day
         month = today.month
